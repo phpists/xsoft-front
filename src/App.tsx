@@ -5,11 +5,11 @@ import { Header } from "./components/Header/Header";
 import { Route, Routes } from "react-router-dom";
 import { Clients } from "./pages/Clients/Clients";
 import { Client } from "./pages/Client/Client";
-import { Products } from "./pages/Products/Products";
 import { Product } from "./pages/Product/Product";
 import { Brand } from "./pages/Brand/Brand";
 import { Storage } from "./pages/Storage/Storage";
 import { Home } from "./pages/Home/Home";
+import { Products } from "./pages/Products/Products";
 
 function App() {
   if (!localStorage.getItem("token")) {
@@ -27,7 +27,7 @@ function App() {
           <Route path="/product" element={<Product />} />
           <Route path="/brand" element={<Brand />} />
           <Route path="/storage" element={<Storage />} />
-          <Route path="/" element={<Home />} />
+          {/* <Route path="/" element={<Home />} /> */}
           <Route
             path="/*"
             element={

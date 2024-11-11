@@ -22,7 +22,7 @@ const StyledCard = styled(NavLink)`
   justify-content: center;
   align-items: center;
   gap: 4px;
-  font-size: 8px;
+  font-size: 9.5px;
   font-weight: 400;
   line-height: 11.2px;
   letter-spacing: 0.02em;
@@ -34,7 +34,7 @@ const StyledCard = styled(NavLink)`
   div {
     opacity: 0;
     transition: all 0.3s;
-    max-width: 38px;
+    max-width: 45px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -58,7 +58,7 @@ const StyledCard = styled(NavLink)`
     }
   }
   svg {
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
   }
 `;

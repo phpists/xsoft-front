@@ -28,13 +28,13 @@ export const Selling = () => (
       </div>
       <div className="flex items-center gap-3 5">
         <Input
-          label="Роздрібна ціна"
+          label="Собівартість"
           defaultValue="500,00 грн"
           sign="UAH"
           className="max-w-[154px]"
         />
         <Input
-          label="Собівартість "
+          label="Роздрібна ціна"
           defaultValue="500,00 грн"
           sign="UAH"
           className="max-w-[154px]"

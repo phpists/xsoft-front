@@ -8,6 +8,10 @@ import {
   BiUser,
   BiIdCard,
 } from "react-icons/bi";
+import { useAppSelect } from "../../../hooks/redux";
+import { Button } from "../../../components/Button";
+import { CategoryModal } from "../../../components/CategoryModal/CategoryModal";
+import { useState } from "react";
 
 interface Props {
   category: number;
@@ -15,73 +19,76 @@ interface Props {
 }
 
 export const Sidebar = ({ category, onChangeCategory }: Props) => {
+  const { sideMenuOpen } = useAppSelect((app) => app.app);
+  const [modal, setModal] = useState(false);
+
   return (
-    <StyledSidebar className="flex flex-col justify-between">
+    <div
+      className={`flex flex-col justify-between menu-sidebar-wrapper ${
+        sideMenuOpen && "open"
+      }`}
+    >
       <div>
-        <Title />
+        {modal && <CategoryModal onClose={() => setModal(false)} />}
+
+        <Title title="Товари" arrow />
         <CategoryCard
-          title="Склади"
-          Icon={<BiDiamond size={20} />}
-          className="mb-3.5"
-          options={[
-            { title: "Всі ресурси", value: "1" },
-            { title: "Записи", value: "2" },
-          ]}
-          active={category === 2}
-          onClick={() => onChangeCategory(2)}
-        />
-        <CategoryCard
-          title="Обіг товарів"
-          Icon={<BiUser size={20} />}
-          className="mb-[34px]"
-        />
-        <CategoryCard
-          title="Каталог товарів"
+          title="Загальний"
           Icon={<BiIdCard size={20} />}
           className="mb-3.5"
           active={category === 0}
           onClick={() => onChangeCategory(0)}
         />
         <CategoryCard
-          title="Бренди"
+          title="Потребують закупівлі"
           Icon={<BiIdCard size={20} />}
           className="mb-3.5"
           active={category === 1}
           onClick={() => onChangeCategory(1)}
         />
+        <Title title="Категорії товару" />
+
         <CategoryCard
-          title="Постачальники"
-          Icon={<BiIdCard size={20} />}
-          className="mb-[34px]"
-        />
-        <CategoryCard
-          title="Сертифікати"
+          title="Категорія 1"
           Icon={<BiIdCard size={20} />}
           className="mb-3.5"
-        />{" "}
+          editable
+          onClick={() => setModal(true)}
+        />
         <CategoryCard
-          title="Абонементи"
+          title="Категорія 1"
           Icon={<BiIdCard size={20} />}
           className="mb-3.5"
+          editable
+          onClick={() => setModal(true)}
         />
-      </div>
-      <div>
         <CategoryCard
-          title="Аналітика"
-          Icon={<BiPieChartAlt2 size={20} />}
-          className="mb-2"
+          title="Категорія 1"
+          Icon={<BiIdCard size={20} />}
+          className="mb-3.5"
+          editable
+          onClick={() => setModal(true)}
         />
-        <CategoryCard title="Налаштування" Icon={<BiCog size={20} />} />
+        <CategoryCard
+          title="Категорія 1"
+          Icon={<BiIdCard size={20} />}
+          className="mb-3.5"
+          editable
+          onClick={() => setModal(true)}
+        />
+        <CategoryCard
+          title="Категорія 1"
+          Icon={<BiIdCard size={20} />}
+          className="mb-3.5"
+          editable
+          onClick={() => setModal(true)}
+        />
+        <Button
+          title="Додати категорію"
+          type="dark"
+          onClick={() => setModal(true)}
+        />
       </div>
-    </StyledSidebar>
+    </div>
   );
 };
-
-const StyledSidebar = styled.div`
-  padding: 20px 8px 40px;
-  border-right: 1px solid #dbdbdb;
-  background: #fff;
-  width: 284px;
-  height: 100vh;
-  flex-shrink: 0;
-`;

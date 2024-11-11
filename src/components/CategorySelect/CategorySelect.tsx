@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Select } from "../Select/Select";
 import { BiCube } from "react-icons/bi";
-import { CreateModal } from "./CreateModal/CreateModal";
+import { CategoryModal } from "../CategoryModal/CategoryModal";
 import { useState } from "react";
 
 interface Props {
@@ -13,7 +13,7 @@ export const CategorySelect = ({ label }: Props) => {
 
   return (
     <StyledCategorySelect>
-      {modal && <CreateModal onClose={() => setModal(false)} />}
+      {modal && <CategoryModal onClose={() => setModal(false)} />}
       <Select
         label={label}
         options={[

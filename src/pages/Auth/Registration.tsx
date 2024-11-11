@@ -28,6 +28,8 @@ export const Registration = () => {
           />
           <Input placeholder="Ім’я" />
           <Input placeholder="Прізвище" />
+          <Input placeholder="Пароль" type="password" />
+          <Input placeholder="Підтвердження паролю" type="password" />
         </div>
         <AgreeCheckbox
           value={!!data?.agree}

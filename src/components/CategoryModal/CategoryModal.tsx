@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { AddButton } from "../../AddButton";
-import { Button } from "../../Button";
-import { Input } from "../../Input/Input";
-import { Modal } from "../../Modal/Modal";
+import { AddButton } from "../AddButton";
+import { Button } from "../Button";
+import { Input } from "../Input/Input";
+import { Modal } from "../Modal/Modal";
 import { Title } from "./Title";
 import { Icons } from "./Icons";
 
@@ -10,7 +10,7 @@ interface Props {
   onClose: () => void;
 }
 
-export const CreateModal = ({ onClose }: Props) => {
+export const CategoryModal = ({ onClose }: Props) => {
   const [addIcon, setAddIcon] = useState(false);
 
   return (

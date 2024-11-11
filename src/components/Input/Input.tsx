@@ -122,6 +122,7 @@ const StyledInput = styled.div`
   height: 54px;
   .input-content {
     padding: 25px 10px 10px;
+    width: 100%;
   }
   input {
     height: 20px;

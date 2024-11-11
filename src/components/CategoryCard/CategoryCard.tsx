@@ -1,4 +1,4 @@
-import { BiChevronRight } from "react-icons/bi";
+import { BiChevronRight, BiEdit, BiEditAlt } from "react-icons/bi";
 import styled from "styled-components";
 import { Dropdown } from "./Dropdown";
 import { useState } from "react";
@@ -15,6 +15,7 @@ interface Props {
   options?: Option[];
   active?: boolean;
   onClick?: () => void;
+  editable?: boolean;
 }
 
 export const CategoryCard = ({
@@ -24,6 +25,7 @@ export const CategoryCard = ({
   options,
   active,
   onClick,
+  editable,
 }: Props) => {
   const [open, setOpen] = useState(false);
 
@@ -41,10 +43,14 @@ export const CategoryCard = ({
         <div className="flex items-center gap-2.5">
           {Icon} {title}
         </div>
-        {options && (
-          <>
-            <BiChevronRight className="arrow" />
-          </>
+        {editable ? (
+          <BiEdit size={20} />
+        ) : (
+          options && (
+            <>
+              <BiChevronRight className="arrow" />
+            </>
+          )
         )}
       </button>
       {open && options ? <Dropdown options={options} /> : null}

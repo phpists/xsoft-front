@@ -5,7 +5,9 @@ import { Actions } from "./Actions/Actions";
 export const Header = () => {
   return (
     <StyledHeader className="flex items-center justify-between">
-      <Title title="Каталог товарів" />
+      <div className="flex items-center">
+        <Title title="Каталог товарів" />
+      </div>
       <Actions />
     </StyledHeader>
   );

@@ -22,11 +22,11 @@ export const Availability = () => (
       className="!max-w-[474px] mb-3.5"
     />
     <div className="flex items-center gap-2.5 mb-2 w-max">
-      <Input label="Кількість" required className="max-w-[130px]" number />
+      {/* <Input label="Кількість" required className="max-w-[130px]" number /> */}
       <Input
         label="Критичний залишок"
         required
-        className="max-w-[180px]"
+        className="w-[474px] max-w-[474px]"
         number
       />
     </div>{" "}

@@ -28,6 +28,7 @@ import {
 import { ReactComponent as BiSolidCodeBlock } from "../../../assets/integrations.svg";
 
 import { Card } from "./Card";
+import { SideMenuToggle } from "../SideMenuToggle";
 
 const LINKS = [
   {

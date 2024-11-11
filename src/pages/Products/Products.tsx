@@ -26,25 +26,11 @@ export const Products = () => {
       <Sidebar category={category} onChangeCategory={handleChangeCategory} />
       <div className="content">
         <Header />{" "}
-        {category === 0 ? (
-          <Catalog
-            selected={selected}
-            onSelect={handleSelect}
-            onSelectAll={handleSelectAll}
-          />
-        ) : category === 1 ? (
-          <Brands
-            selected={selected}
-            onSelect={handleSelect}
-            onSelectAll={handleSelectAll}
-          />
-        ) : category === 2 ? (
-          <Storages
-            selected={selected}
-            onSelect={handleSelect}
-            onSelectAll={handleSelectAll}
-          />
-        ) : null}
+        <Catalog
+          selected={selected}
+          onSelect={handleSelect}
+          onSelectAll={handleSelectAll}
+        />
       </div>
     </StyledProducts>
   );

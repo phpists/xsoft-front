@@ -3,7 +3,7 @@ import styled from "styled-components";
 interface Props {
   title: string;
   className?: string;
-  type?: "blue" | "outline";
+  type?: "blue" | "outline" | "dark";
   Icon?: any;
   onClick?: () => void;
 }
@@ -51,6 +51,10 @@ const StyledButton = styled.button`
       background: #000000;
       color: #ffffff;
     }
+  }
+  &.dark {
+    background: #000000;
+    color: #ffffff;
   }
   svg {
     flex-shrink: 0;

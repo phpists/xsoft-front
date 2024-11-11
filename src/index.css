@@ -46,3 +46,19 @@ input[type="number"]::-webkit-outer-spin-button {
   appearance: none;
   margin: 0;
 }
+
+.menu-sidebar-wrapper {
+  padding: 20px 0px 40px;
+  background: #fff;
+  width: 0px;
+  height: 100vh;
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: all 0.3s;
+  &.open {
+    width: 284px;
+    padding: 20px 8px 40px;
+    overflow: unset;
+    border-right: 1px solid #dbdbdb;
+  }
+}

@@ -8,10 +8,17 @@ import {
   BiPieChartAlt2,
   BiCog,
 } from "react-icons/bi";
+import { useAppSelect } from "../../../hooks/redux";
 
 export const Sidebar = () => {
+  const { sideMenuOpen } = useAppSelect((app) => app.app);
+
   return (
-    <StyledSidebar className="flex flex-col justify-between">
+    <div
+      className={`flex flex-col justify-between menu-sidebar-wrapper ${
+        sideMenuOpen && "open"
+      }`}
+    >
       <div>
         <Title />
         <CategoryCard
@@ -34,15 +41,6 @@ export const Sidebar = () => {
         />
         <CategoryCard title="Налаштування" Icon={<BiCog size={20} />} />
       </div>
-    </StyledSidebar>
+    </div>
   );
 };
-
-const StyledSidebar = styled.div`
-  padding: 20px 8px 40px;
-  border-right: 1px solid #dbdbdb;
-  background: #fff;
-  width: 284px;
-  height: 100vh;
-  flex-shrink: 0;
-`;

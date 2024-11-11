@@ -1,6 +1,19 @@
+import { BiArrowBack } from "react-icons/bi";
 import styled from "styled-components";
+import { useActions } from "../../../hooks/actions";
 
-export const Title = () => <StyledTitle>Клієнти</StyledTitle>;
+export const Title = () => {
+  const { toggleSideMenu } = useActions();
+
+  return (
+    <StyledTitle className="flex items-center justify-between">
+      Клієнти{" "}
+      <button onClick={() => toggleSideMenu()}>
+        <BiArrowBack size={20} />
+      </button>
+    </StyledTitle>
+  );
+};
 
 const StyledTitle = styled.div`
   font-size: 18px;
