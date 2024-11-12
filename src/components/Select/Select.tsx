@@ -4,6 +4,7 @@ import { Dropdown } from "./Dropdown";
 import { IconCard } from "./IconCard";
 import { Input } from "../Input/Input";
 import { useState } from "react";
+import { Count } from "./Count";
 
 export interface Option {
   title: string;
@@ -11,7 +12,7 @@ export interface Option {
 }
 
 interface Props {
-  label: string;
+  label?: string;
   options: Option[];
   className?: string;
   dropdownButton?: string;
@@ -20,6 +21,9 @@ interface Props {
   search?: boolean;
   value?: string;
   message?: string;
+  hideArrow?: boolean;
+  dropdownTop?: boolean;
+  showCount?: boolean;
 }
 
 export const Select = ({
@@ -32,6 +36,9 @@ export const Select = ({
   search,
   value,
   message,
+  hideArrow,
+  dropdownTop,
+  showCount,
 }: Props) => {
   const [open, setOpen] = useState(false);
 
@@ -43,18 +50,26 @@ export const Select = ({
     }
   };
 
+  const handleClickOnOption = (e: any) => {
+    if (
+      e.target?.localName === "div" &&
+      !e.target.classList.contains("value")
+    ) {
+      e.currentTarget.blur();
+    }
+  };
+
   return (
     <StyledSelect
       className={`field flex items-center justify-between ${className} ${
         open && "open"
-      } ${search && "search"}`}
-      onClick={(e: any) =>
-        e.target?.localName === "div" && e.currentTarget.blur()
-      }
+      } ${search && "search"} ${dropdownTop && "dropdownTop"}`}
+      onClick={handleClickOnOption}
       onFocus={handleFocusInput}
     >
       <div className="flex items-center gap-2">
         {Icon ? <IconCard Icon={Icon} /> : null}
+        {showCount ? <Count count={options?.length} /> : null}
         {search && open ? (
           <Input
             label={label}
@@ -65,12 +80,16 @@ export const Select = ({
             autoFocus
           />
         ) : value ? (
-          options.find((opt) => opt.value === value)?.title
-        ) : (
+          <div className="value">
+            {options.find((opt) => opt.value === value)?.title}
+          </div>
+        ) : label ? (
           label
+        ) : (
+          ""
         )}
       </div>
-      <BiSolidChevronDown className="arrow" />
+      {hideArrow ? null : <BiSolidChevronDown className="arrow" />}
       <Dropdown
         options={options}
         dropdownButton={dropdownButton}
@@ -131,6 +150,18 @@ const StyledSelect = styled.button`
       div {
         font-weight: 400;
       }
+    }
+  }
+  .value {
+    max-width: 190px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  &.dropdownTop {
+    .dropdown {
+      bottom: 100%;
+      top: unset;
     }
   }
 `;

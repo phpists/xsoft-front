@@ -41,12 +41,16 @@ const StyledDropdown = styled.div`
   z-index: 2;
   div {
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 400;
     line-height: 19.6px;
     padding: 12px 8px;
     text-align: left;
     border-radius: 8px;
     transition: all 0.3s;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     &:hover {
       background: #efefef;
     }

@@ -1,14 +1,18 @@
 import { BiPlus } from "react-icons/bi";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 export const AddButton = () => (
-  <StyledAddButton className="flex items-center justify-center gap-1">
+  <StyledAddButton
+    to="/company"
+    className="flex items-center justify-center gap-1"
+  >
     <BiPlus size={14} />
     Нова компанія
   </StyledAddButton>
 );
 
-const StyledAddButton = styled.button`
+const StyledAddButton = styled(NavLink)`
   height: 40px;
   border-radius: 7px;
   background: #ffffff;

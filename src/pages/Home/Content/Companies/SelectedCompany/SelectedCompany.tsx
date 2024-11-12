@@ -1,10 +1,19 @@
 import styled from "styled-components";
 import { Empty } from "./Empty/Empty";
 
-export const SelectedCompany = () => (
-  <StyledSelectedCompany>
-    <Empty />
+interface Props {
+  selected: undefined | number;
+}
+
+export const SelectedCompany = ({ selected }: Props) => (
+  <StyledSelectedCompany className={`${selected && "selected"}`}>
+    {selected ? null : <Empty />}
   </StyledSelectedCompany>
 );
 
-const StyledSelectedCompany = styled.div``;
+const StyledSelectedCompany = styled.div`
+  &.selected {
+    background: #ffffff;
+    border-radius: 16px;
+  }
+`;

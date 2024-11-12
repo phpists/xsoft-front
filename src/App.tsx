@@ -10,9 +10,10 @@ import { Brand } from "./pages/Brand/Brand";
 import { Storage } from "./pages/Storage/Storage";
 import { Home } from "./pages/Home/Home";
 import { Products } from "./pages/Products/Products";
+import { Company } from "./pages/Company/Company";
 
 function App() {
-  if (!localStorage.getItem("token")) {
+  if (true) {
     return <Auth />;
   }
 
@@ -27,7 +28,8 @@ function App() {
           <Route path="/product" element={<Product />} />
           <Route path="/brand" element={<Brand />} />
           <Route path="/storage" element={<Storage />} />
-          {/* <Route path="/" element={<Home />} /> */}
+          <Route path="/" element={<Home />} />
+          <Route path="/company" element={<Company />} />
           <Route
             path="/*"
             element={

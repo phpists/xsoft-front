@@ -6,22 +6,28 @@ import { IMaskInput } from "react-imask";
 
 interface Props {
   label?: string;
-  error?: string;
+  error?: boolean;
+  errorMessage?: string;
   type?: string;
   placeholder?: string;
   labelLink?: boolean;
   link?: string;
   mask?: string;
+  value?: string;
+  onChange?: (val: string) => void;
 }
 
 export const Input = ({
   label,
   error,
+  errorMessage,
   type = "text",
   placeholder,
   labelLink,
   link,
   mask,
+  value,
+  onChange,
 }: Props) => {
   const [showPassword, setShowPassord] = useState(type !== "password");
   return (
@@ -31,13 +37,16 @@ export const Input = ({
           <IMaskInput
             mask={mask}
             unmask={true} // true|false|'typed'
-            onAccept={(value, mask) => console.log(value)}
+            onAccept={(value, mask) => onChange && onChange(value)}
             placeholder={placeholder}
+            value={value}
           />
         ) : (
           <input
             type={showPassword ? "text" : "password"}
             placeholder={placeholder}
+            value={value}
+            onChange={(e) => onChange && onChange(e.target.value)}
           />
         )}
 
@@ -48,7 +57,13 @@ export const Input = ({
           />
         ) : null}
       </div>
-      <Label label={label} labelLink={labelLink} link={link} error={error} />
+      <Label
+        label={label}
+        labelLink={labelLink}
+        link={link}
+        error={error}
+        errorMessage={errorMessage}
+      />
     </StyledInput>
   );
 };

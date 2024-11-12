@@ -1,9 +1,14 @@
 import styled from "styled-components";
 import { Card } from "./Card/Card";
 
-export const List = () => (
+interface Props {
+  selected: undefined | number;
+  onSelect: (id: undefined | number) => void;
+}
+
+export const List = ({ selected, onSelect }: Props) => (
   <StyledList className="flex items-center gap-3.5">
-    <Card />
+    <Card selected={selected === 1} onSelect={() => onSelect(1)} />
   </StyledList>
 );
 

@@ -16,6 +16,6 @@ export const Content = () => (
 const StyledContent = styled.div`
   padding: 15px 14px;
   .content-wrapper {
-    height: calc(100vh - 127px);
+    height: calc(100vh - 127px - 26px);
   }
 `;

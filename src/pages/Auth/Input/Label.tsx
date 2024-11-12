@@ -3,19 +3,26 @@ import styled from "styled-components";
 
 interface Props {
   label?: string;
-  error?: string;
+  error?: boolean;
   labelLink?: boolean;
   link?: string;
+  errorMessage?: string;
 }
 
-export const Label = ({ labelLink, label, link, error }: Props) => (
+export const Label = ({
+  labelLink,
+  label,
+  link,
+  error,
+  errorMessage,
+}: Props) => (
   <StyledLabel>
     {labelLink && link ? (
       <NavLink className="label link" to={link}>
         {label}
       </NavLink>
     ) : label ? (
-      <div className="label">{error ?? label}</div>
+      <div className="label">{error ? errorMessage ?? label : label}</div>
     ) : null}
   </StyledLabel>
 );

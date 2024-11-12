@@ -47,4 +47,8 @@ const StyledButton = styled.button`
       background: #000000;
     }
   }
+  &:disabled {
+    opacity: 0.8;
+    cursor: not-allowed;
+  }
 `;
