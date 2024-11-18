@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import { Header } from "./Header/Header";
 import { MainInfo } from "./MainInfo/MainInfo";
+import { Affiliaties } from "./Affiliaties/Affiliaties";
 
 export const Information = () => (
   <StyledInformation>
     <Header />
     <MainInfo />
+    <Affiliaties />
   </StyledInformation>
 );
 

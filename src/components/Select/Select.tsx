@@ -8,7 +8,7 @@ import { Count } from "./Count";
 
 export interface Option {
   title: string;
-  value: string;
+  value: string | number;
 }
 
 interface Props {
@@ -19,11 +19,16 @@ interface Props {
   onClickDropdownButton?: () => void;
   Icon?: any;
   search?: boolean;
-  value?: string;
+  value?: string | number;
   message?: string;
   hideArrow?: boolean;
   dropdownTop?: boolean;
   showCount?: boolean;
+  onChange?: (val: string | number) => void;
+  error?: boolean;
+  multiselect?: boolean;
+  multiselectValue?: string[] | number[];
+  onChangeMultiselect?: (val: string[] | number[]) => void;
 }
 
 export const Select = ({
@@ -39,8 +44,14 @@ export const Select = ({
   hideArrow,
   dropdownTop,
   showCount,
+  onChange,
+  error,
+  multiselect,
+  multiselectValue,
+  onChangeMultiselect,
 }: Props) => {
   const [open, setOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
   const handleFocusInput = (e: any) => {
     if (search) {
@@ -53,7 +64,9 @@ export const Select = ({
   const handleClickOnOption = (e: any) => {
     if (
       e.target?.localName === "div" &&
-      !e.target.classList.contains("value")
+      !e.target.classList.contains("value") &&
+      !e.target.classList.contains("label") &&
+      !multiselect
     ) {
       e.currentTarget.blur();
     }
@@ -63,7 +76,9 @@ export const Select = ({
     <StyledSelect
       className={`field flex items-center justify-between ${className} ${
         open && "open"
-      } ${search && "search"} ${dropdownTop && "dropdownTop"}`}
+      } ${search && "search"} ${dropdownTop && "dropdownTop"} ${
+        error && "error"
+      }`}
       onClick={handleClickOnOption}
       onFocus={handleFocusInput}
     >
@@ -78,22 +93,38 @@ export const Select = ({
             onBlur={() => setOpen(false)}
             clearOnBlur
             autoFocus
+            value={searchValue}
+            onChange={(val) => setSearchValue(val.toString())}
           />
+        ) : multiselectValue && multiselectValue?.length > 0 ? (
+          <div className="value">
+            {multiselectValue
+              ?.map((v) => options.find((opt) => opt.value === v)?.title)
+              ?.join(",")}
+          </div>
         ) : value ? (
           <div className="value">
             {options.find((opt) => opt.value === value)?.title}
           </div>
         ) : label ? (
-          label
+          <span className="label">{label}</span>
         ) : (
           ""
         )}
       </div>
       {hideArrow ? null : <BiSolidChevronDown className="arrow" />}
       <Dropdown
-        options={options}
+        options={options?.filter((opt) =>
+          searchValue?.length > 0
+            ? opt.title.toLowerCase().includes(searchValue.toLowerCase())
+            : true
+        )}
         dropdownButton={dropdownButton}
         onClickDropdownButton={onClickDropdownButton}
+        onChange={onChange}
+        multiselect={multiselect}
+        multiselectValue={multiselectValue}
+        onChangeMultiselect={onChangeMultiselect}
       />
     </StyledSelect>
   );
@@ -112,6 +143,9 @@ const StyledSelect = styled.button`
   height: 54px;
   svg {
     transition: all 0.2s;
+  }
+  &.error {
+    border: 1px solid #d92d20;
   }
   &:focus,
   &.open {

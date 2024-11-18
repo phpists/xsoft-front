@@ -1,3 +1,4 @@
+import { BiLoader } from "react-icons/bi";
 import styled from "styled-components";
 
 interface Props {
@@ -6,6 +7,8 @@ interface Props {
   type?: "blue" | "outline" | "dark";
   Icon?: any;
   onClick?: () => void;
+  disabled?: boolean;
+  loading?: boolean;
 }
 
 export const Button = ({
@@ -14,11 +17,15 @@ export const Button = ({
   type = "blue",
   Icon,
   onClick,
+  disabled,
+  loading,
 }: Props) => (
   <StyledButton
     className={`flex items-center justify-center ${type} ${className}`}
     onClick={onClick}
+    disabled={disabled}
   >
+    {loading && <BiLoader size={20} className="mr-1 animate-spin" />}
     {Icon}
     {title}
   </StyledButton>
@@ -60,5 +67,10 @@ const StyledButton = styled.button`
     flex-shrink: 0;
     height: 14px;
     width: 14px;
+    animation-duration: 3s;
+  }
+  &:disabled {
+    opacity: 0.8;
+    cursor: not-allowed;
   }
 `;

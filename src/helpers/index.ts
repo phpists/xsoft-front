@@ -20,3 +20,12 @@ export const checkEmailValidation = (value: string): boolean => {
   }
   return false;
 };
+
+export const formatInputDate = (str: string) => {
+  try {
+    const date = str?.split("-");
+    return `${date?.[0] ?? ""}-${date?.[1] ?? ""}-${date?.[2] ?? ""}`;
+  } catch {
+    return str;
+  }
+};

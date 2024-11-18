@@ -8,6 +8,7 @@ interface Props {
   selected?: number;
   onSelectAll?: () => void;
   allCount?: number;
+  onDeleteSelected?: () => void;
 }
 
 export const Header = ({
@@ -15,34 +16,40 @@ export const Header = ({
   selected = 0,
   onSelectAll,
   allCount,
+  onDeleteSelected,
 }: Props) => (
   <>
     {onSelectAll ? (
       <div>
-        {selected > 0 ? (
+        {/* {selected > 0 ? (
           <StyledHeader className="selected">
             <BiStar size={20} />{" "}
           </StyledHeader>
         ) : (
           <Checkbox checked={allCount === selected} onClick={onSelectAll} />
-        )}
+        )} */}
+        <Checkbox checked={allCount === selected} onClick={onSelectAll} />
       </div>
     ) : null}
     {selected > 0 ? (
       <>
-        <StyledHeader className="selected">
-          <BiTrash size={20} />{" "}
+        <StyledHeader
+          className="selected"
+          onClick={() => onDeleteSelected && onDeleteSelected()}
+        >
+          {onDeleteSelected ? <BiTrash size={20} /> : null}
         </StyledHeader>
         {columns?.slice(1)?.map((c, i) => (
           <StyledHeader key={i}></StyledHeader>
         ))}
       </>
     ) : (
-      columns?.map(({ title, sortable, className }, i) => (
+      columns?.map(({ title, sortable, className, onClick }, i) => (
         <StyledHeader
           key={i}
           className={`flex items-center justify-between ${className}`}
           title={title}
+          onClick={() => (!sortable ? null : onClick && onClick())}
         >
           <span>{title}</span>{" "}
           {sortable ? (
@@ -70,6 +77,7 @@ const StyledHeader = styled.div`
   color: #111111;
   padding: 12px 8px;
   height: 40px;
+  cursor: pointer;
   button {
     display: flex;
     align-items: center;

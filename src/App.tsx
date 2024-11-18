@@ -11,9 +11,29 @@ import { Storage } from "./pages/Storage/Storage";
 import { Home } from "./pages/Home/Home";
 import { Products } from "./pages/Products/Products";
 import { Company } from "./pages/Company/Company";
+import { Personal } from "./pages/Personal/Personal";
+import { useAppSelect } from "./hooks/redux";
+import { useLazyGetUserQuery } from "./store/auth/auth.api";
+import { useEffect } from "react";
+import { useActions } from "./hooks/actions";
+import { Items } from "./pages/Items/Items";
 
 function App() {
-  if (true) {
+  const { user } = useAppSelect((state) => state.auth);
+  const [getUser] = useLazyGetUserQuery();
+  const { loginUser } = useActions();
+
+  useEffect(() => {
+    if (!user && localStorage.getItem("token")) {
+      getUser({}).then((resp) =>
+        resp.isError
+          ? localStorage.removeItem("token")
+          : loginUser(resp?.data.response)
+      );
+    }
+  }, []);
+
+  if (!localStorage.getItem("token") && !user) {
     return <Auth />;
   }
 
@@ -24,12 +44,15 @@ function App() {
         <Routes>
           <Route path="/clients" element={<Clients />} />
           <Route path="/client" element={<Client />} />
-          <Route path="/items" element={<Products />} />{" "}
+          <Route path="/client/:id" element={<Client />} />
+          <Route path="/items" element={<Items />} />{" "}
           <Route path="/product" element={<Product />} />
+          <Route path="/product/:id" element={<Product />} />
           <Route path="/brand" element={<Brand />} />
           <Route path="/storage" element={<Storage />} />
           <Route path="/" element={<Home />} />
           <Route path="/company" element={<Company />} />
+          <Route path="/pesonal" element={<Personal />} />
           <Route
             path="/*"
             element={

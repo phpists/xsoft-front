@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-export const Id = () => <StyledId> #1234</StyledId>;
+interface Props {
+  id: number;
+}
+
+export const Id = ({ id }: Props) => <StyledId> #{id}</StyledId>;
 
 const StyledId = styled.div`
   font-family: Inter, sans-serif;

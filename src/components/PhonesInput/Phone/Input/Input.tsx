@@ -4,11 +4,21 @@ import { Label } from "./Label";
 import { IMaskInput } from "react-imask";
 import { useState } from "react";
 
-export const Input = () => {
+interface Props {
+  value: string;
+  onChange: (val: string) => void;
+  error?: boolean;
+}
+
+export const Input = ({ value, onChange, error }: Props) => {
   const [inputFocused, setInputFocused] = useState(false);
 
   return (
-    <StyledInput className={`${inputFocused && "focused"}`}>
+    <StyledInput
+      className={`phones-input-wrapper ${inputFocused && "focused"} ${
+        error && value?.length === 0 && "error"
+      }`}
+    >
       <Country />
       <div className="px-2.5 py-2">
         <Label />
@@ -16,6 +26,8 @@ export const Input = () => {
           mask="+ 380 00 000 00 00"
           onFocus={() => setInputFocused(true)}
           onBlur={() => setInputFocused(false)}
+          value={value}
+          onAccept={(value, mask) => onChange && onChange(value)}
         />
       </div>
     </StyledInput>
@@ -31,7 +43,8 @@ const StyledInput = styled.div`
   overflow: hidden;
   max-width: 422px;
   width: 100%;
-  .error {
+  background: #fff;
+  &.error {
     border: 1px solid #d92d20;
   }
   input {

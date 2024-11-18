@@ -1,18 +1,21 @@
 import styled from "styled-components";
-import { BackButton } from "./BackButton";
 import { Title } from "./Title";
 import { Actions } from "./Actions/Actions";
 
-export const Header = () => (
-  <StyledHeader className="flex items-center justify-between">
-    <div className="flex items-center gap-6">
-      <BackButton />
+interface Props {
+  search: string;
+  onSearch: (val: string) => void;
+}
+
+export const Header = ({ search, onSearch }: Props) => {
+  return (
+    <StyledHeader className="flex items-center justify-between">
       <Title />
-    </div>
-    <Actions />
-  </StyledHeader>
-);
+      <Actions search={search} onSearch={onSearch} />
+    </StyledHeader>
+  );
+};
 
 const StyledHeader = styled.div`
-  margin-bottom: 12px;
+  margin-bottom: 18px;
 `;

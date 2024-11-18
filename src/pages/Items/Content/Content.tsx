@@ -1,51 +1,73 @@
 import styled from "styled-components";
 import { Header } from "./Header/Header";
-import { Info } from "./Info/Info";
-import { Tabs } from "../../../components/Tabs/Tabs";
-import { BiSolidCartAlt } from "react-icons/bi";
-import { useState } from "react";
-import { Information } from "./Information/Information";
-
-const TABS = [{ title: "Інформація", Icon: BiSolidCartAlt }];
+import { ProductsTable } from "./ProductsTable/ProductsTable";
+import { Categories } from "../Categories/Categories";
+import { useEffect, useState } from "react";
+import { useLazyGetProductsQuery } from "../../../store/products/products.api";
+import { IProductResponse } from "../../../types/products";
 
 export const Content = () => {
-  const [activeTab, setActiveTab] = useState(0);
+  const [getProducts] = useLazyGetProductsQuery();
+  const [data, setData] = useState<IProductResponse[]>([]);
+  const [selected, setSelected] = useState<number[]>([]);
+  const [sortBy, setSortBy] = useState<string | undefined>(undefined);
+  const [sortDesc, setSortDesc] = useState(false);
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleChangeTab = (tab: number) => setActiveTab(tab);
+  const handleSelect = (id: number) =>
+    setSelected(
+      selected.includes(id)
+        ? selected?.filter((s) => s !== id)
+        : [...selected, id]
+    );
+
+  const handleSelectAll = () =>
+    setSelected(data.length === selected.length ? [] : data?.map((c) => c.id));
+
+  const handleChangeSortBy = (val: string) => {
+    setSortBy(val);
+    setSortDesc(val === sortBy ? !sortDesc : false);
+  };
+  const handleSearch = (val: string) => setSearch(val);
+
+  const handleGetClients = () => {
+    setLoading(true);
+    getProducts({ sortBy, q: search, sortDesc }).then((resp) => {
+      setData(resp?.data?.data ?? []);
+      setLoading(false);
+    });
+  };
+
+  useEffect(() => {
+    handleGetClients();
+  }, [sortBy, search, sortDesc]);
+
+  const handleDelete = (ids: number[], clearSelected?: boolean) => {
+    setData(data?.filter((c) => !ids.includes(c.id)));
+    clearSelected && setSelected([]);
+  };
 
   return (
     <StyledContent>
-      <Header />
-      <div className="main-wrapper">
-        <Info />
-        <div>
-          <div className="py-3.5 px-4 border-b-[1px] border-[#DBDBDB]">
-            <div className="w-[196px]">
-              <Tabs tabs={TABS} active={activeTab} onChange={handleChangeTab} />
-            </div>
-          </div>
-          <div className="content-wrapper no-scrollbar">
-            <Information />
-          </div>
-        </div>
+      <Header search={search} onSearch={handleSearch} />
+      <div className="flex w-full gap-2">
+        <Categories />
+        <ProductsTable
+          selected={selected}
+          onSelect={handleSelect}
+          onSelectAll={handleSelectAll}
+          data={data}
+          loading={loading}
+          onSort={handleChangeSortBy}
+          onDelete={handleDelete}
+        />
       </div>
     </StyledContent>
   );
 };
 
 const StyledContent = styled.div`
-  padding: 12px 14px 14px;
-  .main-wrapper {
-    display: grid;
-    grid-template-columns: 320px 1fr;
-    border-radius: 16px;
-    background: #fff;
-    height: calc(100vh - 123px);
-    overflow: hidden;
-  }
-  .content-wrapper {
-    height: calc(100vh - 184px);
-    background: #efefef;
-    overflow: auto;
-  }
+  padding: 10px 14px 14px;
+  position: relative;
 `;

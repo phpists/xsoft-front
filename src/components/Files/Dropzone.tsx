@@ -1,14 +1,24 @@
 import styled from "styled-components";
 import { useDropzone } from "react-dropzone";
 import { BiDownload } from "react-icons/bi";
-export const Dropzone = () => {
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+
+interface Props {
+  onAdd: (files: FileList | null | File[]) => void;
+}
+
+export const Dropzone = ({ onAdd }: Props) => {
+  const onDrop = (acceptedFiles: File[]) => {
+    onAdd(acceptedFiles);
+  };
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+  });
 
   return (
     <StyledDropzone>
       {" "}
-      <div {...getRootProps({ className: "dropzone" })}>
-        <input {...getInputProps()} />
+      <div {...getRootProps({ className: "dropzone", accept: ".jpg,.png" })}>
+        <input {...getInputProps()} accept=".jpg,.png" />
         <BiDownload size={24} />
         <p>
           Завантажте сюди файли. 100 MB максимальний розмір файлу в форматі JPG
@@ -35,6 +45,7 @@ const StyledDropzone = styled.div`
     letter-spacing: 0.02em;
     text-align: center;
     color: #111111;
+    cursor: pointer;
     path {
       fill: #dbdbdb;
     }

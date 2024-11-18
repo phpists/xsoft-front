@@ -1,14 +1,26 @@
 import styled from "styled-components";
-import { Avatar } from "../../../../components/Avatar";
+import { Avatar } from "../../../../components/Avatar/Avatar";
 
-export const Product = () => (
+interface Props {
+  title: string;
+  color: string;
+  category?: string;
+}
+
+export const Product = ({ title, color, category }: Props) => (
   <StyledProduct className="flex items-center gap-2">
-    <Avatar size={46} className="avatar" />
+    <Avatar
+      size={46}
+      className="avatar"
+      color={color}
+      firstName={title?.split(" ")?.[0] ?? ""}
+      lastName={title?.split(" ")?.[1] ?? ""}
+    />
     <div>
-      <div className="title mb-1">
-        Регенеруючий шампунь Daeng Gi Meo Ri Vitalizing Shampoo
+      <div className="title mb-1">{title}</div>
+      <div className="subtitle">
+        {category?.length === 0 ? "Категорія" : category}
       </div>
-      <div className="subtitle">Категорія</div>
     </div>
   </StyledProduct>
 );

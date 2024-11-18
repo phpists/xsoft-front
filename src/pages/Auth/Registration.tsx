@@ -7,6 +7,8 @@ import { Button } from "./Button";
 import { Link } from "./Link";
 import { checkEmailValidation, showMessage } from "../../helpers";
 import { useLazyRegisterQuery } from "../../store/auth/auth.api";
+import { useActions } from "../../hooks/actions";
+import { useNavigate } from "react-router-dom";
 
 export const Registration = () => {
   const [data, setData] = useState({
@@ -20,6 +22,8 @@ export const Registration = () => {
   });
   const [errors, setErrors] = useState<string[]>([]);
   const [registrate] = useLazyRegisterQuery();
+  const { loginUser } = useActions();
+  const navigate = useNavigate();
 
   const handleChangeField = (field: string, val: string | boolean) => {
     setData({ ...data, [field]: val });
@@ -61,8 +65,14 @@ export const Registration = () => {
 
   const handleSave = () => {
     if (handleCheckFields()) {
-      registrate(data).then((resp) => {
-        console.log(resp);
+      registrate(data).then((resp: any) => {
+        if (resp.isError) {
+          showMessage("error", resp?.error?.data?.message ?? "Помилка");
+        } else {
+          localStorage.setItem("token", resp?.data.response.access_token);
+          loginUser(resp?.data.response?.user);
+          navigate("/");
+        }
       });
     }
   };

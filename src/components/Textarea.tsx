@@ -4,18 +4,33 @@ import styled from "styled-components";
 interface Props {
   label: string;
   className?: string;
+  value?: string;
+  onChange?: (val: string) => void;
+  error?: boolean;
 }
 
-export const Textarea = ({ label, className }: Props) => {
+export const Textarea = ({
+  label,
+  className,
+  value,
+  onChange,
+  error,
+}: Props) => {
   const [inputFocused, setInputFocused] = useState(false);
   return (
-    <StyledTextarea className={`${inputFocused && "focused"} ${className}`}>
+    <StyledTextarea
+      className={`${inputFocused && "focused"} ${
+        error && "error"
+      } ${className}`}
+    >
       <div className="label">{label}</div>
       <textarea
         name=""
         id=""
         onFocus={() => setInputFocused(true)}
         onBlur={() => setInputFocused(false)}
+        value={value}
+        onChange={(e) => onChange && onChange(e.target.value)}
       ></textarea>
     </StyledTextarea>
   );
@@ -41,5 +56,8 @@ const StyledTextarea = styled.div`
   }
   &.focused {
     border: 1px solid #0095f6;
+  }
+  &.error {
+    border: 1px solid #d92d20;
   }
 `;

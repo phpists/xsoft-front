@@ -1,15 +1,15 @@
 import styled from "styled-components";
 import { Empty } from "./Empty";
-import { Product } from "./Product";
+import { Company } from "./Company";
 import { Media } from "../../../../components/Media/Media";
-import { Location } from "../../../../components/Location";
+import { Locations } from "./Locations/Locations";
 
 export const Info = () => {
   return (
     <StyledInfo>
       {/* <Empty /> */}
-      <Product />
-      <Location location="Львів, Дрогобич" className="mt-2.5 mb-6" />
+      <Company />
+      <Locations />
       <Media />
     </StyledInfo>
   );

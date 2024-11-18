@@ -1,18 +1,19 @@
-import styled from "styled-components";
-import photo1 from "../../assets/photo-1.jpg";
-import photo2 from "../../assets/photo-2.jpg";
+import { MediaFile } from "../Files/Files";
+import { Photo } from "./Photo";
 
-export const List = () => (
-  <StyledList className="flex items-center gap-1">
-    <img src={photo1} alt="" />
-    <img src={photo2} alt="" />
-  </StyledList>
+interface Props {
+  files?: MediaFile[];
+  onDelete?: (index: number, val?: number) => void;
+}
+
+export const List = ({ files, onDelete }: Props) => (
+  <div className="flex items-center gap-1 flex-wrap">
+    {files?.map((f, i) => (
+      <Photo
+        key={i}
+        photo={f.url}
+        onDelete={onDelete ? () => onDelete(i, f.id) : undefined}
+      />
+    ))}
+  </div>
 );
-
-const StyledList = styled.div`
-  img {
-    width: 88px;
-    height: 106px;
-    object-fit: cover;
-  }
-`;

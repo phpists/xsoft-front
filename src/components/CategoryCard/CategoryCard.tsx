@@ -1,4 +1,4 @@
-import { BiChevronRight, BiEdit, BiEditAlt } from "react-icons/bi";
+import { BiChevronRight, BiEdit, BiTrash } from "react-icons/bi";
 import styled from "styled-components";
 import { Dropdown } from "./Dropdown";
 import { useState } from "react";
@@ -16,6 +16,7 @@ interface Props {
   active?: boolean;
   onClick?: () => void;
   editable?: boolean;
+  onDelete?: () => void;
 }
 
 export const CategoryCard = ({
@@ -26,6 +27,7 @@ export const CategoryCard = ({
   active,
   onClick,
   editable,
+  onDelete,
 }: Props) => {
   const [open, setOpen] = useState(false);
 
@@ -43,15 +45,26 @@ export const CategoryCard = ({
         <div className="flex items-center gap-2.5">
           {Icon} {title}
         </div>
-        {editable ? (
-          <BiEdit size={20} />
-        ) : (
-          options && (
-            <>
-              <BiChevronRight className="arrow" />
-            </>
-          )
-        )}
+        <div className="flex items-center gap-2">
+          {editable ? (
+            <BiEdit size={20} />
+          ) : (
+            options && (
+              <>
+                <BiChevronRight className="arrow" />
+              </>
+            )
+          )}
+          {onDelete ? (
+            <BiTrash
+              size={20}
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete();
+              }}
+            />
+          ) : null}
+        </div>
       </button>
       {open && options ? <Dropdown options={options} /> : null}
     </StyledCategoryCard>

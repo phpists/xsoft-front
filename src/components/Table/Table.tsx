@@ -1,11 +1,14 @@
 import styled from "styled-components";
 import { Header } from "./Header";
 import { ReactNode } from "react";
+import { Loading } from "./Loading";
+import { Empty } from "./Empty";
 
 export interface Column {
   title: string;
   sortable: boolean;
   className?: string;
+  onClick?: () => void;
 }
 
 interface Props {
@@ -15,6 +18,8 @@ interface Props {
   onSelectAll?: () => void;
   allCount?: number;
   className?: string;
+  onDeleteSelected?: () => void;
+  loading?: boolean;
 }
 
 export const Table = ({
@@ -24,6 +29,8 @@ export const Table = ({
   onSelectAll,
   allCount,
   className,
+  onDeleteSelected,
+  loading,
 }: Props) => (
   <StyledTable
     columnsCount={columns?.length}
@@ -34,8 +41,9 @@ export const Table = ({
       selected={selected}
       onSelectAll={onSelectAll}
       allCount={allCount}
+      onDeleteSelected={onDeleteSelected}
     />
-    {children}
+    {loading ? <Loading /> : allCount === 0 ? <Empty /> : children}
   </StyledTable>
 );
 
@@ -57,6 +65,7 @@ const StyledTable = styled.div<StyledTableProps>`
   line-height: 19.6px;
   text-align: left;
   color: #111111;
+  position: relative;
   &.no-select {
     grid-template-columns: repeat(${({ columnsCount }) => columnsCount}, 1fr);
   }

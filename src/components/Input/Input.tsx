@@ -9,12 +9,12 @@ import { Dropdown } from "./Dropdown";
 
 export interface Option {
   title: string;
-  value: string;
+  value: string | number;
 }
 
 interface Props {
   label?: string;
-  error?: string;
+  error?: boolean;
   required?: boolean;
   className?: string;
   Icon?: any;
@@ -30,6 +30,12 @@ interface Props {
   number?: boolean;
   valueLabel?: string;
   options?: Option[];
+  value?: string | number;
+  onChange?: (val: string | number) => void;
+  calendar?: boolean;
+  onPressEnter?: () => void;
+  labelActive?: boolean;
+  noCheck?: boolean;
 }
 
 export const Input = ({
@@ -50,15 +56,25 @@ export const Input = ({
   number,
   valueLabel,
   options,
+  value,
+  onChange,
+  calendar,
+  onPressEnter,
+  labelActive,
+  noCheck,
 }: Props) => {
-  const [value, setValue] = useState(defaultValue ?? "");
   const inputRef = useRef<HTMLInputElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const [inputFocused, setInputFocused] = useState(false);
 
   const handleBlur = () => {
-    setInputFocused(false);
-    onBlur && onBlur();
-    clearOnBlur && setValue("");
+    setTimeout(() => {
+      setInputFocused(false);
+      onBlur && onBlur();
+      if (clearOnBlur && onChange) {
+        onChange("");
+      }
+    }, 200);
   };
 
   return (
@@ -67,31 +83,64 @@ export const Input = ({
         className={`field flex items-center ${inputFocused && "focused"} ${
           error && "error"
         } ${Icon && "has-icon"} ${className}`}
+        onClick={() => {
+          if (inputRef.current) {
+            inputRef.current.focus();
+            calendar && inputRef.current.showPicker();
+          }
+          if (buttonRef.current) {
+            buttonRef.current.focus();
+          }
+        }}
       >
         {Icon ? <IconCard Icon={Icon} /> : null}
         <div className="input-content">
           <div className="flex items-center gap-1">
             {valueLabel}
-            <input
-              value={value}
-              type={number ? "number" : "text"}
-              onChange={(e) => (options ? null : setValue(e.target.value))}
-              ref={inputRef}
-              onFocus={() => {
-                setInputFocused(true);
-                onFocus && onFocus();
-              }}
-              onBlur={handleBlur}
-              disabled={disabled}
-              autoFocus={autoFocus}
-            />
+            {options ? (
+              <button
+                ref={buttonRef}
+                onFocus={() => {
+                  setInputFocused(true);
+                  onFocus && onFocus();
+                }}
+                onBlur={handleBlur}
+                className="h-[20px]"
+              >
+                <div className="button-wrapper-overflow"></div>
+                {options.find((opt) => opt.value === value)?.title}
+              </button>
+            ) : (
+              <input
+                value={value}
+                type={calendar ? "date" : number ? "number" : "text"}
+                onChange={(e) =>
+                  options ? null : onChange ? onChange(e.target.value) : null
+                }
+                ref={inputRef}
+                onFocus={() => {
+                  setInputFocused(true);
+                  onFocus && onFocus();
+                }}
+                onBlur={handleBlur}
+                disabled={disabled}
+                autoFocus={autoFocus}
+                onKeyDown={(e) =>
+                  e.keyCode === 13 && onPressEnter && onPressEnter()
+                }
+              />
+            )}
           </div>
           {label ? (
             <div
               className={`flex items-center label select-none	 ${
-                (value?.length > 0 || inputFocused || valueLabel) && "active"
+                ((value && value?.toString()?.length > 0) ||
+                  inputFocused ||
+                  valueLabel ||
+                  calendar ||
+                  labelActive) &&
+                "active"
               }`}
-              onClick={() => inputRef.current && inputRef.current.focus()}
             >
               {label} {required ? <span className="required">*</span> : null}
             </div>
@@ -104,11 +153,16 @@ export const Input = ({
         ) : null}
         {RightIcon ? (
           RightIcon
-        ) : number || clearOnBlur || sign || options ? null : value?.length >
-          0 ? (
+        ) : number ||
+          clearOnBlur ||
+          sign ||
+          options ||
+          noCheck ? null : value && value?.toString()?.length > 0 ? (
           <BiCheck size={16} className="ml-auto mr-2.5" fill="#077D55" />
         ) : null}
-        {options && inputFocused ? <Dropdown options={options} /> : null}
+        {options && inputFocused ? (
+          <Dropdown options={options} onChange={onChange} />
+        ) : null}
       </StyledInput>
       {message ? <Message message={message} /> : null}
     </div>
@@ -123,6 +177,16 @@ const StyledInput = styled.div`
   .input-content {
     padding: 25px 10px 10px;
     width: 100%;
+    position: relative;
+    .button-wrapper-overflow {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      cursor: pointer;
+      z-index: 1;
+    }
   }
   input {
     height: 20px;

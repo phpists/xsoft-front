@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { baseUrl } from "../../api";
+import { baseUrl, headers } from "../../api";
 
 export const auth = createApi({
   reducerPath: "auth/api",
@@ -43,6 +43,7 @@ export const auth = createApi({
       query: () => ({
         url: "/auth/user",
         method: "GET",
+        headers: headers(),
       }),
     }),
     logout: build.query({
@@ -58,5 +59,5 @@ export const {
   useLazyRegisterQuery,
   useLazyLoginQuery,
   useLazyGetUserQuery,
-  useLogoutQuery,
+  useLazyLogoutQuery,
 } = auth;

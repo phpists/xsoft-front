@@ -8,7 +8,7 @@ export const SideMenuToggle = () => {
   const { sideMenuOpen } = useAppSelect((app) => app.app);
   const { toggleSideMenu } = useActions();
   const { pathname } = useLocation();
-  const PAGES = ["/clients", "/items"];
+  const PAGES = ["/clients", "/items", "/pesonal"];
   const IS_AVAIBLE = PAGES.includes(pathname);
 
   return (

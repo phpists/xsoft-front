@@ -3,7 +3,7 @@ import { Checkbox } from "../../../../components/Checkbox";
 import { ProfileRow } from "../../../../components/ProfileRow/ProfileRow";
 import { PhoneRow } from "../../../../components/PhoneRow";
 import { Actions } from "../../../../components/Actions/Actions";
-import { Avatar } from "../../../../components/Avatar";
+import { Avatar } from "../../../../components/Avatar/Avatar";
 
 interface Props {
   selected: boolean;

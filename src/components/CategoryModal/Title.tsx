@@ -1,6 +1,14 @@
 import styled from "styled-components";
 
-export const Title = () => <StyledTitle>Додати категорію</StyledTitle>;
+interface Props {
+  category?: boolean;
+}
+
+export const Title = ({ category }: Props) => (
+  <StyledTitle>
+    {category ? "Редагування категорії" : "Додати категорію"}
+  </StyledTitle>
+);
 
 const StyledTitle = styled.div`
   font-size: 18px;

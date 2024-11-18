@@ -4,8 +4,18 @@ import { BiSearch } from "react-icons/bi";
 import { CloseButton } from "./CloseButton";
 import { Input } from "./Input";
 
-export const Search = () => {
+interface Props {
+  value?: string;
+  onChange?: (val: string) => void;
+}
+
+export const Search = ({ value, onChange }: Props) => {
   const [active, setActive] = useState(false);
+
+  const handleClose = () => {
+    setActive(false);
+    onChange && onChange("");
+  };
 
   return (
     <StyledSearch className={`flex items-center gap-2 ${active && "active"}`}>
@@ -14,8 +24,8 @@ export const Search = () => {
         onClick={() => setActive(true)}
         className="cursor-pointer shrink-0"
       />
-      <Input />
-      <CloseButton onClick={() => setActive(false)} />
+      <Input value={value} onChange={onChange} />
+      <CloseButton onClick={handleClose} />
     </StyledSearch>
   );
 };

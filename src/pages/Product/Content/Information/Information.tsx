@@ -4,24 +4,70 @@ import { MainInfo } from "./MainInfo/MainInfo";
 import { Divider } from "../Divider";
 import { Category } from "./Category/Category";
 import { Selling } from "./Selling/Selling";
-import { Materials } from "./Materials";
 import { Availability } from "./Availability";
-import { Files } from "../../../../components/Files/Files";
+import { Files, MediaFile } from "../../../../components/Files/Files";
+import { IProduct, IProductInfo } from "../../../../types/products";
 
-export const Information = () => (
+interface Props {
+  data: IProduct;
+  onChange: (
+    field: string,
+    value: string | boolean | number | string[] | number[]
+  ) => void;
+  productInfo?: IProductInfo;
+  onSave: () => void;
+  errors: string[];
+  loading: boolean;
+  files: MediaFile[];
+  onChangeFiles: (val: MediaFile[]) => void;
+  onRefreshProductInfo: () => void;
+}
+
+export const Information = ({
+  data,
+  onChange,
+  productInfo,
+  onSave,
+  errors,
+  loading,
+  onChangeFiles,
+  files,
+  onRefreshProductInfo,
+}: Props) => (
   <StyledInformation>
-    <Header />
-    <MainInfo />
+    <Header data={data} onChange={onChange} onSave={onSave} loading={loading} />
+    <MainInfo
+      data={data}
+      onChange={onChange}
+      productInfo={productInfo}
+      errors={errors}
+    />
     <Divider />
-    <Category />
+    <Category
+      data={data}
+      onChange={onChange}
+      productInfo={productInfo}
+      errors={errors}
+      onRefreshProductInfo={onRefreshProductInfo}
+    />
     <Divider />
-    <Selling />
+    <Selling
+      data={data}
+      onChange={onChange}
+      productInfo={productInfo}
+      errors={errors}
+    />
     <Divider />
-    <Materials />
+    {/* <Materials data={data} onChange={onChange} productInfo={productInfo} />
+    <Divider /> */}
+    <Availability
+      data={data}
+      onChange={onChange}
+      productInfo={productInfo}
+      errors={errors}
+    />
     <Divider />
-    <Availability />
-    <Divider />
-    <Files />
+    <Files value={files} onAdd={onChangeFiles} />
   </StyledInformation>
 );
 

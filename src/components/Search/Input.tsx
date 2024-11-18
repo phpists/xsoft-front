@@ -1,6 +1,17 @@
 import styled from "styled-components";
 
-export const Input = () => <StyledInput placeholder="Пошук" />;
+interface Props {
+  value?: string;
+  onChange?: (val: string) => void;
+}
+
+export const Input = ({ value, onChange }: Props) => (
+  <StyledInput
+    placeholder="Пошук"
+    value={value}
+    onChange={(e) => onChange && onChange(e.target.value)}
+  />
+);
 
 const StyledInput = styled.input`
   font-family: Noto Sans;

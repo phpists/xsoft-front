@@ -3,16 +3,20 @@ import { BiPhone } from "react-icons/bi";
 
 interface Props {
   className?: string;
+  phone?: string;
 }
 
-export const PhoneRow = ({ className }: Props) => (
-  <StyledPhoneRow className={`flex items-center gap-2 ${className}`}>
+export const PhoneRow = ({ className, phone = "-" }: Props) => (
+  <StyledPhoneRow
+    className={`flex items-center gap-2 ${className}`}
+    href={`tel:${phone}`}
+  >
     <BiPhone />
-    +380 50 123 4567
+    {phone}
   </StyledPhoneRow>
 );
 
-const StyledPhoneRow = styled.div`
+const StyledPhoneRow = styled.a`
   padding: 10px;
   white-space: nowrap;
   svg {

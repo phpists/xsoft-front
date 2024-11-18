@@ -1,10 +1,15 @@
 import styled from "styled-components";
 import { ColorPicker } from "../../../../../components/ColorPicker";
 
-export const Color = () => (
+interface Props {
+  value: string;
+  onChange: (val: string) => void;
+}
+
+export const Color = ({ value, onChange }: Props) => (
   <StyledColor className="flex items-center gap-3.5">
     <span>Колір аватара</span>
-    <ColorPicker />
+    <ColorPicker value={value} onChange={onChange} />
   </StyledColor>
 );
 

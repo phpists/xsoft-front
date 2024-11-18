@@ -1,22 +1,32 @@
 import styled from "styled-components";
 import { SectionTitle } from "../SectionTitle";
 import { Select } from "../../../../components/Select/Select";
-import { AddButton } from "./AddButton";
+import { useGetCategoriesQuery } from "../../../../store/clients/clients.api";
+import { AddTag } from "../../../../components/AddTag";
 
-export const Category = () => (
-  <StyledCategory>
-    <SectionTitle title="Категорія клієнта" />
-    <Select
-      label="Оберіть категорію"
-      options={[
-        { title: "Категорія 1", value: "test" },
-        { title: "Категорія 2", value: "test" },
-        { title: "Категорія 3", value: "test" },
-      ]}
-      className="max-w-[479px] mb-[22px]"
-    />
-    <AddButton title="Додати тег" />
-  </StyledCategory>
-);
+interface Props {
+  value: string | undefined;
+  onChange: (val: string | number) => void;
+  error?: boolean;
+  onAddTag?: (val: string) => void;
+}
 
+export const Category = ({ value, onChange, error, onAddTag }: Props) => {
+  const { data: categories } = useGetCategoriesQuery({});
+
+  return (
+    <StyledCategory>
+      <SectionTitle title="Категорія клієнта" />
+      <Select
+        label="Оберіть категорію"
+        options={categories ?? []}
+        className="max-w-[479px] mb-[22px]"
+        value={value?.toString()}
+        onChange={onChange}
+        error={error}
+      />
+      {/* <AddTag onAdd={onAddTag} /> */}
+    </StyledCategory>
+  );
+};
 const StyledCategory = styled.div``;

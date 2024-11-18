@@ -13,17 +13,20 @@ const COLORS = [
   "#ED5E1E",
 ];
 
-export const ColorPicker = () => {
-  const [active, setActive] = useState("#A96AFF");
+interface Props {
+  value?: string;
+  onChange?: (color: string) => void;
+}
 
+export const ColorPicker = ({ value, onChange }: Props) => {
   return (
     <StyledColorPicker className="flex items-center gap-1">
       {COLORS?.map((color, i) => (
         <div
           key={i}
           style={{ background: color }}
-          className={`${active === color && "active"}`}
-          onClick={() => setActive(color)}
+          className={`${value === color && "active"}`}
+          onClick={() => onChange && onChange(color)}
         >
           <BiCheck size={16} />
         </div>

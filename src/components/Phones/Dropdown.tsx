@@ -3,8 +3,13 @@ import styled from "styled-components";
 import telegramIcon from "../../assets/tg.svg";
 import viberIcon from "../../assets/viber.png";
 import whatsupIcon from "../../assets/watsup.svg";
+import { IPhone } from "../PhonesInput/PhonesInput";
 
-export const Dropdown = () => (
+interface Props {
+  phone?: IPhone;
+}
+
+export const Dropdown = ({ phone }: Props) => (
   <StyledDropdown className="dropdown">
     <div>
       <BiPhoneCall /> Зателефонувати
@@ -12,17 +17,23 @@ export const Dropdown = () => (
     <div>
       <BiCopy /> Копіювати
     </div>
-    <div>
-      <img src={telegramIcon} alt="" /> Telegram
-    </div>
-    <div>
-      <img src={viberIcon} alt="" />
-      Viber
-    </div>
-    <div>
-      <img src={whatsupIcon} alt="" />
-      WhatsApp
-    </div>
+    {phone?.type_id.includes(1) ? (
+      <div>
+        <img src={telegramIcon} alt="" /> Telegram
+      </div>
+    ) : null}
+    {phone?.type_id.includes(2) ? (
+      <div>
+        <img src={viberIcon} alt="" />
+        Viber
+      </div>
+    ) : null}
+    {phone?.type_id.includes(3) ? (
+      <div>
+        <img src={whatsupIcon} alt="" />
+        WhatsApp
+      </div>
+    ) : null}
   </StyledDropdown>
 );
 

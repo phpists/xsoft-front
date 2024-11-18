@@ -1,9 +1,13 @@
 import styled from "styled-components";
 
-export const Phone = () => (
+interface Props {
+  phone: string;
+}
+
+export const Phone = ({ phone }: Props) => (
   <StyledPhone>
     <div className="label">Телефон</div>
-    <div className="title">+ 380 68 247 83 48</div>
+    <div className="title">{phone}</div>
   </StyledPhone>
 );
 

@@ -1,18 +1,9 @@
 import styled from "styled-components";
 import { Header } from "./Header/Header";
 import { Info } from "./Info/Info";
-import { Tabs } from "../../../components/Tabs/Tabs";
-import { BiSolidCartAlt } from "react-icons/bi";
-import { useState } from "react";
 import { Information } from "./Information/Information";
 
-const TABS = [{ title: "Інформація", Icon: BiSolidCartAlt }];
-
 export const Content = () => {
-  const [activeTab, setActiveTab] = useState(0);
-
-  const handleChangeTab = (tab: number) => setActiveTab(tab);
-
   return (
     <StyledContent>
       <Header />

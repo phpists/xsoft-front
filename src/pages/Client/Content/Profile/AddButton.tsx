@@ -3,10 +3,11 @@ import { BiPlus } from "react-icons/bi";
 
 interface Props {
   title: string;
+  onClick?: () => void;
 }
 
-export const AddButton = ({ title }: Props) => (
-  <StyledAddButton className="flex items-center gap-1">
+export const AddButton = ({ title, onClick }: Props) => (
+  <StyledAddButton className="flex items-center gap-1" onClick={onClick}>
     <BiPlus size={14} />
     {title}
   </StyledAddButton>

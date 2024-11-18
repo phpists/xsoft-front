@@ -1,12 +1,22 @@
 import styled from "styled-components";
 import { Tag } from "../../../../../components/Tag";
 
-export const Tags = () => (
+interface Props {
+  tags: string[];
+  onChange: (val: string[]) => void;
+}
+
+export const Tags = ({ tags = [], onChange }: Props) => (
   <StyledTags>
     <div className="label">Теги:</div>
-    <div className="flex items-center gap-1">
-      <Tag title="постійний" />
-      <Tag title="VIP" />
+    <div className="flex flex-wrap items-center gap-1">
+      {tags?.map((t, i) => (
+        <Tag
+          key={i}
+          title={t}
+          onDelete={() => onChange(tags?.filter((t, j) => i !== j))}
+        />
+      ))}
     </div>
   </StyledTags>
 );

@@ -5,7 +5,7 @@ interface Props {
 }
 
 export const IconCard = ({ Icon }: Props) => (
-  <StyledIconCard className="flex items-center justify-center">
+  <StyledIconCard className="flex items-center justify-center input-icon-card-wrapper">
     <Icon />
   </StyledIconCard>
 );

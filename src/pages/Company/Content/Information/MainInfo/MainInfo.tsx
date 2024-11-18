@@ -11,10 +11,11 @@ export const MainInfo = () => (
     <Select
       label="Категорія"
       options={[
-        { title: "Категорія 1", value: "Категорія" },
-        { title: "Категорія 2", value: "Категорія" },
+        { title: "Барбершоп", value: "1" },
+        { title: "Магазин", value: "2" },
       ]}
       className="max-w-[345px]"
+      value="1"
     />
   </StyledMainInfo>
 );

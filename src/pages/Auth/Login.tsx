@@ -6,16 +6,33 @@ import { Button } from "./Button";
 import { Link } from "./Link";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { checkEmailValidation } from "../../helpers";
+import { checkEmailValidation, showMessage } from "../../helpers";
+import { useLazyLoginQuery } from "../../store/auth/auth.api";
+import { useActions } from "../../hooks/actions";
 
 export const Login = () => {
   const [data, setData] = useState({ login: "", password: "" });
+  const [login] = useLazyLoginQuery();
   const navigate = useNavigate();
+  const { loginUser } = useActions();
 
   const handleChangeField = (field: string, val: string) =>
     setData({ ...data, [field]: val });
 
-  const handleLogin = () => {};
+  const handleLogin = () => {
+    login(data).then((resp: any) => {
+      if (resp.isError) {
+        showMessage(
+          "error",
+          resp?.error?.data?.message ?? "Помилка авторизації"
+        );
+      } else {
+        localStorage.setItem("token", resp?.data.response.access_token);
+        loginUser(resp?.data.response?.user);
+        navigate("/");
+      }
+    });
+  };
 
   return (
     <StyledLogin className="flex items-center justify-center">

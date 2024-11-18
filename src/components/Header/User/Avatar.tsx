@@ -1,15 +1,30 @@
 import styled from "styled-components";
 import avatar from "../../../assets/avatar.png";
 
-export const Avatar = () => <StyledAvatar avatar={avatar} />;
+interface Props {
+  firstName: string;
+  lastName: string;
+}
+
+export const Avatar = ({ firstName, lastName }: Props) => (
+  <StyledAvatar className="flex items-center justify-center gap-[1px]">
+    {firstName[0]}
+    <span>{lastName[0]}</span>
+  </StyledAvatar>
+);
 
 interface StyledAvatarProps {
-  avatar: string;
+  avatar?: string;
 }
 
 const StyledAvatar = styled.div<StyledAvatarProps>`
   width: 32px;
   height: 32px;
   border-radius: 100%;
-  background: url(${({ avatar }) => avatar}) center/cover no-repeat;
+  background: url(${({ avatar }) => avatar}) center/cover no-repeat, #2eb062;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 14px;
+  text-align: left;
+  color: #ffffff;
 `;

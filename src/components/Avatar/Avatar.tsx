@@ -1,13 +1,31 @@
 import styled from "styled-components";
+import { Download } from "./Download";
 
 interface Props {
   size?: number;
   className?: string;
+  download?: boolean;
+  firstName?: string;
+  lastName?: string;
+  color?: string;
 }
 
-export const Avatar = ({ size = 24, className }: Props) => (
-  <StyledAvatar size={size} className={className}>
-    ОМ
+export const Avatar = ({
+  size = 24,
+  className,
+  download,
+  firstName = "О",
+  lastName = "М",
+  color = "#2eb062",
+}: Props) => (
+  <StyledAvatar
+    size={size}
+    className={`${className}`}
+    style={{ background: color }}
+  >
+    {firstName[0]}
+    {lastName[0]}
+    {download && <Download />}
   </StyledAvatar>
 );
 
@@ -29,4 +47,6 @@ const StyledAvatar = styled.div<StyledAvatarProps>`
   color: #ffffff;
   background: #2eb062;
   flex-shrink: 0;
+  position: relative;
+  text-transform: uppercase;
 `;

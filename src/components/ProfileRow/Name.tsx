@@ -1,7 +1,11 @@
 import styled from "styled-components";
 
-export const Name = () => (
-  <StyledName title="Ольга Михайлова">Ольга Михайлова</StyledName>
+interface Props {
+  title?: string;
+}
+
+export const Name = ({ title = "Ольга Михайлова" }: Props) => (
+  <StyledName title={title}>{title}</StyledName>
 );
 
 const StyledName = styled.div`

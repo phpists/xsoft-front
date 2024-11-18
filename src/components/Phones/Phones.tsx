@@ -1,17 +1,22 @@
 import styled from "styled-components";
 import { Icon } from "./Icon";
 import { Phone } from "./Phone";
-import { BiChevronDown, BiChevronRight } from "react-icons/bi";
+import { BiChevronDown } from "react-icons/bi";
 import { Dropdown } from "./Dropdown";
+import { IPhone } from "../PhonesInput/PhonesInput";
 
-export const Phones = () => (
+interface Props {
+  phone?: IPhone;
+}
+
+export const Phones = ({ phone }: Props) => (
   <StyledPhones className="flex items-center w-full relative">
     <Icon />
     <div className="content flex items-center justify-between px-2.5 w-full">
-      <Phone />
+      <Phone phone={phone?.phone ?? ""} />
       <BiChevronDown className="arrow" />
     </div>
-    <Dropdown />
+    <Dropdown phone={phone} />
   </StyledPhones>
 );
 
