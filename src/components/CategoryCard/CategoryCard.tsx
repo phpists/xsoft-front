@@ -5,7 +5,7 @@ import { useState } from "react";
 
 export interface Option {
   title: string;
-  value: string;
+  value: string | number;
 }
 
 interface Props {
@@ -17,6 +17,9 @@ interface Props {
   onClick?: () => void;
   editable?: boolean;
   onDelete?: () => void;
+  value?: string | number;
+  onChange?: (val: string | number) => void;
+  onEdit?: () => void;
 }
 
 export const CategoryCard = ({
@@ -28,17 +31,17 @@ export const CategoryCard = ({
   onClick,
   editable,
   onDelete,
+  value,
+  onChange,
+  onEdit,
 }: Props) => {
-  const [open, setOpen] = useState(false);
-
   return (
     <StyledCategoryCard
-      className={` ${className} ${open && "open"} ${active && "active"}`}
+      className={` ${className} ${active && "open"} ${active && "active"}`}
     >
       <button
         className="flex items-center justify-between"
         onClick={() => {
-          setOpen(!open);
           onClick && onClick();
         }}
       >
@@ -47,7 +50,7 @@ export const CategoryCard = ({
         </div>
         <div className="flex items-center gap-2">
           {editable ? (
-            <BiEdit size={20} />
+            <BiEdit size={20} onClick={onEdit} />
           ) : (
             options && (
               <>
@@ -66,7 +69,9 @@ export const CategoryCard = ({
           ) : null}
         </div>
       </button>
-      {open && options ? <Dropdown options={options} /> : null}
+      {active && options ? (
+        <Dropdown options={options} value={value} onChange={onChange} />
+      ) : null}
     </StyledCategoryCard>
   );
 };
@@ -93,7 +98,7 @@ const StyledCategoryCard = styled.div`
 
   &.active {
     button {
-      background: #e6e6e6;
+      background: #d3d2d2;
     }
   }
   &.open {

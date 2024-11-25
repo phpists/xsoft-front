@@ -40,7 +40,10 @@ export const Row = ({
   return (
     <>
       <Checkbox checked={selected} onClick={onSelect} className={className} />
-      <StyledRow className={className}>
+      <StyledRow
+        className={`cursor-pointer ${className}`}
+        onClick={() => navigate(`/product/${id}`)}
+      >
         <div className="flex items-center gap-2">
           <Avatar color={color} firstName={title?.[0]} lastName={title?.[1]} />
           <span>{title}</span>

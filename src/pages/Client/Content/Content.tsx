@@ -155,8 +155,10 @@ export const Content = () => {
       if (data?.media?.length > 0 && id) {
         await handleSaveMedia(id);
         showMessage("success", "Дані успішно збережено");
+        navigate("/clients");
       } else {
         showMessage("success", "Дані успішно збережено");
+        navigate("/clients");
       }
     });
   };

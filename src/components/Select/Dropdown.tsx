@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Option } from "./Select";
 import { Button } from "../Button";
 import { BiCheck } from "react-icons/bi";
+import { Avatar } from "../Avatar/Avatar";
 
 interface Props {
   options: Option[];
@@ -40,7 +41,7 @@ export const Dropdown = ({
     <StyledDropdown className="dropdown">
       <span className="options-wrapper">
         {options?.length > 0 ? (
-          options?.map(({ title, value }, i) => (
+          options?.map(({ title, value, showAvatar, subtitle }, i) => (
             <div
               key={i}
               onClick={() =>
@@ -48,13 +49,26 @@ export const Dropdown = ({
                   ? handleChangeMultiselect(value)
                   : onChange && onChange(value)
               }
-              className={`flex items-center justify-between ${
+              className={`flex items-center justify-between option ${
                 Array.isArray(multiselectValue) &&
                 multiselectValue?.find((v) => v === value) &&
                 "active"
               }`}
             >
-              {title}{" "}
+              <div className="flex items-center">
+                {showAvatar ? (
+                  <Avatar
+                    size={24}
+                    firstName={title?.split(" ")?.[0]}
+                    lastName={title?.split(" ")?.[1]}
+                    className="mr-2"
+                  />
+                ) : null}
+                {title}{" "}
+                {subtitle ? (
+                  <div className="subtitle ml-1"> - {subtitle}</div>
+                ) : null}
+              </div>
               {multiselectValue &&
               multiselectValue?.find((v: string | number) => v === value) ? (
                 <BiCheck />
@@ -92,13 +106,16 @@ const StyledDropdown = styled.div`
   flex-direction: column;
   gap: 5px;
   overflow: auto;
+  max-height: 250px;
   .options-wrapper {
+    display: flex;
     flex-direction: column;
     gap: 5px;
     max-height: 300px;
     overflow: auto;
   }
-  div {
+
+  .option {
     font-size: 14px;
     font-weight: 400;
     line-height: 19.6px;

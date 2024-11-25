@@ -1,10 +1,15 @@
 import { BiTrash } from "react-icons/bi";
 import styled from "styled-components";
 
-export const Header = () => (
+interface Props {
+  onDelete: () => void;
+  number: number;
+}
+
+export const Header = ({ onDelete, number }: Props) => (
   <StyledHeader className="flex items-center justify-between">
-    <span>Філія </span>
-    <button>
+    <span>Філія {number}</span>
+    <button onClick={onDelete}>
       <BiTrash size={20} />
     </button>
   </StyledHeader>

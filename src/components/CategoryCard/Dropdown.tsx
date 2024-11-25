@@ -3,12 +3,18 @@ import { Option } from "./CategoryCard";
 
 interface Props {
   options?: Option[];
+  value?: string | number;
+  onChange?: (val: string | number) => void;
 }
 
-export const Dropdown = ({ options }: Props) => (
+export const Dropdown = ({ options, value, onChange }: Props) => (
   <StyledDropdown className="dropdown flex flex-col gap-1">
-    {options?.map(({ title, value }, i) => (
-      <div key={i} className={i === 0 ? "active" : ""}>
+    {options?.map(({ title, value: v }, i) => (
+      <div
+        key={i}
+        className={v === value ? "active" : ""}
+        onClick={() => onChange && onChange(v)}
+      >
         {title}
       </div>
     ))}

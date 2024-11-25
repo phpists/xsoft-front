@@ -66,17 +66,17 @@ export const Sidebar = ({ category, onChangeCategory }: Props) => {
         <CategoryCard
           title="Послуги"
           Icon={<BiCut size={20} />}
-          className="mb-2"
+          className="mb-2 notActive"
         />{" "}
         <CategoryCard
           title="Аналітика"
           Icon={<BiPieChartAlt2 size={20} />}
-          className="mb-2"
+          className="mb-2 notActive"
         />{" "}
         <CategoryCard
           title="Налаштування"
           Icon={<BiCog size={20} />}
-          className="mb-2"
+          className="mb-2 notActive"
         />
       </div>
     </div>

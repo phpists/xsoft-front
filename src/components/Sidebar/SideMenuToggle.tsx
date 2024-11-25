@@ -35,6 +35,7 @@ const StyledSideMenuToggle = styled.button`
   transition: all 0.3s;
   visibility: hidden;
   opacity: 0;
+  z-index: 11;
   &.active {
     left: calc(100% + -30px);
     visibility: visible;

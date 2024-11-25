@@ -12,6 +12,7 @@ interface Props {
   onChange?: (val: string | number) => void;
   error?: boolean;
   onSuccessfulAdCategory?: () => void;
+  className?: string;
 }
 
 export const CategorySelect = ({
@@ -22,11 +23,12 @@ export const CategorySelect = ({
   onChange,
   error,
   onSuccessfulAdCategory,
+  className,
 }: Props) => {
   const [modal, setModal] = useState(false);
 
   return (
-    <StyledCategorySelect>
+    <StyledCategorySelect className={className}>
       {modal && (
         <CategoryModal
           onClose={() => setModal(false)}

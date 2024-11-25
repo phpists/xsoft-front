@@ -38,10 +38,17 @@ export const products = createApi({
       },
     }),
     getProducts: build.query({
-      query: ({ perPage = 30, page = 1, sortBy, q, sortDesc }) => ({
+      query: ({
+        perPage = 30,
+        page = 1,
+        sortBy,
+        q,
+        sortDesc,
+        category_id,
+      }) => ({
         url: "/product/get-products",
         method: "GET",
-        params: { perPage, page, sortBy, q, sortDesc },
+        params: { perPage, page, sortBy, q, sortDesc, category_id },
         headers: headers(),
       }),
       transformResponse: (resp: ProductsResoponse): ProductsResponseData => {

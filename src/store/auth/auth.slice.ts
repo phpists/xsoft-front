@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 interface IState {
   user: {
     id: number;
+    parent_id: any;
     category_id: any;
     role_id: number;
     first_name: string;
@@ -15,7 +16,26 @@ interface IState {
     comment: any;
     created_at: string;
     updated_at: string;
-    media: any[];
+    media: Array<any>;
+    tags: any;
+    company: {
+      id: number;
+      title: string;
+      user_id: number;
+      color: string;
+      category_id: number;
+      created_at: string;
+      branches: Array<{
+        id: number;
+        company_id: number;
+        location: string;
+        phones: Array<{
+          phone: string;
+          type_id: Array<number>;
+        }>;
+        created_at: string;
+      }>;
+    };
   } | null;
 }
 

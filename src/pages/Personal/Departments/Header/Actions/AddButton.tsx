@@ -4,7 +4,7 @@ import { Button } from "../../../../../components/Button";
 import { NavLink } from "react-router-dom";
 
 export const AddButton = () => (
-  <StyledAddButton to="/pesonal">
+  <StyledAddButton to="/department">
     <Button title="Додати відділ" Icon={<BiPlus />} />
   </StyledAddButton>
 );

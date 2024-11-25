@@ -14,6 +14,11 @@ export const Content = () => {
   const [sortDesc, setSortDesc] = useState(false);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<number | undefined>(
+    undefined
+  );
+
+  const handleSelectCategory = (val?: number) => setSelectedCategory(val);
 
   const handleSelect = (id: number) =>
     setSelected(
@@ -33,7 +38,12 @@ export const Content = () => {
 
   const handleGetClients = () => {
     setLoading(true);
-    getProducts({ sortBy, q: search, sortDesc }).then((resp) => {
+    getProducts({
+      sortBy,
+      q: search,
+      sortDesc,
+      category_id: selectedCategory,
+    }).then((resp) => {
       setData(resp?.data?.data ?? []);
       setLoading(false);
     });
@@ -41,7 +51,7 @@ export const Content = () => {
 
   useEffect(() => {
     handleGetClients();
-  }, [sortBy, search, sortDesc]);
+  }, [sortBy, search, sortDesc, selectedCategory]);
 
   const handleDelete = (ids: number[], clearSelected?: boolean) => {
     setData(data?.filter((c) => !ids.includes(c.id)));
@@ -52,7 +62,10 @@ export const Content = () => {
     <StyledContent>
       <Header search={search} onSearch={handleSearch} />
       <div className="flex w-full gap-2">
-        <Categories />
+        <Categories
+          selected={selectedCategory}
+          onSelect={handleSelectCategory}
+        />
         <ProductsTable
           selected={selected}
           onSelect={handleSelect}

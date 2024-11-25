@@ -17,11 +17,23 @@ import { useLazyGetUserQuery } from "./store/auth/auth.api";
 import { useEffect } from "react";
 import { useActions } from "./hooks/actions";
 import { Items } from "./pages/Items/Items";
+import { Supplier } from "./pages/Supplier/Supplier";
+import { Resource } from "./pages/Resource/Resource";
+import { Department } from "./pages/Department/Department";
+import { useLazyGetCompaniesQuery } from "./store/companies/companies.api";
+import { PersonalProfile } from "./pages/PersonalProfile/PersonalProfile";
 
 function App() {
   const { user } = useAppSelect((state) => state.auth);
   const [getUser] = useLazyGetUserQuery();
-  const { loginUser } = useActions();
+  const { loginUser, onSaveCompanies, onSelectCompany } = useActions();
+  const { selectedCompany } = useAppSelect((state) => state.app);
+  const [getCompanies] = useLazyGetCompaniesQuery({});
+  const { companies } = useAppSelect((state) => state.companies);
+
+  const handleGetCompanies = () => {
+    getCompanies({}).then((resp) => onSaveCompanies(resp?.data ?? []));
+  };
 
   useEffect(() => {
     if (!user && localStorage.getItem("token")) {
@@ -30,16 +42,31 @@ function App() {
           ? localStorage.removeItem("token")
           : loginUser(resp?.data.response)
       );
+      handleGetCompanies();
     }
   }, []);
+
+  useEffect(() => {
+    if (companies) {
+      if (!companies?.find((c) => c.id?.toString() === selectedCompany)) {
+        onSelectCompany(undefined);
+      }
+    }
+  }, [companies]);
+
+  useEffect(() => {
+    if (user) {
+      onSelectCompany(user?.company?.id?.toString());
+    }
+  }, [user]);
 
   if (!localStorage.getItem("token") && !user) {
     return <Auth />;
   }
 
   return (
-    <StyledApp>
-      <Sidebar />
+    <StyledApp className={`${selectedCompany && "company-selected"}`}>
+      {selectedCompany ? <Sidebar /> : null}
       <div>
         <Routes>
           <Route path="/clients" element={<Clients />} />
@@ -52,7 +79,13 @@ function App() {
           <Route path="/storage" element={<Storage />} />
           <Route path="/" element={<Home />} />
           <Route path="/company" element={<Company />} />
+          <Route path="/company/:id" element={<Company />} />
           <Route path="/pesonal" element={<Personal />} />
+          <Route path="/pesonal-profile" element={<PersonalProfile />} />
+          <Route path="/pesonal-profile/:id" element={<PersonalProfile />} />
+          <Route path="/supplier" element={<Supplier />} />
+          <Route path="/resource" element={<Resource />} />
+          <Route path="/department" element={<Department />} />
           <Route
             path="/*"
             element={
@@ -69,9 +102,12 @@ function App() {
 
 const StyledApp = styled.div`
   display: grid;
-  grid-template-columns: max-content 1fr;
+  grid-template-columns: 1fr;
   height: 100vh;
   background: #efefef;
   opacity: auto;
+  &.company-selected {
+    grid-template-columns: max-content 1fr;
+  }
 `;
 export default App;

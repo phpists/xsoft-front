@@ -44,6 +44,15 @@ export const Sidebar = ({ category, onChangeCategory }: Props) => {
           title="Обіг товарів"
           Icon={<BiUser size={20} />}
           className="mb-[34px]"
+          active={[4, 5, 6, 7].includes(category)}
+          onClick={() => onChangeCategory(4)}
+          options={[
+            { title: "Продаж товару", value: 5 },
+            { title: "Списання товару", value: 6 },
+            { title: "Прихід товару", value: 7 },
+          ]}
+          value={category}
+          onChange={(val: string | number) => onChangeCategory(Number(val))}
         />
         <CategoryCard
           title="Каталог товарів"
@@ -69,21 +78,25 @@ export const Sidebar = ({ category, onChangeCategory }: Props) => {
         <CategoryCard
           title="Сертифікати"
           Icon={<BiIdCard size={20} />}
-          className="mb-3.5"
+          className="mb-3.5 notActive"
         />{" "}
         <CategoryCard
           title="Абонементи"
           Icon={<BiIdCard size={20} />}
-          className="mb-3.5"
+          className="mb-3.5 notActive"
         />
       </div>
       <div>
         <CategoryCard
           title="Аналітика"
           Icon={<BiPieChartAlt2 size={20} />}
-          className="mb-2"
+          className="mb-2 notActive"
         />
-        <CategoryCard title="Налаштування" Icon={<BiCog size={20} />} />
+        <CategoryCard
+          title="Налаштування"
+          Icon={<BiCog size={20} />}
+          className="notActive"
+        />
       </div>
     </div>
   );

@@ -12,34 +12,39 @@ import {
 import { Confirm } from "../../../components/Confirm";
 import { showMessage } from "../../../helpers";
 
-export const Categories = () => {
+interface Props {
+  selected?: number;
+  onSelect: (val?: number) => void;
+}
+
+export const Categories = ({ selected, onSelect }: Props) => {
   const [modal, setModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const { data, refetch } = useGetProductInfoQuery({});
-  const [selected, setSelected] = useState<
+  const [selectedCategory, setSelectedCategory] = useState<
     { title: string; id: number } | undefined
   >(undefined);
   const [deleteCategory] = useLazyDeleteCategoryQuery();
 
   const handleSelectCategory = (category: { title: string; id: number }) => {
-    setSelected(category);
+    setSelectedCategory(category);
     setModal(true);
   };
 
   const handleClose = () => {
-    setSelected(undefined);
+    setSelectedCategory(undefined);
     setModal(false);
     setDeleteModal(false);
   };
 
   const handleOpenDeleteModal = (category: { title: string; id: number }) => {
-    setSelected(category);
+    setSelectedCategory(category);
     setDeleteModal(true);
   };
 
   const handleDelete = () => {
-    if (selected) {
-      deleteCategory(selected.id).then((resp) => {
+    if (selectedCategory) {
+      deleteCategory(selectedCategory.id).then((resp) => {
         if (resp.isError) {
           showMessage("error", "Помилка видалення категорії");
         } else {
@@ -66,7 +71,7 @@ export const Categories = () => {
         <CategoryModal
           onClose={handleClose}
           onSucess={() => refetch()}
-          category={selected}
+          category={selectedCategory}
         />
       )}
       <Title title="Категорії товару" />
@@ -81,8 +86,10 @@ export const Categories = () => {
               Icon={<BiIdCard size={20} />}
               className="mb-3.5"
               editable
-              onClick={() => handleSelectCategory({ id, title })}
+              onClick={() => onSelect(selected === id ? undefined : id)}
               onDelete={() => handleOpenDeleteModal({ id, title })}
+              onEdit={() => handleSelectCategory({ id, title })}
+              active={selected === id}
             />
           ))
         )}

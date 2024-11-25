@@ -5,6 +5,10 @@ import { useState } from "react";
 import { Content } from "./Content/Content";
 import { Brands } from "./Brands/Brands";
 import { Storages } from "./Storages/Storages";
+import { Suppliers } from "./Suppliers/Suppliers";
+import { Circulation } from "./Circulation/Circulation";
+import { Selling } from "./Selling/Selling";
+import { Arrival } from "./Arrival/Arrival";
 
 export const Items = () => {
   const [selected, setSelected] = useState<number[]>([]);
@@ -33,12 +37,30 @@ export const Items = () => {
             onSelect={handleSelect}
             onSelectAll={handleSelectAll}
           />
+        ) : category === 2 ? (
+          <Suppliers
+            selected={selected}
+            onSelect={handleSelect}
+            onSelectAll={handleSelectAll}
+          />
         ) : category === 3 ? (
           <Storages
             selected={selected}
             onSelect={handleSelect}
             onSelectAll={handleSelectAll}
           />
+        ) : category === 4 ? (
+          <Circulation
+            selected={selected}
+            onSelect={handleSelect}
+            onSelectAll={handleSelectAll}
+          />
+        ) : category === 5 ? (
+          <Selling />
+        ) : category === 6 ? (
+          <Selling off />
+        ) : category === 7 ? (
+          <Arrival />
         ) : null}
       </div>
     </StyledItems>

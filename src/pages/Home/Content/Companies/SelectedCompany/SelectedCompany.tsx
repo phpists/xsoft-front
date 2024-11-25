@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Empty } from "./Empty/Empty";
 
 interface Props {
-  selected: undefined | number;
+  selected: undefined | string;
 }
 
 export const SelectedCompany = ({ selected }: Props) => (

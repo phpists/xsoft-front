@@ -36,6 +36,7 @@ interface Props {
   onPressEnter?: () => void;
   labelActive?: boolean;
   noCheck?: boolean;
+  time?: boolean;
 }
 
 export const Input = ({
@@ -62,6 +63,7 @@ export const Input = ({
   onPressEnter,
   labelActive,
   noCheck,
+  time,
 }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -82,11 +84,11 @@ export const Input = ({
       <StyledInput
         className={`field flex items-center ${inputFocused && "focused"} ${
           error && "error"
-        } ${Icon && "has-icon"} ${className}`}
+        } ${Icon && "has-icon"} ${className} ${calendar && "calendar"}`}
         onClick={() => {
           if (inputRef.current) {
             inputRef.current.focus();
-            calendar && inputRef.current.showPicker();
+            (calendar || time) && inputRef.current.showPicker();
           }
           if (buttonRef.current) {
             buttonRef.current.focus();
@@ -113,7 +115,9 @@ export const Input = ({
             ) : (
               <input
                 value={value}
-                type={calendar ? "date" : number ? "number" : "text"}
+                type={
+                  time ? "time" : calendar ? "date" : number ? "number" : "text"
+                }
                 onChange={(e) =>
                   options ? null : onChange ? onChange(e.target.value) : null
                 }
@@ -146,10 +150,10 @@ export const Input = ({
             </div>
           ) : null}
         </div>
-        {number || options ? (
-          <NumberIcon />
-        ) : sign ? (
+        {sign ? (
           <Sign sign={sign} />
+        ) : number || options ? (
+          <NumberIcon />
         ) : null}
         {RightIcon ? (
           RightIcon
@@ -157,7 +161,8 @@ export const Input = ({
           clearOnBlur ||
           sign ||
           options ||
-          noCheck ? null : value && value?.toString()?.length > 0 ? (
+          noCheck ||
+          time ? null : value && value?.toString()?.length > 0 ? (
           <BiCheck size={16} className="ml-auto mr-2.5" fill="#077D55" />
         ) : null}
         {options && inputFocused ? (
@@ -188,6 +193,15 @@ const StyledInput = styled.div`
       z-index: 1;
     }
   }
+  &.calendar {
+    cursor: pointer;
+    input {
+      cursor: pointer;
+    }
+    input::-webkit-calendar-picker-indicator {
+      cursor: pointer !important;
+    }
+  }
   input {
     height: 20px;
     font-size: 14px;
@@ -202,7 +216,7 @@ const StyledInput = styled.div`
   }
   &.has-icon {
     .label {
-      left: 64px;
+      /* left: 64px; */
     }
   }
   .label {

@@ -21,8 +21,8 @@ export const Files = ({ onAdd, value }: Props) => {
 
     if (files && value && onAdd) {
       for (let i = 0; i < files.length; i++) {
-        const ACCEPTED_TYPES = ["image/png", "image/jpg"];
-        if (ACCEPTED_TYPES.includes(files[i]?.type)) {
+        const ACCEPTED_TYPES = ["image"];
+        if (ACCEPTED_TYPES.includes(files[i]?.type?.split("/")?.[0])) {
           filesList.push({
             file: files[i],
             url: URL.createObjectURL(files[i]),

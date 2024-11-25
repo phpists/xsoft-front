@@ -2,22 +2,17 @@ import styled from "styled-components";
 import { Label } from "./Label";
 import { Select } from "../../../../../../../components/Select/Select";
 
-export const Locations = () => (
+interface Props {
+  locations: string[];
+}
+
+export const Locations = ({ locations }: Props) => (
   <StyledLocations>
     <Label />
     <Select
-      value="1"
-      options={[
-        {
-          title: "вулиця Івана Мазепи, 17, Дрогобич, Львівська область, 82100",
-          value: "1",
-        },
-        {
-          title: "вулиця Івана Мазепи, 17, Дрогобич, Львівська область, 82100",
-          value: "2",
-        },
-      ]}
-      className="!h-[44px]"
+      value={locations?.[0]}
+      options={locations?.map((l) => ({ title: l, value: l }))}
+      className="!h-[44px] locations-list"
       hideArrow
       dropdownTop
       showCount
@@ -27,4 +22,9 @@ export const Locations = () => (
 
 const StyledLocations = styled.div`
   padding: 22px 14px;
+  .locations-list {
+    .value {
+      max-width: calc((100svw / 4) - 124px);
+    }
+  }
 `;

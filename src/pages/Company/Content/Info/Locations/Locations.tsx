@@ -1,22 +1,18 @@
 import styled from "styled-components";
 import { Label } from "./Label";
 import { Select } from "../../../../../components/Select/Select";
+import { ILocation } from "../../Content";
 
-export const Locations = () => (
+interface Props {
+  locations: ILocation[];
+}
+
+export const Locations = ({ locations }: Props) => (
   <StyledLocations>
     <Label />
     <Select
-      value="1"
-      options={[
-        {
-          title: "вулиця Івана Мазепи, 17, Дрогобич, Львівська область, 82100",
-          value: "1",
-        },
-        {
-          title: "вулиця Івана Мазепи, 17, Дрогобич, Львівська область, 82100",
-          value: "2",
-        },
-      ]}
+      value={locations?.[0]?.title}
+      options={locations.map(({ title }) => ({ title, value: title }))}
       className="!h-[44px] bg-white"
       hideArrow
       showCount

@@ -28,11 +28,7 @@ export const Personal = () => {
       <div className="content">
         <Header />{" "}
         {category === 0 ? (
-          <Catalog
-            selected={selected}
-            onSelect={handleSelect}
-            onSelectAll={handleSelectAll}
-          />
+          <Catalog />
         ) : category === 1 ? (
           <Objects
             selected={selected}

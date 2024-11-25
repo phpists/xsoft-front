@@ -7,6 +7,10 @@ import { clientsReducer } from "./clients/clients.slice";
 import { clients } from "./clients/clients.api";
 import { productsReducer } from "./products/products.slice";
 import { products } from "./products/products.api";
+import { companiesReducer } from "./companies/companies.slice";
+import { companies } from "./companies/companies.api";
+import { personalReducer } from "./personal/personal.slice";
+import { personal } from "./personal/personal.api";
 
 export const store = configureStore({
   reducer: {
@@ -17,12 +21,18 @@ export const store = configureStore({
     [clients.reducerPath]: clients.reducer,
     products: productsReducer,
     [products.reducerPath]: products.reducer,
+    companies: companiesReducer,
+    [companies.reducerPath]: companies.reducer,
+    pesonal: personalReducer,
+    [personal.reducerPath]: personal.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(auth.middleware)
       .concat(clients.middleware)
-      .concat(products.middleware),
+      .concat(products.middleware)
+      .concat(companies.middleware)
+      .concat(personal.middleware),
 });
 
 setupListeners(store.dispatch);

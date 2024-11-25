@@ -1,6 +1,12 @@
 import styled from "styled-components";
 
-export const Type = () => <StyledType>Барбершоп</StyledType>;
+interface Props {
+  category?: string;
+}
+
+export const Type = ({ category }: Props) => (
+  <StyledType>{category}</StyledType>
+);
 
 const StyledType = styled.div`
   font-size: 14px;

@@ -1,17 +1,29 @@
 import styled from "styled-components";
-import { Avatar } from "./Avatar";
 import { Title } from "./Title";
 import { Type } from "./Type";
 import { EditButton } from "./EditButton";
+import { Avatar } from "../../../../../../../components/Avatar/Avatar";
 
-export const Header = () => (
+interface Props {
+  title: string;
+  category?: string;
+  color: string;
+  id: number;
+}
+
+export const Header = ({ title, category, color, id }: Props) => (
   <StyledHeader className="flex items-center gap-3.5">
-    <Avatar />
+    <Avatar
+      firstName={title}
+      color={color}
+      size={64}
+      className="!text-[22px]"
+    />
     <div>
-      <Title />
-      <Type />
+      <Title title={title} />
+      <Type category={category} />
     </div>
-    <EditButton />
+    <EditButton id={id} />
   </StyledHeader>
 );
 

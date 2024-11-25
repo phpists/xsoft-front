@@ -42,18 +42,21 @@ const LINKS = [
     Icon: BiMap,
     IconActive: BiSolidMap,
     link: "/filie",
+    className: "notActive",
   },
   {
     title: "Календар",
     Icon: BiCalendar,
     IconActive: BiSolidCalendar,
     link: "/calendar",
+    className: "notActive",
   },
   {
     title: "Фінанси",
     Icon: BiWallet,
     IconActive: BiSolidWallet,
     link: "/finance",
+    className: "notActive",
   },
   {
     title: "Клієнти",
@@ -78,36 +81,42 @@ const LINKS = [
     Icon: BiPieChartAlt2,
     IconActive: BiSolidPieChartAlt2,
     link: "/analitics",
+    className: "notActive",
   },
   {
     title: "Білінг",
     Icon: BiCalculator,
     IconActive: BiSolidCalculator,
     link: "/blling",
+    className: "notActive",
   },
   {
     title: "Налаштування",
     Icon: BiCog,
     IconActive: BiSolidCog,
     link: "/settings",
+    className: "notActive",
   },
   {
     title: "Віджети",
     Icon: BiCategoryAlt,
     IconActive: BiSolidCategoryAlt,
     link: "/widgets",
+    className: "notActive",
   },
   {
     title: "Інтеграції",
     Icon: BiCodeBlock,
     IconActive: BiSolidCodeBlock,
     link: "/intergrations",
+    className: "notActive",
   },
   {
     title: "Пошук",
     Icon: BiSearch,
     IconActive: BiSearch,
     link: "/search",
+    className: "notActive",
   },
 ];
 
@@ -115,19 +124,43 @@ export const NavList = () => {
   return (
     <StyledNavList>
       <div className="links-group">
-        {LINKS?.slice(0, 2)?.map(({ title, link, Icon, IconActive }) => (
-          <Card title={title} link={link} Icon={Icon} IconActive={IconActive} />
-        ))}
+        {LINKS?.slice(0, 2)?.map(
+          ({ title, link, Icon, IconActive, className }) => (
+            <Card
+              title={title}
+              link={link}
+              Icon={Icon}
+              IconActive={IconActive}
+              className={className}
+            />
+          )
+        )}
       </div>
       <div className="links-group">
-        {LINKS?.slice(2, 9)?.map(({ title, link, Icon, IconActive }) => (
-          <Card title={title} link={link} Icon={Icon} IconActive={IconActive} />
-        ))}
+        {LINKS?.slice(2, 9)?.map(
+          ({ title, link, Icon, IconActive, className }) => (
+            <Card
+              title={title}
+              link={link}
+              Icon={Icon}
+              IconActive={IconActive}
+              className={className}
+            />
+          )
+        )}
       </div>
       <div className="links-group">
-        {LINKS?.slice(9)?.map(({ title, link, Icon, IconActive }) => (
-          <Card title={title} link={link} Icon={Icon} IconActive={IconActive} />
-        ))}
+        {LINKS?.slice(9)?.map(
+          ({ title, link, Icon, IconActive, className }) => (
+            <Card
+              title={title}
+              link={link}
+              Icon={Icon}
+              IconActive={IconActive}
+              className={className}
+            />
+          )
+        )}
       </div>
     </StyledNavList>
   );

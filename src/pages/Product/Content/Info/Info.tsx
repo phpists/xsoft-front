@@ -25,12 +25,12 @@ export const Info = ({
   files,
   onChangeFiles,
 }: Props) => {
-  const { id } = useParams();
+  const { id: productId } = useParams();
   const [deleteProductMedia] = useLazyDeleteProductMediaQuery();
 
   const handleDeleteMedia = (index: number, id?: number) => {
     if (id) {
-      deleteProductMedia({ id, product_id: id }).then((resp) => {
+      deleteProductMedia({ id, product_id: productId }).then((resp) => {
         if (resp.isError) {
           showMessage("error", "Помилка видалення");
         } else {

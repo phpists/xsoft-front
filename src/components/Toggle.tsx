@@ -10,7 +10,7 @@ export const Toggle = ({ label }: Props) => {
 
   return (
     <StyledToggle
-      className={`flex items-center ${active && "active"}`}
+      className={`flex items-center gap-3.5 ${active && "active"}`}
       onClick={() => setActive(!active)}
     >
       {label ? <div className="mr-auto">{label}</div> : null}

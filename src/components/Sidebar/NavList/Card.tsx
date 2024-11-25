@@ -6,10 +6,11 @@ interface Props {
   link: string;
   Icon: any;
   IconActive: any;
+  className?: string;
 }
 
-export const Card = ({ title, link, Icon, IconActive }: Props) => (
-  <StyledCard to={link} title={title}>
+export const Card = ({ title, link, Icon, IconActive, className }: Props) => (
+  <StyledCard to={link} title={title} className={className}>
     <Icon />
     <IconActive className="active" />
     <div>{title}</div>

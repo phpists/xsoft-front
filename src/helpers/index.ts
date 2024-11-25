@@ -29,3 +29,16 @@ export const formatInputDate = (str: string) => {
     return str;
   }
 };
+
+export const addZero = (num: number) => `${num >= 10 ? "" : "0"}${num}`;
+
+export const getMonthDays = (d: Date): string[] => {
+  const year = d.getFullYear();
+  const month = d.getMonth();
+  const lastDayCurrentMonth = new Date(year, month + 1, 0).getDate();
+  let updatedDays = [];
+  for (let i = 1; i <= lastDayCurrentMonth; i++) {
+    updatedDays.push(`${year}-${addZero(month + 1)}-${addZero(i)}`);
+  }
+  return updatedDays;
+};

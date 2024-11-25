@@ -1,30 +1,49 @@
 import styled from "styled-components";
 import { Header } from "./Header";
-import { PhonesInput } from "../../../../../../components/PhonesInput/PhonesInput";
-import { Select } from "../../../../../../components/Select/Select";
+import {
+  IPhone,
+  PhonesInput,
+} from "../../../../../../components/PhonesInput/PhonesInput";
 import { BiMap } from "react-icons/bi";
+import { Input } from "../../../../../../components/Input/Input";
 
-export const Card = () => (
+interface Props {
+  title: string;
+  onDelete: () => void;
+  phones: IPhone[];
+  onChangePhones: (phones: IPhone[]) => void;
+  number: number;
+  name: string;
+  onChangeName: (val: string | number) => void;
+  onEditMap: () => void;
+}
+
+export const Card = ({
+  title,
+  onDelete,
+  phones,
+  onChangePhones,
+  number,
+  name,
+  onChangeName,
+  onEditMap,
+}: Props) => (
   <StyledCard>
-    <Header />
-    {/* <PhonesInput /> */}
-    <Select
+    <Header onDelete={onDelete} number={number} />
+    <Input
+      label="Назва"
+      value={name}
+      onChange={onChangeName}
+      className="!max-w-[490px] mb-3.5 bg-white"
+    />
+    <PhonesInput data={phones} onChange={onChangePhones} />
+    <Input
       label="Адреса"
-      value="1"
-      options={[
-        {
-          title: "вул Івана Мазепи, 17, Дрогобич, Львівська область, 82100",
-          value: "1",
-        },
-        {
-          title: "вул Івана Мазепи, 18, Дрогобич, Львівська область, 82100",
-          value: "2",
-        },
-      ]}
-      hideArrow
-      Icon={<BiMap size={20} />}
+      value={title}
+      Icon={BiMap}
       className="!max-w-[490px] mt-3.5 bg-white"
-      search
+      noCheck
+      onFocus={onEditMap}
     />
   </StyledCard>
 );

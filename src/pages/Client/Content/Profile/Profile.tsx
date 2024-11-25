@@ -27,6 +27,8 @@ export const Profile = ({ data, onChange, onSave, loading, errors }: Props) => (
       onChange={(val) => onChange("color", val)}
       tags={data?.tags}
       onChangeTags={(val: string[]) => onChange("tags", val)}
+      onSave={onSave}
+      loading={loading}
     />
     <PersonalData data={data} onChange={onChange} errors={errors} />
     <Divider />
@@ -42,13 +44,6 @@ export const Profile = ({ data, onChange, onSave, loading, errors }: Props) => (
     <Files
       onAdd={(val: MediaFile[]) => onChange("media", val)}
       value={data?.media}
-    />
-    <Button
-      title="Зберегти зміни"
-      className="!w-[155px] ml-auto"
-      onClick={onSave}
-      disabled={loading}
-      loading={loading}
     />
   </StyledProfile>
 );

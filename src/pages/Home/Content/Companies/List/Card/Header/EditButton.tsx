@@ -2,8 +2,12 @@ import { BiPencil } from "react-icons/bi";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
-export const EditButton = () => (
-  <StyledEditButton to="/company">
+interface Props {
+  id: number;
+}
+
+export const EditButton = ({ id }: Props) => (
+  <StyledEditButton to={`/company/${id}`} onClick={(e) => e.stopPropagation()}>
     <BiPencil size={20} />
   </StyledEditButton>
 );

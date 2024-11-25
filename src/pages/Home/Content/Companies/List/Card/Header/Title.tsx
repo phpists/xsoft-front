@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-export const Title = () => <StyledTitle>XBARBER</StyledTitle>;
+interface Props {
+  title: string;
+}
+
+export const Title = ({ title }: Props) => <StyledTitle>{title}</StyledTitle>;
 
 const StyledTitle = styled.div`
   font-size: 16px;

@@ -37,13 +37,16 @@ export const Row = ({
   return (
     <>
       <Checkbox checked={selected} onClick={onSelect} className={className} />
-      <ProfileRow
-        className={className}
-        firstName={firstName}
-        lastName={lastName}
-        color={color}
-        id={id}
-      />
+      <div onClick={() => navigate(`/client/${id}`)} className="cursor-pointer">
+        {" "}
+        <ProfileRow
+          className={className}
+          firstName={firstName}
+          lastName={lastName}
+          color={color}
+          id={id}
+        />
+      </div>
       <PhoneRow className={className} phone={phone} />
       {/* <StyledRow className={className}>bluecloud8765@gmail.com</StyledRow> */}
       <StyledRow className={className}>{comment}</StyledRow>

@@ -5,10 +5,13 @@ import { IconCard } from "./IconCard";
 import { Input } from "../Input/Input";
 import { useState } from "react";
 import { Count } from "./Count";
+import { Avatar } from "../Avatar/Avatar";
 
 export interface Option {
   title: string;
   value: string | number;
+  subtitle?: string;
+  showAvatar?: boolean;
 }
 
 interface Props {
@@ -29,6 +32,9 @@ interface Props {
   multiselect?: boolean;
   multiselectValue?: string[] | number[];
   onChangeMultiselect?: (val: string[] | number[]) => void;
+  showLabel?: boolean;
+  rightIcon?: boolean;
+  component?: any;
 }
 
 export const Select = ({
@@ -49,6 +55,9 @@ export const Select = ({
   multiselect,
   multiselectValue,
   onChangeMultiselect,
+  showLabel,
+  rightIcon,
+  component,
 }: Props) => {
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
@@ -83,7 +92,7 @@ export const Select = ({
       onFocus={handleFocusInput}
     >
       <div className="flex items-center gap-2">
-        {Icon ? <IconCard Icon={Icon} /> : null}
+        {Icon ? <IconCard Icon={Icon} rightIcon={rightIcon} /> : null}
         {showCount ? <Count count={options?.length} /> : null}
         {search && open ? (
           <Input
@@ -103,8 +112,35 @@ export const Select = ({
               ?.join(",")}
           </div>
         ) : value ? (
-          <div className="value">
-            {options.find((opt) => opt.value === value)?.title}
+          <div className="value flex items-center">
+            {options.find((opt) => opt.value === value)?.showAvatar ? (
+              <Avatar
+                size={24}
+                firstName={
+                  options
+                    .find((opt) => opt.value === value)
+                    ?.title?.split(" ")?.[0]
+                }
+                lastName={
+                  options
+                    .find((opt) => opt.value === value)
+                    ?.title?.split(" ")?.[1]
+                }
+                className="mr-2"
+              />
+            ) : null}
+            <div>
+              {showLabel ? <div className="label mb2">{label}</div> : null}
+              <div className="flex">
+                {options.find((opt) => opt.value === value)?.title ?? value}
+              </div>
+            </div>
+            {options.find((opt) => opt.value === value)?.subtitle ? (
+              <div className="subtitle ml-1">
+                {" "}
+                - {options.find((opt) => opt.value === value)?.subtitle}
+              </div>
+            ) : null}
           </div>
         ) : label ? (
           <span className="label">{label}</span>
@@ -112,7 +148,10 @@ export const Select = ({
           ""
         )}
       </div>
-      {hideArrow ? null : <BiSolidChevronDown className="arrow" />}
+      <div className="flex items-center gap-3.5">
+        {component}
+        {hideArrow ? null : <BiSolidChevronDown className="arrow" />}
+      </div>
       <Dropdown
         options={options?.filter((opt) =>
           searchValue?.length > 0
@@ -157,7 +196,6 @@ const StyledSelect = styled.button`
   .dropdown {
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s;
   }
   &:focus,
   &.open {
@@ -165,6 +203,9 @@ const StyledSelect = styled.button`
       opacity: 1;
       visibility: visible;
     }
+  }
+  .label {
+    color: #989898;
   }
   .search-input-wrapper {
     border: none !important;
@@ -191,11 +232,24 @@ const StyledSelect = styled.button`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    .label {
+      font-size: 10px;
+      font-weight: 500;
+      line-height: 14px;
+      letter-spacing: 0.02em;
+      color: #737373;
+    }
   }
   &.dropdownTop {
     .dropdown {
       bottom: 100%;
       top: unset;
     }
+  }
+  .subtitle {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 19.6px;
+    color: #737373;
   }
 `;

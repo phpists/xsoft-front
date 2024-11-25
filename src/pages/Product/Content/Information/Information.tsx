@@ -51,21 +51,22 @@ export const Information = ({
       onRefreshProductInfo={onRefreshProductInfo}
     />
     <Divider />
-    <Selling
-      data={data}
-      onChange={onChange}
-      productInfo={productInfo}
-      errors={errors}
-    />
-    <Divider />
-    {/* <Materials data={data} onChange={onChange} productInfo={productInfo} />
+    <div>
+      <Selling
+        data={data}
+        onChange={onChange}
+        productInfo={productInfo}
+        errors={errors}
+      />
+      {/* <Materials data={data} onChange={onChange} productInfo={productInfo} />
     <Divider /> */}
-    <Availability
-      data={data}
-      onChange={onChange}
-      productInfo={productInfo}
-      errors={errors}
-    />
+      <Availability
+        data={data}
+        onChange={onChange}
+        productInfo={productInfo}
+        errors={errors}
+      />
+    </div>
     <Divider />
     <Files value={files} onAdd={onChangeFiles} />
   </StyledInformation>
@@ -77,4 +78,9 @@ const StyledInformation = styled.div`
   display: flex;
   flex-direction: column;
   gap: 34px;
+  .vendors-select {
+    .value {
+      max-width: 300px;
+    }
+  }
 `;

@@ -126,6 +126,7 @@ export const Content = () => {
       if (!resp.isError) {
         await handleSaveMedia(id ?? "");
         showMessage("success", "Товар успішно збережено");
+        navigate("/items");
       } else {
         showMessage("error", resp?.error.data.message);
       }

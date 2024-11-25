@@ -20,7 +20,7 @@ export const Availability = ({
   errors,
 }: Props) => (
   <div>
-    <SectionTitle title="Наявність товару" />
+    {/* <SectionTitle title="Наявність товару" /> */}
     {/* <Select
       label={"Склад"}
       options={
@@ -39,7 +39,7 @@ export const Availability = ({
           value: id,
         })) ?? []
       }
-      className="!max-w-[474px] mb-3.5"
+      className="!max-w-[474px] mb-3.5 vendors-select"
       multiselect
       multiselectValue={data.vendors}
       onChangeMultiselect={(val) => onChange("vendors", val)}

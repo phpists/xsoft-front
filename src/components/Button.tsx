@@ -4,7 +4,7 @@ import styled from "styled-components";
 interface Props {
   title: string;
   className?: string;
-  type?: "blue" | "outline" | "dark";
+  type?: "blue" | "outline" | "dark" | "light";
   Icon?: any;
   onClick?: () => void;
   disabled?: boolean;
@@ -62,6 +62,11 @@ const StyledButton = styled.button`
   &.dark {
     background: #000000;
     color: #ffffff;
+  }
+  &.light {
+    background: #ffff;
+    border: 1px solid #dbdbdb;
+    font-weight: 500;
   }
   svg {
     flex-shrink: 0;

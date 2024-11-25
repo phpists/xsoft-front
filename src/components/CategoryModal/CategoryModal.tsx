@@ -25,7 +25,8 @@ export const CategoryModal = ({ onClose, onSucess, category }: Props) => {
   const handleCreate = () => {
     addCategory(title).then((resp) => {
       if (resp.isError) {
-        showMessage("error", "Помилка");
+        showMessage("error", "Помилка, категорія вже існує");
+        setLoading(false);
       } else {
         showMessage("success", "Категорія успішно збережена");
         onSucess && onSucess();
@@ -36,8 +37,9 @@ export const CategoryModal = ({ onClose, onSucess, category }: Props) => {
 
   const handleEdit = () => {
     editCategory({ title, id: category?.id ?? "" }).then((resp) => {
+      setLoading(false);
       if (resp.isError) {
-        showMessage("error", "Помилка");
+        showMessage("error", "Помилка, категорія вже існує");
       } else {
         showMessage("success", "Категорія успішно збережена");
         onSucess && onSucess();

@@ -13,7 +13,7 @@ const StyledName = styled.div`
   font-weight: 400;
   line-height: 19.6px;
   color: #111111;
-  max-width: 103px;
+  max-width: 153px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

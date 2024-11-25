@@ -3,11 +3,15 @@ import { Logo } from "./Logo";
 import { Notifications } from "./Notifications/Notifications";
 import menuIcon from "../../assets/menu.svg";
 import { User } from "./User/User";
+import { CompanyName } from "./CompanyName";
 
 export const Header = () => {
   return (
     <StyledHeader className="flex items-center justify-between">
-      <Logo />
+      <div className="flex items-center gap-2">
+        <Logo />
+        <CompanyName />
+      </div>
       <div className="flex items-center">
         <Notifications />
         <button className="menu">

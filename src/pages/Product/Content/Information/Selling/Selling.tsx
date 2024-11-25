@@ -12,7 +12,7 @@ interface Props {
 export const Selling = ({ data, onChange, productInfo, errors }: Props) => {
   return (
     <div>
-      <SectionTitle title="Налаштування продажів" />
+      <SectionTitle title="Додатково" />
       {/* {data.items.map(({ tax_id, cost_price, retail_price }, i) => (
         <div className="flex items-start justify-between mb-3.5" key={i}>
           <div>
@@ -65,7 +65,7 @@ export const Selling = ({ data, onChange, productInfo, errors }: Props) => {
       ))} */}
 
       {/* <AddButton title="Додати послугу" onClick={handleAddItem} /> */}
-      <div className="flex items-center max-w-[310px] gap-2.5">
+      <div className="flex items-center max-w-[310px] gap-2.5  mb-3.5">
         <Input
           label="Собівартість"
           defaultValue="500,00 грн"
