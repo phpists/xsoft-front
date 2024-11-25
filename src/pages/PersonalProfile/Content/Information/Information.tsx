@@ -8,12 +8,13 @@ import { Access } from "./Access";
 import { Additional } from "./Additional";
 import { Files, MediaFile } from "../../../../components/Files/Files";
 import { IPerson } from "../Content";
+import { IPhone } from "../../../../components/PhonesInput/PhonesInput";
 
 interface Props {
   data: IPerson;
   onChange: (
     field: string,
-    value: string | boolean | number | string[]
+    value: string | boolean | number | string[] | IPhone[]
   ) => void;
   onSave: () => void;
   errors: string[];

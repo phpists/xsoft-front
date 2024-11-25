@@ -17,6 +17,7 @@ interface Props {
   role?: string;
   comment: string;
   onDelete: () => void;
+  phone: string;
 }
 
 export const Row = ({
@@ -30,6 +31,7 @@ export const Row = ({
   role,
   comment,
   onDelete,
+  phone,
 }: Props) => {
   const navigate = useNavigate();
 
@@ -45,7 +47,7 @@ export const Row = ({
         />
       </NavLink>
       <StyledRow className={className}>{role}</StyledRow>
-      <PhoneRow className={className} />
+      <PhoneRow className={className} phone={phone} />
       {/* <StyledRow className={className}>
         <ColorTag title="Сплачено" color="green" />
       </StyledRow> */}

@@ -39,18 +39,18 @@ export const Additional = ({ data, onChange, errors }: Props) => {
         onChange={(val) => onChange("email", val)}
         error={!!errors.includes("email")}
       />
-      <div className="flex items-center gap-3.5 mb-3.5">
+      <div className="flex items-center gap-3.5 mb-3.5 w-max">
         <Input
           label="Пароль"
           Icon={BiLock}
-          className="dark-icon max-w-[470px]"
+          className="dark-icon w-[470px]"
           value={data.password}
           onChange={(val) => onChange("password", val)}
           error={!!errors.includes("password")}
         />
         <Button
           title="Згенерувати пароль"
-          className="max-w-[150px]"
+          className="max-w-[180px]"
           onClick={handleGeneratePassword}
           loading={loading}
           disabled={loading}

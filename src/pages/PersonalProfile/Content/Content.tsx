@@ -22,6 +22,10 @@ import {
   useLazySaveStaffMediaQuery,
 } from "../../../store/personal/personal.api";
 import { MediaFile } from "../../../components/Files/Files";
+import {
+  INIT_PHONE,
+  IPhone,
+} from "../../../components/PhonesInput/PhonesInput";
 
 const TABS = [
   { title: "Профіль", Icon: BiHappy },
@@ -39,6 +43,7 @@ const INIT_VALUE = {
   email: "",
   comment: "",
   password: "",
+  phones: [INIT_PHONE],
 };
 
 export interface IPerson {
@@ -50,6 +55,7 @@ export interface IPerson {
   email: string;
   comment: string;
   password: string;
+  phones: IPhone[];
 }
 
 export const Content = () => {
@@ -91,7 +97,7 @@ export const Content = () => {
   };
   const handleChangeField = (
     field: string,
-    value: string | boolean | number | string[]
+    value: string | boolean | number | string[] | IPhone[]
   ) => {
     setData({ ...data, [field]: value });
     setErrors(errors.filter((f) => f !== field));

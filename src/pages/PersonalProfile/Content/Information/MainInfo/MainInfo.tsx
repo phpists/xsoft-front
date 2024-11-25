@@ -1,12 +1,16 @@
 import { SectionTitle } from "../../SectionTitle";
 import { Input } from "../../../../../components/Input/Input";
 import { IPerson } from "../../Content";
+import {
+  IPhone,
+  PhonesInput,
+} from "../../../../../components/PhonesInput/PhonesInput";
 
 interface Props {
   data: IPerson;
   onChange: (
     field: string,
-    value: string | boolean | number | string[]
+    value: string | boolean | number | string[] | IPhone[]
   ) => void;
   errors: string[];
 }
@@ -31,11 +35,11 @@ export const MainInfo = ({ data, onChange, errors }: Props) => (
       />
     </div>
     <div className="">
-      {/* <PhonesInput
+      <PhonesInput
         data={data?.phones}
         onChange={(val: IPhone[]) => onChange("phones", val)}
         error={!!errors?.includes("phones")}
-      /> */}
+      />
     </div>
   </div>
 );

@@ -1,3 +1,5 @@
+import { IPhone } from "../components/PhonesInput/PhonesInput";
+
 export type PersonalResponse = {
   code: number;
   response: PersonalResponseData;
@@ -36,6 +38,7 @@ export type IPersonaResponse = {
   created_at: string;
   updated_at: string;
   media: Array<any>;
+  phones: IPhone[];
 };
 
 export type IRolesResponse = {

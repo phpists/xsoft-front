@@ -88,7 +88,16 @@ export const PersonalTable = ({
       >
         {data?.map(
           (
-            { id, first_name, last_name, color, email, role_id, comment },
+            {
+              id,
+              first_name,
+              last_name,
+              color,
+              email,
+              role_id,
+              comment,
+              phones,
+            },
             i
           ) => (
             <Row
@@ -103,6 +112,7 @@ export const PersonalTable = ({
               role={roles?.find((r) => r.id === role_id)?.title}
               comment={comment}
               onDelete={() => handleOpenDeleteModal(id)}
+              phone={phones?.[0]?.phone ?? ""}
             />
           )
         )}
