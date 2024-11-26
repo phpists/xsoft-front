@@ -12,7 +12,9 @@ import { Arrival } from "./Arrival/Arrival";
 
 export const Items = () => {
   const [selected, setSelected] = useState<number[]>([]);
-  const [category, setCategory] = useState(0);
+  const [category, setCategory] = useState(
+    Number(localStorage.getItem("items_category")) ?? 0
+  );
 
   const handleSelect = (id: number) =>
     setSelected(
@@ -22,7 +24,10 @@ export const Items = () => {
     );
 
   const handleSelectAll = () => setSelected(Array.from(Array(20).keys()));
-  const handleChangeCategory = (val: number) => setCategory(val);
+  const handleChangeCategory = (val: number) => {
+    setCategory(val);
+    localStorage.setItem("items_category", val.toString());
+  };
 
   return (
     <StyledItems className="flex">
@@ -32,11 +37,7 @@ export const Items = () => {
         {category === 0 ? (
           <Content />
         ) : category === 1 ? (
-          <Brands
-            selected={selected}
-            onSelect={handleSelect}
-            onSelectAll={handleSelectAll}
-          />
+          <Brands />
         ) : category === 2 ? (
           <Suppliers
             selected={selected}

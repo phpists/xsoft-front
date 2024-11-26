@@ -29,98 +29,104 @@ import { ReactComponent as BiSolidCodeBlock } from "../../../assets/integrations
 
 import { Card } from "./Card";
 import { SideMenuToggle } from "../SideMenuToggle";
-
-const LINKS = [
-  {
-    title: "Домашня",
-    Icon: BiHome,
-    IconActive: BiSolidHome,
-    link: "/",
-  },
-  {
-    title: "Філії",
-    Icon: BiMap,
-    IconActive: BiSolidMap,
-    link: "/filie",
-    className: "notActive",
-  },
-  {
-    title: "Календар",
-    Icon: BiCalendar,
-    IconActive: BiSolidCalendar,
-    link: "/calendar",
-    className: "notActive",
-  },
-  {
-    title: "Фінанси",
-    Icon: BiWallet,
-    IconActive: BiSolidWallet,
-    link: "/finance",
-    className: "notActive",
-  },
-  {
-    title: "Клієнти",
-    Icon: BiHappy,
-    IconActive: BiSolidHappy,
-    link: "/clients",
-  },
-  {
-    title: "Товари",
-    Icon: BiCartAlt,
-    IconActive: BiSolidCartAlt,
-    link: "/items",
-  },
-  {
-    title: "Персонал",
-    Icon: BiUser,
-    IconActive: BiSolidUser,
-    link: "/pesonal",
-  },
-  {
-    title: "Аналітика",
-    Icon: BiPieChartAlt2,
-    IconActive: BiSolidPieChartAlt2,
-    link: "/analitics",
-    className: "notActive",
-  },
-  {
-    title: "Білінг",
-    Icon: BiCalculator,
-    IconActive: BiSolidCalculator,
-    link: "/blling",
-    className: "notActive",
-  },
-  {
-    title: "Налаштування",
-    Icon: BiCog,
-    IconActive: BiSolidCog,
-    link: "/settings",
-    className: "notActive",
-  },
-  {
-    title: "Віджети",
-    Icon: BiCategoryAlt,
-    IconActive: BiSolidCategoryAlt,
-    link: "/widgets",
-    className: "notActive",
-  },
-  {
-    title: "Інтеграції",
-    Icon: BiCodeBlock,
-    IconActive: BiSolidCodeBlock,
-    link: "/intergrations",
-    className: "notActive",
-  },
-  {
-    title: "Пошук",
-    Icon: BiSearch,
-    IconActive: BiSearch,
-    link: "/search",
-    className: "notActive",
-  },
-];
+import { useAppSelect } from "../../../hooks/redux";
 
 export const NavList = () => {
+  const { user } = useAppSelect((state) => state.auth);
+
+  const LINKS = [
+    {
+      title: "Домашня",
+      Icon: BiHome,
+      IconActive: BiSolidHome,
+      link: "/",
+    },
+    {
+      title: "Філії",
+      Icon: BiMap,
+      IconActive: BiSolidMap,
+      link: "/filie",
+      className: "notActive",
+    },
+    {
+      title: "Календар",
+      Icon: BiCalendar,
+      IconActive: BiSolidCalendar,
+      link: "/calendar",
+      className: "notActive",
+    },
+    {
+      title: "Фінанси",
+      Icon: BiWallet,
+      IconActive: BiSolidWallet,
+      link: "/finance",
+      className: "notActive",
+    },
+    {
+      title: "Клієнти",
+      Icon: BiHappy,
+      IconActive: BiSolidHappy,
+      link: "/clients",
+    },
+    {
+      title: "Товари",
+      Icon: BiCartAlt,
+      IconActive: BiSolidCartAlt,
+      link: "/items",
+    },
+    ...(true
+      ? [
+          {
+            title: "Персонал",
+            Icon: BiUser,
+            IconActive: BiSolidUser,
+            link: "/pesonal",
+          },
+        ]
+      : []),
+    {
+      title: "Аналітика",
+      Icon: BiPieChartAlt2,
+      IconActive: BiSolidPieChartAlt2,
+      link: "/analitics",
+      className: "notActive",
+    },
+    {
+      title: "Білінг",
+      Icon: BiCalculator,
+      IconActive: BiSolidCalculator,
+      link: "/blling",
+      className: "notActive",
+    },
+    {
+      title: "Налаштування",
+      Icon: BiCog,
+      IconActive: BiSolidCog,
+      link: "/settings",
+      className: "notActive",
+    },
+    {
+      title: "Віджети",
+      Icon: BiCategoryAlt,
+      IconActive: BiSolidCategoryAlt,
+      link: "/widgets",
+      className: "notActive",
+    },
+    {
+      title: "Інтеграції",
+      Icon: BiCodeBlock,
+      IconActive: BiSolidCodeBlock,
+      link: "/intergrations",
+      className: "notActive",
+    },
+    {
+      title: "Пошук",
+      Icon: BiSearch,
+      IconActive: BiSearch,
+      link: "/search",
+      className: "notActive",
+    },
+  ];
   return (
     <StyledNavList>
       <div className="links-group">

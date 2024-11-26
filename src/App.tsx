@@ -22,6 +22,7 @@ import { Resource } from "./pages/Resource/Resource";
 import { Department } from "./pages/Department/Department";
 import { useLazyGetCompaniesQuery } from "./store/companies/companies.api";
 import { PersonalProfile } from "./pages/PersonalProfile/PersonalProfile";
+import { Object } from "./pages/Object/Object";
 
 function App() {
   const { user } = useAppSelect((state) => state.auth);
@@ -52,7 +53,7 @@ function App() {
         onSelectCompany(undefined);
       }
     }
-  }, [companies]);
+  }, [companies, user]);
 
   useEffect(() => {
     if (user) {
@@ -76,6 +77,7 @@ function App() {
           <Route path="/product" element={<Product />} />
           <Route path="/product/:id" element={<Product />} />
           <Route path="/brand" element={<Brand />} />
+          <Route path="/brand/:id" element={<Brand />} />
           <Route path="/storage" element={<Storage />} />
           <Route path="/" element={<Home />} />
           <Route path="/company" element={<Company />} />
@@ -83,6 +85,7 @@ function App() {
           <Route path="/pesonal" element={<Personal />} />
           <Route path="/pesonal-profile" element={<PersonalProfile />} />
           <Route path="/pesonal-profile/:id" element={<PersonalProfile />} />
+          <Route path="/object" element={<Object />} />
           <Route path="/supplier" element={<Supplier />} />
           <Route path="/resource" element={<Resource />} />
           <Route path="/department" element={<Department />} />

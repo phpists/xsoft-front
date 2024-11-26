@@ -2,13 +2,19 @@ import { BiMap, BiTrash } from "react-icons/bi";
 import { Input } from "../../../../../components/Input/Input";
 import { Select } from "../../../../../components/Select/Select";
 import { useAppSelect } from "../../../../../hooks/redux";
+import styled from "styled-components";
 
-export const Card = () => {
+interface Props {
+  value: number[];
+  onChange: (val: number[]) => void;
+}
+
+export const Card = ({ value, onChange }: Props) => {
   const { selectedCompany } = useAppSelect((state) => state.app);
   const { companies } = useAppSelect((state) => state.companies);
 
   return (
-    <div className="flex items-center gap-3.5 mb-[22px]">
+    <StyledCard className="flex items-center gap-3.5 mb-[22px]">
       <Select
         label="Локація"
         options={
@@ -22,10 +28,16 @@ export const Card = () => {
         Icon={<BiMap size={20} />}
         className="bg-white"
         hideArrow
+        multiselect
+        multiselectValue={value}
+        onChangeMultiselect={(val) => onChange(val.map((v) => Number(v)))}
       />
-      <button>
-        <BiTrash size={24} />
-      </button>
-    </div>
+    </StyledCard>
   );
 };
+
+const StyledCard = styled.div`
+  .dropdown {
+    width: 100%;
+  }
+`;

@@ -10,7 +10,7 @@ export const MainInfo = () => (
       <Input label="Назва" required className="max-w-[479px]" />
       <div className="flex items-center gap-3 5">
         <Input
-          label="Артікул"
+          label="Артикул"
           required
           className="w-[200px]"
           RightIcon={<BiRefresh size={20} className="m-2.5 shrink-0" />}

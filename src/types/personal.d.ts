@@ -66,3 +66,21 @@ export type IGeneratePasswordResponse = {
     password: string;
   };
 };
+
+export type PersonalInfoResponse = {
+  code: number;
+  response: {
+    positions: Array<{
+      id: number;
+      title: string;
+      created_at: string;
+      updated_at: string;
+    }>;
+    departments: Array<{
+      id: number;
+      title: string;
+      created_at: string;
+      updated_at: string;
+    }>;
+  };
+};

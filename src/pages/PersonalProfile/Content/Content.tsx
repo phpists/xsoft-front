@@ -44,6 +44,7 @@ const INIT_VALUE = {
   comment: "",
   password: "",
   phones: [INIT_PHONE],
+  branches: [],
 };
 
 export interface IPerson {
@@ -56,6 +57,7 @@ export interface IPerson {
   comment: string;
   password: string;
   phones: IPhone[];
+  branches: number[];
 }
 
 export const Content = () => {
@@ -97,7 +99,7 @@ export const Content = () => {
   };
   const handleChangeField = (
     field: string,
-    value: string | boolean | number | string[] | IPhone[]
+    value: string | boolean | number | string[] | IPhone[] | number[]
   ) => {
     setData({ ...data, [field]: value });
     setErrors(errors.filter((f) => f !== field));
@@ -159,8 +161,8 @@ export const Content = () => {
   useEffect(() => {
     if (id) {
       getPerson(id).then((resp: any) => {
-        const { media, ...otherData } = resp?.data?.response?.staff;
-        setData(otherData);
+        const { media, branches, ...otherData } = resp?.data?.response?.staff;
+        setData({ ...otherData, branches: branches.map((b: any) => b.id) });
         setMedia(
           media.map((m: any) => ({
             file: undefined,

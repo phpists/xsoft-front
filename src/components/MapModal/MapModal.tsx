@@ -33,7 +33,12 @@ export const MapModal = ({ onClose, onAdd, data }: Props) => {
             onChangeLocation={(val) => setLocation(val)}
             location={location}
           />
-          {location ? <Location location={location?.title} /> : null}
+          {location ? (
+            <Location
+              location={location?.title}
+              onChange={(title) => setLocation({ ...location, title })}
+            />
+          ) : null}
           <Button
             title="Зберегти"
             className="mt-2"

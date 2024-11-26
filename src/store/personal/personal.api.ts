@@ -4,6 +4,7 @@ import {
   IGeneratePasswordResponse,
   IRole,
   IRolesResponse,
+  PersonalInfoResponse,
   PersonalResponse,
   PersonalResponseData,
 } from "../../types/personal";
@@ -57,6 +58,16 @@ export const personal = createApi({
         return resp.response.roles;
       },
     }),
+    getStaffInfo: build.query({
+      query: () => ({
+        url: "/staff/get-staff-info",
+        method: "GET",
+        headers: headers(),
+      }),
+      transformResponse: (resp: PersonalInfoResponse): PersonalInfoResponse => {
+        return resp;
+      },
+    }),
     generatePassword: build.query({
       query: () => ({
         url: "/staff/generate-password",
@@ -107,4 +118,5 @@ export const {
   useLazyGetStaffPersonQuery,
   useLazySaveStaffMediaQuery,
   useLazyDeleteStaffMediaQuery,
+  useGetStaffInfoQuery,
 } = personal;

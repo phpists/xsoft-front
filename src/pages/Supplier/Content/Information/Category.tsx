@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { SectionTitle } from "../SectionTitle";
 import { Select } from "../../../../components/Select/Select";
+import { Input } from "../../../../components/Input/Input";
 
 export const Category = () => {
   return (
@@ -15,9 +16,8 @@ export const Category = () => {
           // onChange={onChange}
           // error={error}
         />
-        <Select
+        <Input
           label="Компанія"
-          options={[]}
           className="max-w-[479px] mb-[22px]"
           // value={value?.toString()}
           // onChange={onChange}

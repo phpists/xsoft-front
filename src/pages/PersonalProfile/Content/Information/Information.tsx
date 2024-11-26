@@ -14,7 +14,7 @@ interface Props {
   data: IPerson;
   onChange: (
     field: string,
-    value: string | boolean | number | string[] | IPhone[]
+    value: string | boolean | number | string[] | IPhone[] | number[]
   ) => void;
   onSave: () => void;
   errors: string[];
@@ -40,7 +40,10 @@ export const Information = ({
       loading={loading}
     />
     <MainInfo data={data} onChange={onChange} errors={errors} />
-    <Branches />
+    <Branches
+      value={data.branches}
+      onChange={(val) => onChange("branches", val)}
+    />
     <Position />
     <Divider />
     <Access data={data} onChange={onChange} errors={errors} />

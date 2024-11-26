@@ -2,13 +2,26 @@ import styled from "styled-components";
 import { SectionTitle } from "../../../../../components/SectionTitle";
 import { Card } from "./Card";
 import { AddButton } from "../../../../../components/AddButton";
+import { useNavigate } from "react-router-dom";
+import { useAppSelect } from "../../../../../hooks/redux";
 
-export const Branches = () => {
+interface Props {
+  value: number[];
+  onChange: (val: number[]) => void;
+}
+
+export const Branches = ({ value, onChange }: Props) => {
+  const navigate = useNavigate();
+  const { selectedCompany } = useAppSelect((state) => state.app);
+
   return (
     <StyledBranches>
       <SectionTitle title="Філія" />
-      <Card />
-      <AddButton title="Додати філію" />
+      <Card value={value} onChange={onChange} />
+      <AddButton
+        title="Додати філію"
+        onClick={() => navigate(`/company/${selectedCompany}`)}
+      />
     </StyledBranches>
   );
 };
