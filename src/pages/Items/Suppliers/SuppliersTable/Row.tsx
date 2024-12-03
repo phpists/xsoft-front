@@ -4,31 +4,62 @@ import { Actions } from "../../../../components/Actions/Actions";
 import { Avatar } from "../../../../components/Avatar/Avatar";
 import { ProfileRow } from "../../../../components/ProfileRow/ProfileRow";
 import { PhoneRow } from "../../../../components/PhoneRow";
+import { NavLink, useNavigate } from "react-router-dom";
 
 interface Props {
   selected: boolean;
   onSelect: () => void;
   className?: string;
+  firstName: string;
+  lastName: string;
+  color: string;
+  phone: string;
+  comment: string;
+  id: number;
+  onDelete: () => void;
 }
 
-export const Row = ({ selected, onSelect, className }: Props) => (
-  <>
-    <Checkbox checked={selected} onClick={onSelect} className={className} />
-    <ProfileRow className={className} id={124} />
-    <PhoneRow className={className} />
-    <StyledRow className={className}>+</StyledRow>
+export const Row = ({
+  selected,
+  onSelect,
+  className,
+  firstName,
+  lastName,
+  color,
+  phone,
+  comment,
+  id,
+  onDelete,
+}: Props) => {
+  const navigate = useNavigate();
 
-    <StyledRow className={`${className} p-0`}>
-      <Actions
-        options={[
-          { title: "Додати в чорний список", onClick: () => null },
-          { title: "Заборонити онлайн запис", onClick: () => null },
-          { title: "Дозволити борг", onClick: () => null },
-        ]}
-      />
-    </StyledRow>
-  </>
-);
+  return (
+    <>
+      <Checkbox checked={selected} onClick={onSelect} className={className} />
+      <NavLink to={`/supplier/${id}`}>
+        {" "}
+        <ProfileRow
+          className={className}
+          id={124}
+          firstName={firstName}
+          lastName={lastName}
+          color={color}
+        />
+      </NavLink>
+      <PhoneRow className={className} phone={phone} />
+      <StyledRow className={className}>{comment}</StyledRow>
+
+      <StyledRow className={`${className} p-0`}>
+        <Actions
+          options={[
+            { title: "Редагувати", onClick: () => navigate(`/supplier/${id}`) },
+            { title: "Видалити", onClick: onDelete },
+          ]}
+        />
+      </StyledRow>
+    </>
+  );
+};
 
 const StyledRow = styled.div`
   padding: 8px;

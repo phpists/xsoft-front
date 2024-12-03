@@ -18,6 +18,7 @@ interface Props {
   comment: string;
   onDelete: () => void;
   phone: string;
+  location: string;
 }
 
 export const Row = ({
@@ -32,6 +33,7 @@ export const Row = ({
   comment,
   onDelete,
   phone,
+  location,
 }: Props) => {
   const navigate = useNavigate();
 
@@ -52,7 +54,9 @@ export const Row = ({
         <ColorTag title="Сплачено" color="green" />
       </StyledRow> */}
       <StyledRow className={className}>{comment ?? "-"}</StyledRow>
-      <StyledRow className={className}>-</StyledRow>
+      <StyledRow className={className}>
+        <span title={location}>{location}</span>
+      </StyledRow>
       <StyledRow className={`${className} p-0`}>
         <Actions
           options={[

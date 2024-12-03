@@ -11,6 +11,8 @@ interface Props {
   onRemove: () => void;
   isRemove?: boolean;
   error?: boolean;
+  noAdding?: boolean;
+  noSocmedia?: boolean;
 }
 
 export const Phone = ({
@@ -20,6 +22,8 @@ export const Phone = ({
   onRemove,
   isRemove,
   error,
+  noAdding,
+  noSocmedia,
 }: Props) => (
   <StyledPhone className="flex items-center gap-3.5">
     <Input
@@ -27,11 +31,15 @@ export const Phone = ({
       onChange={(val: string) => onChange({ ...phone, phone: val })}
       error={error}
     />
-    <AddButton onClick={isRemove ? onRemove : onAdd} isRemove={isRemove} />
-    <Socmedia
-      value={phone.type_id}
-      onChange={(val: number[]) => onChange({ ...phone, type_id: val })}
-    />
+    {noAdding ? null : (
+      <AddButton onClick={isRemove ? onRemove : onAdd} isRemove={isRemove} />
+    )}
+    {noSocmedia ? null : (
+      <Socmedia
+        value={phone.type_id}
+        onChange={(val: number[]) => onChange({ ...phone, type_id: val })}
+      />
+    )}
   </StyledPhone>
 );
 

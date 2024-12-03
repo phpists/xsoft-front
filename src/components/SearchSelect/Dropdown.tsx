@@ -2,22 +2,63 @@ import styled from "styled-components";
 import { Option } from "./SearchSelect";
 import { Search } from "./Search";
 import { Button } from "../Button";
+import { useState } from "react";
 
 interface Props {
   options: Option[];
+  value?: string[];
+  onChange?: (val: string[]) => void;
 }
 
-export const Dropdown = ({ options }: Props) => (
-  <StyledDropdown className="dropdown flex flex-col gap-1">
-    <Search />
-    {options?.map(({ title }, i) => (
-      <div key={i} className={i === 0 ? "active" : ""}>
-        {title}
-      </div>
-    ))}
-    <Button title="Обрати все" type="outline" className="mt-1" />
-  </StyledDropdown>
-);
+export const Dropdown = ({ options, value, onChange }: Props) => {
+  const [search, setSearch] = useState("");
+
+  return (
+    <StyledDropdown className="dropdown flex flex-col gap-1">
+      <Search value={search} onChange={(val) => setSearch(val)} />
+      {options
+        ?.filter((v) =>
+          search?.length === 0
+            ? true
+            : v.title.toLowerCase().includes(search.toLowerCase())
+        )
+        ?.map(({ title, value: v }, i) => (
+          <div
+            key={i}
+            className={value?.includes(v) ? "active" : ""}
+            onClick={() =>
+              value &&
+              onChange &&
+              onChange(
+                value.includes(v)
+                  ? value.filter((pv) => pv !== v)
+                  : [...value, v]
+              )
+            }
+          >
+            {title}
+          </div>
+        ))}
+      <Button
+        title="Обрати все"
+        type="outline"
+        className="mt-1"
+        onClick={() =>
+          onChange &&
+          onChange(
+            options
+              ?.filter((v) =>
+                search?.length === 0
+                  ? true
+                  : v.title.toLowerCase().includes(search.toLowerCase())
+              )
+              ?.map(({ value }) => value)
+          )
+        }
+      />
+    </StyledDropdown>
+  );
+};
 
 const StyledDropdown = styled.div`
   background: #ffffff;

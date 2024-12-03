@@ -9,6 +9,10 @@ import { Additional } from "./Additional";
 import { Files, MediaFile } from "../../../../components/Files/Files";
 import { IPerson } from "../Content";
 import { IPhone } from "../../../../components/PhonesInput/PhonesInput";
+import { Select } from "../../../../components/Select/Select";
+import { BiMailSend } from "react-icons/bi";
+import { Search } from "./Search";
+import { ISearchStaffItemResponse } from "../../../../types/personal";
 
 interface Props {
   data: IPerson;
@@ -21,6 +25,8 @@ interface Props {
   loading: boolean;
   files: MediaFile[];
   onChangeFiles: (val: MediaFile[]) => void;
+  selectedUser: ISearchStaffItemResponse | undefined;
+  onChangeSelectedUser: (val: ISearchStaffItemResponse | undefined) => void;
 }
 
 export const Information = ({
@@ -31,26 +37,33 @@ export const Information = ({
   loading,
   files,
   onChangeFiles,
+  selectedUser,
+  onChangeSelectedUser,
 }: Props) => (
   <StyledInformation>
-    <Header
-      color={data.color}
-      onChangeColor={(val) => onChange("color", val)}
-      onSave={onSave}
-      loading={loading}
-    />
-    <MainInfo data={data} onChange={onChange} errors={errors} />
-    <Branches
-      value={data.branches}
-      onChange={(val) => onChange("branches", val)}
-    />
-    <Position />
-    <Divider />
-    <Access data={data} onChange={onChange} errors={errors} />
-    <Divider />
-    <Additional data={data} onChange={onChange} errors={errors} />
-    <Divider />
-    <Files value={files} onAdd={onChangeFiles} />
+    {selectedUser ? (
+      <>
+        {" "}
+        <Header
+          color={data.color}
+          onChangeColor={(val) => onChange("color", val)}
+          onSave={onSave}
+          loading={loading}
+        />
+        <MainInfo data={data} onChange={onChange} errors={errors} />
+        <Branches
+          value={data.branches}
+          onChange={(val) => onChange("branches", val)}
+        />
+        <Position data={data} onChange={onChange} errors={errors} />
+        <Divider />
+        <Additional data={data} onChange={onChange} errors={errors} />
+        <Divider />
+        <Files value={files} onAdd={onChangeFiles} />
+      </>
+    ) : (
+      <Search value={selectedUser} onChange={onChangeSelectedUser} />
+    )}
   </StyledInformation>
 );
 

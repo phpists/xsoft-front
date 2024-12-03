@@ -8,7 +8,7 @@ export const Empty = () => {
   return (
     <div className="flex items-center justify-center flex-col h-full">
       <Title />
-      {user?.role_id === 3 ? <AddButton /> : null}
+      <AddButton />{" "}
     </div>
   );
 };

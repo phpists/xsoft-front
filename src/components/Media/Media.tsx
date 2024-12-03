@@ -9,7 +9,7 @@ interface Props {
 
 export const Media = ({ files = [], onDelete }: Props) => (
   <div className="mt-6">
-    <Header />
+    <Header filesCount={files?.length} />
     <List files={files} onDelete={onDelete} />
   </div>
 );

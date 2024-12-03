@@ -80,13 +80,15 @@ export const Content = () => {
   const handleValidation = (): boolean => {
     const fieldsErr: string[] = [];
 
-    !data.category_id && fieldsErr.push("category_id");
-    data.first_name?.length === 0 && fieldsErr.push("first_name");
-    data.last_name?.length === 0 && fieldsErr.push("last_name");
-    data.phones?.find((p) => p.phone?.length === 0) && fieldsErr.push("phones");
-    data.bd_day?.length === 0 && fieldsErr.push("bd_day");
-    data.email?.length === 0 && fieldsErr.push("email");
+    // !data.category_id && fieldsErr.push("category_id");
+    // data.first_name?.length === 0 && fieldsErr.push("first_name");
+    // data.last_name?.length === 0 && fieldsErr.push("last_name");
+    data.phones?.find((p) => p.phone?.length !== 18) &&
+      fieldsErr.push("phones");
+    // data.bd_day?.length === 0 && fieldsErr.push("bd_day");
+    // data.email?.length === 0 && fieldsErr.push("email");
 
+    console.log(fieldsErr);
     setErrors(fieldsErr);
     return fieldsErr?.length === 0;
   };
@@ -120,7 +122,7 @@ export const Content = () => {
   };
 
   const handleFormatSendData = () => {
-    const { media, ...sendData } = data;
+    const { media, first_name, last_name, ...sendData } = data;
     return {
       ...sendData,
       phone: data.phones[0]?.phone.replaceAll(/\s/g, ""),
@@ -129,6 +131,8 @@ export const Content = () => {
         phone: p?.phone.replaceAll(/\s/g, ""),
       })),
       bd_day: formatInputDate(data.bd_day),
+      first_name: first_name?.length > 0 ? first_name : "Новий клієнт",
+      last_name,
     };
   };
 

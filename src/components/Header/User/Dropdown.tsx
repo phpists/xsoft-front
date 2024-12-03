@@ -17,6 +17,7 @@ export const Dropdown = () => {
 
   return (
     <StyledDropdown className="dropdown">
+      <div onClick={() => navigate("/settings")}>Налаштування</div>
       <div onClick={handleLogout}>Вийти</div>
     </StyledDropdown>
   );
@@ -27,7 +28,7 @@ const StyledDropdown = styled.div`
   top: calc(100% + 4px);
   background: #ffffff;
   box-shadow: 0px 6px 14px 0px #07284a33;
-  width: 120px;
+  width: 150px;
   padding: 8px;
   border-radius: 8px;
   border: 0.5px solid #dbdbdb;

@@ -7,6 +7,7 @@ import {
   PersonalInfoResponse,
   PersonalResponse,
   PersonalResponseData,
+  SearchStaffResponse,
 } from "../../types/personal";
 
 export const personal = createApi({
@@ -105,6 +106,17 @@ export const personal = createApi({
         params: { id },
       }),
     }),
+    searchStaff: build.query({
+      query: (q) => ({
+        url: "/staff/search-staff",
+        method: "GET",
+        headers: headers(),
+        params: { q },
+      }),
+      transformResponse: (resp: SearchStaffResponse): SearchStaffResponse => {
+        return resp;
+      },
+    }),
   }),
 });
 
@@ -119,4 +131,5 @@ export const {
   useLazySaveStaffMediaQuery,
   useLazyDeleteStaffMediaQuery,
   useGetStaffInfoQuery,
+  useLazySearchStaffQuery,
 } = personal;

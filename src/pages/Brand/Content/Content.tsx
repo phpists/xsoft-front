@@ -103,7 +103,7 @@ export const Content = () => {
     <StyledContent>
       <Header />
       <div className="main-wrapper">
-        <Info />
+        <Info data={data} />
         <div>
           <div className="py-3.5 px-4 border-b-[1px] border-[#DBDBDB]">
             <div className="w-[196px]">

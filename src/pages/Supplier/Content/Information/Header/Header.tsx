@@ -20,10 +20,10 @@ export const Header = ({ data, onChange, onSave, loading }: Props) => (
         value={data.color}
         onChange={(val: string) => onChange("color", val)}
       />
-      <Tags
+      {/* <Tags
         value={data.tags}
         onChange={(val: string[]) => onChange("tags", val)}
-      />
+      /> */}
     </div>
     <Button
       title="Зберегти зміни"

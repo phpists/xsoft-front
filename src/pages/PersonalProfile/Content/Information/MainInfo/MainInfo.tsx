@@ -18,7 +18,7 @@ interface Props {
 export const MainInfo = ({ data, onChange, errors }: Props) => (
   <div>
     <SectionTitle title="Особисті дані" />
-    <div className="flex items-center gap-3.5 mb-4">
+    {/* <div className="flex items-center gap-3.5 mb-4">
       <Input
         label="Ім’я"
         required
@@ -33,7 +33,7 @@ export const MainInfo = ({ data, onChange, errors }: Props) => (
         onChange={(val: string | number) => onChange("last_name", val)}
         error={!!errors?.includes("last_name")}
       />
-    </div>
+    </div> */}
     <div className="">
       <PhonesInput
         data={data?.phones}

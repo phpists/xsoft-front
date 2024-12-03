@@ -9,10 +9,14 @@ interface Props {
 
 export const FilterModal = ({ open, onClose, children }: Props) => {
   return (
-    <StyledFilterModal className={`${open && "open"}`}>
-      <Header onClose={onClose} />
-      <div className="filter-content">{children}</div>
-    </StyledFilterModal>
+    <>
+      {" "}
+      <StyledFilterModal className={`${open && "open"}`}>
+        <Header onClose={onClose} />
+        <div className="filter-content">{children}</div>
+      </StyledFilterModal>
+      {open && <div className="overlay" onClick={onClose} />}
+    </>
   );
 };
 
@@ -25,7 +29,7 @@ const StyledFilterModal = styled.div`
   border-left: 1px solid #dbdbdb;
   background: #f7f7f7;
   width: 320px;
-  z-index: 10;
+  z-index: 11;
   padding: 20px 14px;
   transition: all 0.3s;
   transform: translateX(100%);

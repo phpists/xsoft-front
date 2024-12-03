@@ -12,9 +12,17 @@ interface Props {
   label: string;
   options: Option[];
   className?: string;
+  value?: string[];
+  onChange?: (val: string[]) => void;
 }
 
-export const SearchSelect = ({ label, options, className }: Props) => {
+export const SearchSelect = ({
+  label,
+  options,
+  className,
+  value,
+  onChange,
+}: Props) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -26,7 +34,9 @@ export const SearchSelect = ({ label, options, className }: Props) => {
         {label}
         <BiSolidChevronDown />
       </button>
-      {open ? <Dropdown options={options} /> : null}
+      {open ? (
+        <Dropdown options={options} value={value} onChange={onChange} />
+      ) : null}
     </StyledSearchSelect>
   );
 };

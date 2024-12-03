@@ -97,6 +97,7 @@ export const PersonalTable = ({
               role_id,
               comment,
               phones,
+              branches,
             },
             i
           ) => (
@@ -113,6 +114,7 @@ export const PersonalTable = ({
               comment={comment}
               onDelete={() => handleOpenDeleteModal(id)}
               phone={phones?.[0]?.phone ?? ""}
+              location={branches?.[0]?.location ?? "-"}
             />
           )
         )}

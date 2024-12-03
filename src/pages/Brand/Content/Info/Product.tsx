@@ -1,11 +1,22 @@
 import styled from "styled-components";
 import { Avatar } from "../../../../components/Avatar/Avatar";
 
-export const Product = () => (
+interface Props {
+  title: string;
+  color: string;
+}
+
+export const Product = ({ title, color }: Props) => (
   <StyledProduct className="flex items-center gap-2">
-    <Avatar size={46} className="avatar" />
+    <Avatar
+      size={46}
+      className="avatar"
+      firstName={title?.split(" ")?.[0]}
+      lastName={title?.split(" ")?.[1]}
+      color={color}
+    />
     <div>
-      <div className="title mb-1">Dolce & Gabbana</div>
+      <div className="title mb-1">{title}</div>
       <div className="subtitle">Назва Бренду</div>
     </div>
   </StyledProduct>

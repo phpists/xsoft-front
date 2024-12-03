@@ -8,16 +8,24 @@ export interface IPhone {
 
 export const INIT_PHONE: IPhone = {
   type_id: [],
-  phone: "",
+  phone: "+380",
 };
 
 interface Props {
   data: IPhone[];
   onChange: (data: IPhone[]) => void;
   error?: boolean;
+  one?: boolean;
+  noSocmedia?: boolean;
 }
 
-export const PhonesInput = ({ data, onChange, error }: Props) => {
+export const PhonesInput = ({
+  data,
+  onChange,
+  error,
+  one,
+  noSocmedia,
+}: Props) => {
   const handleChangePhone = (index: number, val: IPhone) =>
     onChange(data?.map((p, i) => (i === index ? { ...p, ...val } : p)));
 
@@ -36,6 +44,8 @@ export const PhonesInput = ({ data, onChange, error }: Props) => {
           onRemove={() => handleRemove(i)}
           isRemove={i !== 0}
           error={error}
+          noAdding={!!one}
+          noSocmedia={noSocmedia}
         />
       ))}
     </StyledPhonesInput>

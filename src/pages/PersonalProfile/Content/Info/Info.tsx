@@ -8,6 +8,9 @@ import { Media } from "../../../../components/Media/Media";
 import { showMessage } from "../../../../helpers";
 import { useLazyDeleteStaffMediaQuery } from "../../../../store/personal/personal.api";
 import { useParams } from "react-router-dom";
+import { Phone } from "../../../../components/PhonesInput/Phone/Phone";
+import { PhonesInput } from "../../../../components/PhonesInput/PhonesInput";
+import { Phones } from "../../../../components/Phones/Phones";
 
 interface Props {
   data: IPerson;
@@ -46,6 +49,9 @@ export const Info = ({ data, files, onChangeFiles }: Props) => {
       ) : null}
       {files?.length > 0 ? (
         <Media files={files} onDelete={handleDeleteMedia} />
+      ) : null}
+      {data?.phone ? (
+        <Phones phone={{ phone: data?.phone, type_id: [] }} />
       ) : null}
     </StyledInfo>
   );

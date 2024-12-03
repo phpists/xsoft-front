@@ -42,3 +42,16 @@ export const getMonthDays = (d: Date): string[] => {
   }
   return updatedDays;
 };
+
+export const getSearchValues = () => {
+  try {
+    return Object.fromEntries(
+      window.location?.hash
+        ?.replace("#/reset-password?", "")
+        ?.split("&")
+        ?.map((p) => p?.split("="))
+    );
+  } catch {
+    return {};
+  }
+};

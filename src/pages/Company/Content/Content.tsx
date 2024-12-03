@@ -27,6 +27,7 @@ export interface ICompany {
   color: string;
   category_id: number | undefined;
   locations: ILocation[];
+  type_id?: number;
 }
 
 const INIT_VALUE = {
@@ -79,7 +80,10 @@ export const Content = () => {
         showMessage("error", "Помилка створення компанії");
       } else {
         const createdCompany = resp?.data.response.company;
-        onSaveCompanies([...(companies ?? []), createdCompany]);
+        onSaveCompanies([
+          ...(companies ?? []),
+          { ...createdCompany, type_id: 1 },
+        ]);
         showMessage("success", "Компанію успішно створенно");
         navigate("/");
       }
@@ -95,7 +99,9 @@ export const Content = () => {
         const updatedCompany = resp?.data.response.company;
         onSaveCompanies(
           companies?.map((c, i) =>
-            c.id.toString() === id ? updatedCompany : c
+            c.id.toString() === id
+              ? { ...updatedCompany, type_id: c.type_id }
+              : c
           )
         );
         showMessage("success", "Компанія успішно збережена");
@@ -139,7 +145,7 @@ export const Content = () => {
 
   return (
     <StyledContent>
-      <Header />
+      <Header isMine={data?.type_id === 1} />
       <div className="main-wrapper">
         <Info
           title={data.title}

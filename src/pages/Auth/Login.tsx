@@ -30,6 +30,7 @@ export const Login = () => {
         localStorage.setItem("token", resp?.data.response.access_token);
         loginUser(resp?.data.response?.user);
         navigate("/");
+        window.location.reload();
       }
     });
   };

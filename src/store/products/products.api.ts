@@ -45,11 +45,12 @@ export const products = createApi({
         q,
         sortDesc,
         category_id,
+        ...filters
       }) => ({
         url: "/product/get-products",
-        method: "GET",
-        params: { perPage, page, sortBy, q, sortDesc, category_id },
+        method: "POST",
         headers: headers(),
+        body: { perPage, page, sortBy, q, sortDesc, category_id, ...filters },
       }),
       transformResponse: (resp: ProductsResoponse): ProductsResponseData => {
         return resp.response;
@@ -90,7 +91,7 @@ export const products = createApi({
     }),
     addCategory: build.query({
       query: (title) => ({
-        url: "/category/add-category",
+        url: "/product-category/add-category",
         method: "POST",
         headers: headers(),
         params: { title },
@@ -98,7 +99,7 @@ export const products = createApi({
     }),
     editCategory: build.query({
       query: ({ id, title }) => ({
-        url: "/category/edit-category",
+        url: "/product-category/edit-category",
         method: "POST",
         headers: headers(),
         params: { id, title },
@@ -106,7 +107,7 @@ export const products = createApi({
     }),
     deleteCategory: build.query({
       query: (id) => ({
-        url: "/category/delete-category",
+        url: "/product-category/delete-category",
         method: "DELETE",
         headers: headers(),
         params: { id },

@@ -31,7 +31,7 @@ export const Additional = ({ data, onChange, errors }: Props) => {
   return (
     <div>
       <SectionTitle title="Додатково" />
-      <Input
+      {/* <Input
         label="Email"
         Icon={BiMailSend}
         className="dark-icon max-w-[470px] mb-3.5"
@@ -55,7 +55,7 @@ export const Additional = ({ data, onChange, errors }: Props) => {
           loading={loading}
           disabled={loading}
         />
-      </div>
+      </div> */}
       <Textarea
         label="Коментар"
         className="max-w-[470px]"

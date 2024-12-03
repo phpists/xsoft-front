@@ -13,6 +13,8 @@ import { personalReducer } from "./personal/personal.slice";
 import { personal } from "./personal/personal.api";
 import { brandsReducer } from "./brands/brands.slice";
 import { brands } from "./brands/brands.api";
+import { suppliersReducer } from "./suppliers/suppliers.slice";
+import { suppliers } from "./suppliers/suppliers.api";
 
 export const store = configureStore({
   reducer: {
@@ -29,6 +31,8 @@ export const store = configureStore({
     [personal.reducerPath]: personal.reducer,
     brands: brandsReducer,
     [brands.reducerPath]: brands.reducer,
+    suppliers: suppliersReducer,
+    [suppliers.reducerPath]: suppliers.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -37,7 +41,8 @@ export const store = configureStore({
       .concat(products.middleware)
       .concat(companies.middleware)
       .concat(personal.middleware)
-      .concat(brands.middleware),
+      .concat(brands.middleware)
+      .concat(suppliers.middleware),
 });
 
 setupListeners(store.dispatch);

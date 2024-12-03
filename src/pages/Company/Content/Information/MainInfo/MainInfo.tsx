@@ -1,11 +1,10 @@
 import styled from "styled-components";
 import { SectionTitle } from "../../SectionTitle";
 import { Input } from "../../../../../components/Input/Input";
-import { BiRefresh } from "react-icons/bi";
 import { Select } from "../../../../../components/Select/Select";
 import { CategorySelect } from "../../../../../components/CategorySelect/CategorySelect";
-import { useGetProductInfoQuery } from "../../../../../store/products/products.api";
 import { ICompany } from "../../Content";
+import { useGetCompanyCategoriesQuery } from "../../../../../store/companies/companies.api";
 
 interface Props {
   data: ICompany;
@@ -17,7 +16,16 @@ interface Props {
 }
 
 export const MainInfo = ({ data, onChange, errors }: Props) => {
-  const { data: productInfo, refetch } = useGetProductInfoQuery({});
+  const { data: companyCategories, refetch } = useGetCompanyCategoriesQuery({});
+
+  const handleRefetchCategories = () => {
+    refetch().then((resp) => {
+      const newCategoryId = resp?.data?.[resp?.data?.length - 1]?.value;
+      if (newCategoryId) {
+        onChange("category_id", newCategoryId);
+      }
+    });
+  };
 
   return (
     <StyledMainInfo>
@@ -32,15 +40,13 @@ export const MainInfo = ({ data, onChange, errors }: Props) => {
       />
       <CategorySelect
         label="Категорія"
-        options={productInfo?.categories?.map(({ id, title }) => ({
-          title,
-          value: id,
-        }))}
+        options={companyCategories}
         className="max-w-[345px]"
         value={data.category_id}
         onChange={(val) => onChange("category_id", val)}
         error={!!errors.includes("category_id")}
-        onSuccessfulAdCategory={refetch}
+        onSuccessfulAdCategory={handleRefetchCategories}
+        company
       />
     </StyledMainInfo>
   );

@@ -8,31 +8,50 @@ import {
   useLazyEditCategoryQuery,
 } from "../../store/products/products.api";
 import { showMessage } from "../../helpers";
+import { useLazyAddCompanyCategoryQuery } from "../../store/companies/companies.api";
 
 interface Props {
   onClose: () => void;
   onSucess?: () => void;
   category?: { title: string; id: number };
+  company?: boolean;
 }
 
-export const CategoryModal = ({ onClose, onSucess, category }: Props) => {
+export const CategoryModal = ({
+  onClose,
+  onSucess,
+  category,
+  company,
+}: Props) => {
   const [title, setTitle] = useState("");
   const [addIcon, setAddIcon] = useState(false);
   const [addCategory] = useLazyAddCategoryQuery();
+  const [addCompanyCategory] = useLazyAddCompanyCategoryQuery();
   const [editCategory] = useLazyEditCategoryQuery();
   const [loading, setLoading] = useState(false);
 
   const handleCreate = () => {
-    addCategory(title).then((resp) => {
-      if (resp.isError) {
-        showMessage("error", "Помилка, категорія вже існує");
-        setLoading(false);
-      } else {
-        showMessage("success", "Категорія успішно збережена");
-        onSucess && onSucess();
-        onClose();
-      }
-    });
+    company
+      ? addCompanyCategory(title).then((resp) => {
+          if (resp.isError) {
+            showMessage("error", "Помилка, категорія вже існує");
+            setLoading(false);
+          } else {
+            showMessage("success", "Категорія успішно збережена");
+            onSucess && onSucess();
+            onClose();
+          }
+        })
+      : addCategory(title).then((resp) => {
+          if (resp.isError) {
+            showMessage("error", "Помилка, категорія вже існує");
+            setLoading(false);
+          } else {
+            showMessage("success", "Категорія успішно збережена");
+            onSucess && onSucess();
+            onClose();
+          }
+        });
   };
 
   const handleEdit = () => {
@@ -71,7 +90,7 @@ export const CategoryModal = ({ onClose, onSucess, category }: Props) => {
       </div>
       <Icons /> */}
       <Button
-        title="Зберігти"
+        title="Зберегти"
         onClick={handleSave}
         className="mt-6"
         disabled={title?.length === 0 || loading}

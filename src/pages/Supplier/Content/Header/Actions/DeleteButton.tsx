@@ -4,20 +4,21 @@ import { Confirm } from "../../../../../components/Confirm";
 import { useNavigate, useParams } from "react-router-dom";
 import { showMessage } from "../../../../../helpers";
 import { useLazyDeleteProductsQuery } from "../../../../../store/products/products.api";
+import { useLazyDeleteSuppliersQuery } from "../../../../../store/suppliers/suppliers.api";
 
 export const DeleteButton = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [modal, setModal] = useState(false);
-  const [deleteProduct] = useLazyDeleteProductsQuery();
+  const [deleteSuppliers] = useLazyDeleteSuppliersQuery();
 
   const handleDelete = () => {
     setModal(false);
-    deleteProduct([id]).then((resp) => {
+    deleteSuppliers([id]).then((resp) => {
       if (resp.isError) {
-        showMessage("error", "Помилка видалення товару");
+        showMessage("error", "Помилка видалення постачальника");
       } else {
-        showMessage("success", "Товар успішно видалено");
+        showMessage("success", "Постачальника успішно видалено");
         navigate("/items");
       }
     });
@@ -27,9 +28,9 @@ export const DeleteButton = () => {
     <>
       {modal && (
         <Confirm
-          title="Видалення товар"
-          subtitle={`Ви впевнені що хочете назавжди \n видалити товар?`}
-          submitText="Видалити товар"
+          title="Видалення постачальника"
+          subtitle={`Ви впевнені що хочете назавжди \n видалити постачальника?`}
+          submitText="Видалити постачальника"
           onClose={() => setModal(false)}
           onSubmit={handleDelete}
         />

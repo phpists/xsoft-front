@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Header } from "./Header/Header";
 import { Info } from "./Info/Info";
 import { Tabs } from "../../../components/Tabs/Tabs";
-import { BiSolidCartAlt } from "react-icons/bi";
+import { BiHistory, BiSolidCartAlt } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { Information } from "./Information/Information";
 import {
@@ -17,24 +17,28 @@ import { showMessage } from "../../../helpers";
 import { useNavigate, useParams } from "react-router-dom";
 import { MediaFile } from "../../../components/Files/Files";
 
-const TABS = [{ title: "Інформація", Icon: BiSolidCartAlt }];
-
-const INIT_VALUE = {
-  brand_id: undefined,
-  category_id: undefined,
-  article: "",
-  title: "",
-  description: "",
-  product_measure_id: undefined,
-  color: "#2EB062",
-  balance: 0,
-  cost_price: 0,
-  retail_price: 0,
-  tags: [],
-  vendors: [],
-};
+const TABS = [
+  { title: "Інформація", Icon: BiSolidCartAlt },
+  { title: "Історія постачання", Icon: BiHistory },
+];
 
 export const Content = () => {
+  const INIT_VALUE = {
+    brand_id: undefined,
+    category_id: localStorage.getItem("items_catalog_selected_category")
+      ? Number(localStorage.getItem("items_catalog_selected_category"))
+      : undefined,
+    article: "",
+    title: "",
+    description: "",
+    product_measure_id: undefined,
+    color: "#2EB062",
+    balance: 0,
+    cost_price: 0,
+    retail_price: 0,
+    tags: [],
+    vendors: [],
+  };
   const { id } = useParams();
   const navigate = useNavigate();
   const [getProduct] = useLazyGetProductQuery();
@@ -160,6 +164,16 @@ export const Content = () => {
     }
   }, [id]);
 
+  const handleRefetchCategories = () => {
+    refetchProductInfo().then((resp) => {
+      const newCategoryId =
+        resp?.data?.categories?.[resp?.data?.categories?.length - 1]?.id;
+      if (newCategoryId) {
+        handleChangeField("category_id", newCategoryId);
+      }
+    });
+  };
+
   return (
     <StyledContent>
       <Header />
@@ -176,22 +190,24 @@ export const Content = () => {
         />
         <div>
           <div className="py-3.5 px-4 border-b-[1px] border-[#DBDBDB]">
-            <div className="w-[196px]">
+            <div className="w-[30%]">
               <Tabs tabs={TABS} active={activeTab} onChange={handleChangeTab} />
             </div>
           </div>
           <div className="content-wrapper no-scrollbar">
-            <Information
-              data={data}
-              onChange={handleChangeField}
-              productInfo={productInfo}
-              onSave={handleSave}
-              errors={errors}
-              loading={loading}
-              files={media}
-              onChangeFiles={(val: MediaFile[]) => setMedia(val)}
-              onRefreshProductInfo={() => refetchProductInfo()}
-            />
+            {activeTab === 0 ? (
+              <Information
+                data={data}
+                onChange={handleChangeField}
+                productInfo={productInfo}
+                onSave={handleSave}
+                errors={errors}
+                loading={loading}
+                files={media}
+                onChangeFiles={(val: MediaFile[]) => setMedia(val)}
+                onRefreshProductInfo={handleRefetchCategories}
+              />
+            ) : null}
           </div>
         </div>
       </div>

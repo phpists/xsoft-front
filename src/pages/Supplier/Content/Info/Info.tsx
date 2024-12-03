@@ -4,17 +4,19 @@ import { Profile } from "./Profile";
 import { Location } from "../../../../components/Location";
 
 interface Props {
-  title: string;
+  firstName: string;
+  lastName: string;
   color: string;
 }
 
-export const Info = ({ title, color }: Props) => {
+export const Info = ({ firstName, lastName, color }: Props) => {
   return (
     <StyledInfo>
       {/* <Empty /> */}
-      {title?.length === 0 ? <Empty /> : null}
-      {title?.length > 0 ? <Profile title={title} color={color} /> : null}
-      <Location location="Львів, Дрогобич" className="mt-2.5 mb-6" />
+      {firstName?.length === 0 && lastName?.length === 0 ? <Empty /> : null}
+      {firstName?.length > 0 || lastName?.length > 0 ? (
+        <Profile title={`${firstName ?? ""} ${lastName ?? ""}`} color={color} />
+      ) : null}
     </StyledInfo>
   );
 };

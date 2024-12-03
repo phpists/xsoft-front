@@ -21,7 +21,7 @@ export const ScheduleModal = ({ onClose }: Props) => (
         <Input label="Кінець" time labelActive />
       </div>
       <AddButton title="Додати перерву" />
-      <Button title="Зберігти" className="mt-6" />
+      <Button title="Зберегти" className="mt-6" />
     </Modal>
   </StyledScheduleModal>
 );

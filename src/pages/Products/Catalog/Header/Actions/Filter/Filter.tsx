@@ -4,9 +4,12 @@ import { useState } from "react";
 import { FilterModal } from "../../../../../../components/FilterModal/FilterModal";
 import { SearchSelect } from "../../../../../../components/SearchSelect/SearchSelect";
 import { Toggle } from "../../../../../../components/Toggle";
+import { useGetProductInfoQuery } from "../../../../../../store/products/products.api";
 
 export const Filter = () => {
   const [filterOpen, setFilterOpen] = useState(false);
+  const { data, refetch } = useGetProductInfoQuery({});
+
   return (
     <StyledFilter>
       <BiSlider

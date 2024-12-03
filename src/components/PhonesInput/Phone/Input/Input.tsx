@@ -16,7 +16,7 @@ export const Input = ({ value, onChange, error }: Props) => {
   return (
     <StyledInput
       className={`phones-input-wrapper ${inputFocused && "focused"} ${
-        error && value?.length === 0 && "error"
+        error && value?.length < 18 && "error"
       }`}
     >
       <Country />

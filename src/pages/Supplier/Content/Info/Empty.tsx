@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Empty = () => (
   <StyledEmpty className="flex items-center justify-center">
-    Заповніть дані про товар
+    Заповніть дані про постачальника
   </StyledEmpty>
 );
 

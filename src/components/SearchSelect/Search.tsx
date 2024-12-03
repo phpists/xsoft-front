@@ -1,10 +1,20 @@
 import { BiX } from "react-icons/bi";
 import styled from "styled-components";
 
-export const Search = () => (
+interface Props {
+  value: string;
+  onChange: (val: string) => void;
+}
+
+export const Search = ({ value, onChange }: Props) => (
   <StyledSearch className="flex items-center mb-1">
-    <input type="text" placeholder="Пошук" />
-    <button>
+    <input
+      type="text"
+      placeholder="Пошук"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+    />
+    <button onClick={() => onChange("")}>
       <BiX size={16} />
     </button>
   </StyledSearch>

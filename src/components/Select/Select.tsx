@@ -3,7 +3,7 @@ import { BiSolidChevronDown } from "react-icons/bi";
 import { Dropdown } from "./Dropdown";
 import { IconCard } from "./IconCard";
 import { Input } from "../Input/Input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Count } from "./Count";
 import { Avatar } from "../Avatar/Avatar";
 
@@ -35,6 +35,7 @@ interface Props {
   showLabel?: boolean;
   rightIcon?: boolean;
   component?: any;
+  onSeach?: (val: string) => void;
 }
 
 export const Select = ({
@@ -58,9 +59,10 @@ export const Select = ({
   showLabel,
   rightIcon,
   component,
+  onSeach,
 }: Props) => {
   const [open, setOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchV, setSearchV] = useState("");
 
   const handleFocusInput = (e: any) => {
     if (search) {
@@ -80,6 +82,21 @@ export const Select = ({
       e.currentTarget.blur();
     }
   };
+
+  const handleSearch = (v: string) => {
+    setSearchV(v);
+    if (onSeach) {
+      onSeach(v);
+    }
+  };
+
+  useEffect(() => {
+    if (!open) {
+      if (onSeach) {
+        onSeach("");
+      }
+    }
+  }, [open]);
 
   return (
     <StyledSelect
@@ -102,8 +119,8 @@ export const Select = ({
             onBlur={() => setOpen(false)}
             clearOnBlur
             autoFocus
-            value={searchValue}
-            onChange={(val) => setSearchValue(val.toString())}
+            value={searchV}
+            onChange={(val) => handleSearch(val.toString())}
           />
         ) : multiselectValue && multiselectValue?.length > 0 ? (
           <div className="value">
@@ -154,8 +171,8 @@ export const Select = ({
       </div>
       <Dropdown
         options={options?.filter((opt) =>
-          searchValue?.length > 0
-            ? opt.title.toLowerCase().includes(searchValue.toLowerCase())
+          setSearchV?.length > 0
+            ? opt.title.toLowerCase().includes(searchV.toLowerCase())
             : true
         )}
         dropdownButton={dropdownButton}

@@ -4,10 +4,14 @@ import avatar from "../../../assets/avatar.png";
 interface Props {
   firstName: string;
   lastName: string;
+  color?: string;
 }
 
-export const Avatar = ({ firstName, lastName }: Props) => (
-  <StyledAvatar className="flex items-center justify-center gap-[1px]">
+export const Avatar = ({ firstName, lastName, color = "#2eb062" }: Props) => (
+  <StyledAvatar
+    className="flex items-center justify-center gap-[1px]"
+    style={{ background: color }}
+  >
     {firstName[0]}
     <span>{lastName[0]}</span>
   </StyledAvatar>
@@ -27,4 +31,5 @@ const StyledAvatar = styled.div<StyledAvatarProps>`
   line-height: 14px;
   text-align: left;
   color: #ffffff;
+  text-transform: capitalize;
 `;

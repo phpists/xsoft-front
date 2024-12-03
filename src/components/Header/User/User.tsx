@@ -12,6 +12,7 @@ export const User = () => {
         <Avatar
           firstName={user?.first_name ?? ""}
           lastName={user?.last_name ?? ""}
+          color={user?.color}
         />
       ) : null}
       <Dropdown />

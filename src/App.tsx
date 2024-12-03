@@ -2,7 +2,7 @@ import { Auth } from "./pages/Auth/Auth";
 import styled from "styled-components";
 import { Sidebar } from "./components/Sidebar/Sidebar";
 import { Header } from "./components/Header/Header";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { Clients } from "./pages/Clients/Clients";
 import { Client } from "./pages/Client/Client";
 import { Product } from "./pages/Product/Product";
@@ -23,8 +23,12 @@ import { Department } from "./pages/Department/Department";
 import { useLazyGetCompaniesQuery } from "./store/companies/companies.api";
 import { PersonalProfile } from "./pages/PersonalProfile/PersonalProfile";
 import { Object } from "./pages/Object/Object";
+import { Setting } from "./pages/Setting/Setting";
+import { CalendarPage } from "./pages/Calendar/CalendarPage";
 
 function App() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const { user } = useAppSelect((state) => state.auth);
   const [getUser] = useLazyGetUserQuery();
   const { loginUser, onSaveCompanies, onSelectCompany } = useActions();
@@ -61,6 +65,19 @@ function App() {
     }
   }, [user]);
 
+  useEffect(() => {
+    if (!user && localStorage.getItem("token")) {
+      if (
+        !(
+          location.pathname === "/" || location.pathname.includes("/company")
+        ) &&
+        !selectedCompany
+      ) {
+        navigate("/");
+      }
+    }
+  }, [location.pathname]);
+
   if (!localStorage.getItem("token") && !user) {
     return <Auth />;
   }
@@ -87,8 +104,11 @@ function App() {
           <Route path="/pesonal-profile/:id" element={<PersonalProfile />} />
           <Route path="/object" element={<Object />} />
           <Route path="/supplier" element={<Supplier />} />
+          <Route path="/supplier/:id" element={<Supplier />} />
           <Route path="/resource" element={<Resource />} />
           <Route path="/department" element={<Department />} />
+          <Route path="/settings" element={<Setting />} />
+          <Route path="/calendar" element={<CalendarPage />} />
           <Route
             path="/*"
             element={

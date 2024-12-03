@@ -26,7 +26,7 @@ export const Information = ({
     <Header data={data} onChange={onChange} onSave={onSave} loading={loading} />
     <PersonalData data={data} onChange={onChange} errors={errors} />
     <Divider />
-    <Category />
+    <Category data={data} onChange={onChange} errors={errors} />
     <Divider />
     <Additional data={data} onChange={onChange} errors={errors} />
   </StyledInformation>

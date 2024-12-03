@@ -16,6 +16,7 @@ interface Props {
   measure?: string;
   price: number;
   balance: number;
+  costPrice: number;
   onDelete: () => void;
   id: number;
 }
@@ -32,6 +33,7 @@ export const Row = ({
   measure,
   price,
   balance,
+  costPrice,
   onDelete,
   id,
 }: Props) => {
@@ -52,10 +54,11 @@ export const Row = ({
       <StyledRow className={className}>{article}</StyledRow>
       <StyledRow className={className}>{category ?? ""}</StyledRow>
       <StyledRow className={className}>
-        <span>{vendors}</span>
+        <span>{vendors && vendors?.length > 0 ? vendors : "-"}</span>
       </StyledRow>
       <StyledRow className={className}>{balance}</StyledRow>
       <StyledRow className={className}>{measure}</StyledRow>
+      <StyledRow className={className}>{costPrice} ₴</StyledRow>
       <StyledRow className={className}>{price} ₴</StyledRow>
       <StyledRow className={`${className} p-0`}>
         <Actions

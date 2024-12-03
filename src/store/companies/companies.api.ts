@@ -1,6 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { baseUrl, headers } from "../../api";
-import { CompaniesResponse, CompanyResponse } from "../../types/companies";
+import {
+  CompaniesResponse,
+  CompanyCategoriesResponse,
+  CompanyResponse,
+} from "../../types/companies";
+import { Option } from "../../components/Select/Select";
 
 export const companies = createApi({
   reducerPath: "companies/api",
@@ -30,6 +35,14 @@ export const companies = createApi({
         headers: headers(),
       }),
     }),
+    addCompanyCategory: build.query({
+      query: (title) => ({
+        url: "/company-category/add-category",
+        method: "POST",
+        params: { title },
+        headers: headers(),
+      }),
+    }),
     deleteCompany: build.query({
       query: (id) => ({
         url: "/company/delete-company",
@@ -48,6 +61,19 @@ export const companies = createApi({
         return resp.response;
       },
     }),
+    getCompanyCategories: build.query({
+      query: () => ({
+        url: "/company-category/get-categories",
+        method: "GET",
+        headers: headers(),
+      }),
+      transformResponse: (resp: CompanyCategoriesResponse): Option[] => {
+        return resp.response?.categories?.map(({ title, id }) => ({
+          title,
+          value: id,
+        }));
+      },
+    }),
   }),
 });
 
@@ -57,4 +83,6 @@ export const {
   useLazyDeleteCompanyQuery,
   useLazyGetCompaniesQuery,
   useLazySetCompanyQuery,
+  useLazyAddCompanyCategoryQuery,
+  useGetCompanyCategoriesQuery,
 } = companies;

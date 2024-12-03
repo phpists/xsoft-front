@@ -44,13 +44,26 @@ export const ProductsTable = ({
       onClick: () => onSort("category_id"),
     },
     { title: "Склад", sortable: true, onClick: () => onSort("vendors") },
-    { title: "Наявність", sortable: true, onClick: () => onSort("balance") },
+    {
+      title: "Критичний залишок",
+      sortable: true,
+      onClick: () => onSort("balance"),
+    },
     {
       title: "Одиниця \n виміру",
       sortable: true,
       onClick: () => onSort("product_measure_id"),
     },
-    { title: "Ціна ", sortable: true, onClick: () => onSort("retail_price") },
+    {
+      title: "Собівартість ",
+      sortable: true,
+      onClick: () => onSort("cost_price"),
+    },
+    {
+      title: "Роздрібна ціна ",
+      sortable: true,
+      onClick: () => onSort("retail_price"),
+    },
   ];
 
   const getEnding = (ids: number[]) => (ids?.length === 1 ? "" : "и");
@@ -109,6 +122,7 @@ export const ProductsTable = ({
               product_measure_id,
               retail_price,
               balance,
+              cost_price,
             },
             i
           ) => (
@@ -136,6 +150,7 @@ export const ProductsTable = ({
                 )?.title
               }
               price={retail_price}
+              costPrice={cost_price}
               balance={balance}
               onDelete={() => handleOpenDeleteModal(id)}
               id={id}

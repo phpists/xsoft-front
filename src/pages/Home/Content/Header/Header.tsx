@@ -11,7 +11,7 @@ export const Header = () => {
     <div className="flex items-center justify-between mb-[26px]">
       <Title />
       <div className="flex items-center gap-6">
-        {user?.role_id === 3 ? <AddButton /> : null}
+        <AddButton />
         <Setting />
         <Actions />
       </div>

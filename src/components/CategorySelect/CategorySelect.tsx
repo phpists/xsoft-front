@@ -13,6 +13,7 @@ interface Props {
   error?: boolean;
   onSuccessfulAdCategory?: () => void;
   className?: string;
+  company?: boolean;
 }
 
 export const CategorySelect = ({
@@ -24,6 +25,7 @@ export const CategorySelect = ({
   error,
   onSuccessfulAdCategory,
   className,
+  company,
 }: Props) => {
   const [modal, setModal] = useState(false);
 
@@ -33,6 +35,7 @@ export const CategorySelect = ({
         <CategoryModal
           onClose={() => setModal(false)}
           onSucess={onSuccessfulAdCategory}
+          company={company}
         />
       )}
       <Select

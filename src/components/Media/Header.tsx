@@ -1,14 +1,18 @@
 import { BiImages } from "react-icons/bi";
 import styled from "styled-components";
 
-export const Header = () => (
+interface Props {
+  filesCount: number;
+}
+
+export const Header = ({ filesCount }: Props) => (
   <StyledHeader className="flex items-center gap-2">
     <div className="icon">
       <BiImages />
     </div>
     <div>
       <div className="title">Медіа матеріали:</div>
-      <div className="subtitle">2 файли</div>
+      <div className="subtitle">{filesCount} файли</div>
     </div>
   </StyledHeader>
 );

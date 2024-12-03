@@ -26,6 +26,7 @@ import {
   INIT_PHONE,
   IPhone,
 } from "../../../components/PhonesInput/PhonesInput";
+import { ISearchStaffItemResponse } from "../../../types/personal";
 
 const TABS = [
   { title: "Профіль", Icon: BiHappy },
@@ -58,6 +59,9 @@ export interface IPerson {
   password: string;
   phones: IPhone[];
   branches: number[];
+  position_id?: number;
+  department_id?: number;
+  phone?: string;
 }
 
 export const Content = () => {
@@ -72,6 +76,9 @@ export const Content = () => {
   const [editProfile] = useLazyEditStaffQuery();
   const [saveMedia] = useLazySaveStaffMediaQuery();
   const [media, setMedia] = useState<MediaFile[]>([]);
+  const [selectedUser, setSelectedUser] = useState<
+    ISearchStaffItemResponse | undefined
+  >(undefined);
 
   const handleChangeTab = (tab: number) => setActiveTab(tab);
 
@@ -109,14 +116,14 @@ export const Content = () => {
     const fieldsErr: string[] = [];
 
     !data.role_id && fieldsErr.push("role_id");
-    data.first_name?.length === 0 && fieldsErr.push("first_name");
-    data.last_name?.length === 0 && fieldsErr.push("last_name");
-    if (data.email?.length === 0 || checkEmailValidation(data.email)) {
-      fieldsErr.push("email");
-    }
-    (data.password?.length === 0 || !data.password) &&
-      !id &&
-      fieldsErr.push("password");
+    // data.first_name?.length === 0 && fieldsErr.push("first_name");
+    // data.last_name?.length === 0 && fieldsErr.push("last_name");
+    // if (data.email?.length === 0 || checkEmailValidation(data.email)) {
+    //   fieldsErr.push("email");
+    // }
+    // (data.password?.length === 0 || !data.password) &&
+    //   !id &&
+    //   fieldsErr.push("password");
 
     setErrors(fieldsErr);
     if (fieldsErr?.length > 0) {
@@ -158,11 +165,16 @@ export const Content = () => {
     }
   };
 
-  useEffect(() => {
-    if (id) {
-      getPerson(id).then((resp: any) => {
+  const handleGetPerson = (selectedId?: string) => {
+    if (selectedId) {
+      getPerson(selectedId).then((resp: any) => {
         const { media, branches, ...otherData } = resp?.data?.response?.staff;
-        setData({ ...otherData, branches: branches.map((b: any) => b.id) });
+        setData({
+          ...otherData,
+          branches: branches.map((b: any) => b.id),
+          phones: otherData.phones ?? [INIT_PHONE],
+        });
+        setSelectedUser(resp?.data?.response?.staff);
         setMedia(
           media.map((m: any) => ({
             file: undefined,
@@ -172,6 +184,15 @@ export const Content = () => {
         );
       });
     }
+  };
+
+  const handleChangeSelectedUser = (val: any | undefined) => {
+    setSelectedUser(val);
+    val && setData({ ...val, phones: val.phones ?? [INIT_PHONE] });
+  };
+
+  useEffect(() => {
+    handleGetPerson(id);
   }, []);
 
   return (
@@ -197,6 +218,8 @@ export const Content = () => {
                 loading={loading}
                 files={media}
                 onChangeFiles={(val: MediaFile[]) => setMedia(val)}
+                selectedUser={selectedUser}
+                onChangeSelectedUser={handleChangeSelectedUser}
               />
             ) : activeTab === 2 ? (
               <Schedule />

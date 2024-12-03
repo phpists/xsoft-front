@@ -17,8 +17,30 @@ export const Content = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>(
     undefined
   );
+  const [filter, setFilter] = useState<{
+    categories: string[];
+    measurements: string[];
+    min_price?: number;
+    max_price?: number;
+  }>({
+    categories: [],
+    measurements: [],
+    min_price: undefined,
+    max_price: undefined,
+  });
 
-  const handleSelectCategory = (val?: number) => setSelectedCategory(val);
+  const handleChangeFilter = (field: string, value: string[] | number) => {
+    setFilter({ ...filter, [field]: value });
+    setSelectedCategory(undefined);
+  };
+
+  const handleSelectCategory = (val?: number) => {
+    setSelectedCategory(val);
+    setFilter({ ...filter, categories: [] });
+    val
+      ? localStorage.setItem("items_catalog_selected_category", val?.toString())
+      : localStorage.removeItem("items_catalog_selected_category");
+  };
 
   const handleSelect = (id: number) =>
     setSelected(
@@ -43,6 +65,7 @@ export const Content = () => {
       q: search,
       sortDesc,
       category_id: selectedCategory,
+      ...filter,
     }).then((resp) => {
       setData(resp?.data?.data ?? []);
       setLoading(false);
@@ -51,7 +74,7 @@ export const Content = () => {
 
   useEffect(() => {
     handleGetClients();
-  }, [sortBy, search, sortDesc, selectedCategory]);
+  }, [sortBy, search, sortDesc, selectedCategory, filter]);
 
   const handleDelete = (ids: number[], clearSelected?: boolean) => {
     setData(data?.filter((c) => !ids.includes(c.id)));
@@ -60,7 +83,12 @@ export const Content = () => {
 
   return (
     <StyledContent>
-      <Header search={search} onSearch={handleSearch} />
+      <Header
+        search={search}
+        onSearch={handleSearch}
+        filter={filter}
+        onChangeFilter={handleChangeFilter}
+      />
       <div className="flex w-full gap-2">
         <Categories
           selected={selectedCategory}

@@ -8,7 +8,10 @@ interface Props {
 }
 
 export const Checkbox = ({ checked, onClick, className }: Props) => (
-  <StyledCheckbox onClick={onClick} className={className}>
+  <StyledCheckbox
+    onClick={onClick}
+    className={`flex items-center justify-center ${className}`}
+  >
     <button
       className={`flex items-center justify-center ${checked && "active"}`}
     >

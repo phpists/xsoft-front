@@ -28,7 +28,7 @@ export const Companies = ({ data }: Props) => {
 
   return (
     <StyledCompanies>
-      <SelectedCompany selected={selectedCompany} />
+      {/* <SelectedCompany selected={selectedCompany} /> */}
       <List selected={selectedCompany} onSelect={handleSelect} data={data} />
     </StyledCompanies>
   );
@@ -38,6 +38,6 @@ const StyledCompanies = styled.div`
   height: 100%;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr max-content;
+  grid-template-rows: 1fr;
   gap: 14px;
 `;

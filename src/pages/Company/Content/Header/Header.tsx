@@ -4,7 +4,11 @@ import { Title } from "./Title";
 import { Actions } from "./Actions/Actions";
 import { useParams } from "react-router-dom";
 
-export const Header = () => {
+interface Props {
+  isMine: boolean;
+}
+
+export const Header = ({ isMine }: Props) => {
   const { id } = useParams();
 
   return (
@@ -13,7 +17,7 @@ export const Header = () => {
         <BackButton />
         <Title />
       </div>
-      {id ? <Actions /> : null}
+      {id && isMine ? <Actions /> : null}
     </StyledHeader>
   );
 };

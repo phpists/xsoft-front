@@ -1,20 +1,8 @@
 import styled from "styled-components";
 import { Select } from "../../Select/Select";
+import { MONTHS } from "../../../constants";
 
-const MONTHS = [
-  "Січень",
-  "Лютий",
-  "Березень",
-  "Квітень",
-  "Травень",
-  "Червень",
-  "Липень",
-  "Серпень",
-  "Вересень",
-  "Жовтень",
-  "Листопад",
-  "Грудень",
-];
+
 
 interface Props {
   date: Date;

@@ -7,7 +7,7 @@ export const Actions = () => {
   const { user } = useAppSelect((state) => state.auth);
   return (
     <div className="flex items-center gap-6">
-      {user?.role_id === 3 ? <DeleteButton /> : null}
+      <DeleteButton />
       <ActionsButton
         options={[
           { title: "Додати в чорний список", onClick: () => null },

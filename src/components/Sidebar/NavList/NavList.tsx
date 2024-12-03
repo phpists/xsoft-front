@@ -53,7 +53,6 @@ export const NavList = () => {
       Icon: BiCalendar,
       IconActive: BiSolidCalendar,
       link: "/calendar",
-      className: "notActive",
     },
     {
       title: "Фінанси",
@@ -103,7 +102,6 @@ export const NavList = () => {
       Icon: BiCog,
       IconActive: BiSolidCog,
       link: "/settings",
-      className: "notActive",
     },
     {
       title: "Віджети",
