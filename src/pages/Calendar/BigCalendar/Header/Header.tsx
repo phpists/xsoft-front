@@ -35,4 +35,7 @@ export const Header = () => (
   </StyledHeader>
 );
 
-const StyledHeader = styled.div``;
+const StyledHeader = styled.div`
+  position: relative;
+  z-index: 5;
+`;

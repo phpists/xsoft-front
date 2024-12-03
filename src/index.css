@@ -56,7 +56,7 @@ input[type="number"]::-webkit-outer-spin-button {
   overflow: hidden;
   transition: all 0.3s;
   &.open {
-    width: 284px;
+    width: 290px;
     padding: 20px 8px 40px;
     overflow: unset;
     border-right: 1px solid #dbdbdb;
@@ -119,3 +119,4 @@ input:focus {
   right: 0;
   z-index: 10;
 }
+

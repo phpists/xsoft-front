@@ -5,9 +5,11 @@ import { Day } from "./Day";
 
 interface Props {
   date: Date;
+  selected?: string;
+  onSelectDay: (day?: string) => void;
 }
 
-export const Days = ({ date }: Props) => {
+export const Days = ({ date, selected, onSelectDay }: Props) => {
   const [prevDays, setPrevDays] = useState<string[]>([]);
   const [days, setDays] = useState<string[]>([]);
   const [nextDays, setNextDays] = useState<string[]>([]);
@@ -55,13 +57,30 @@ export const Days = ({ date }: Props) => {
       <StyledDays>
         <div className="days-wrapper">
           {prevDays?.map((d) => (
-            <Day key={d} date={new Date(d)?.getDate()?.toString()} empty />
+            <Day
+              key={d}
+              date={new Date(d)?.getDate()?.toString()}
+              empty
+              selected={selected === d}
+              onSelect={() => onSelectDay(d)}
+            />
           ))}
           {days?.map((d) => (
-            <Day key={d} date={new Date(d)?.getDate()?.toString()} />
+            <Day
+              key={d}
+              date={new Date(d)?.getDate()?.toString()}
+              selected={selected === d}
+              onSelect={() => onSelectDay(d)}
+            />
           ))}
           {nextDays?.map((d) => (
-            <Day key={d} date={new Date(d)?.getDate()?.toString()} empty />
+            <Day
+              key={d}
+              date={new Date(d)?.getDate()?.toString()}
+              empty
+              selected={selected === d}
+              onSelect={() => onSelectDay(d)}
+            />
           ))}
         </div>
       </StyledDays>

@@ -16,7 +16,9 @@
     "axios": "^1.7.7",
     "cogo-toast": "^4.2.3",
     "leaflet": "^1.9.4",
+    "moment": "^2.30.1",
     "react": "^18.3.1",
+    "react-big-calendar": "^1.16.3",
     "react-dom": "^18.3.1",
     "react-dropzone": "^14.3.5",
     "react-icons": "^5.3.0",
@@ -55,6 +57,7 @@
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.14",
+    "@types/react-big-calendar": "^1.16.0",
     "tailwindcss": "^3.4.14"
   }
 }
