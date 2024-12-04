@@ -27,7 +27,7 @@ export const Days = ({ date, selected, onSelectDay }: Props) => {
     let updatedPrevDays = [];
     for (let i = startDayOfWeek; i > 0; i--) {
       updatedPrevDays.push(
-        `${year}-${handleAddZero(month)}-${handleAddZero(
+        `${year}-${handleAddZero(month === 0 ? 12 : month)}-${handleAddZero(
           lastDayPrevMonth - i + 1
         )}`
       );
@@ -42,7 +42,9 @@ export const Days = ({ date, selected, onSelectDay }: Props) => {
     let updatedNextDays = [];
     for (let i = 1; daysDisplayed + i <= 42; i++) {
       updatedNextDays.push(
-        `${year}-${handleAddZero(month + 1)}-${handleAddZero(i)}`
+        `${month + 2 === 13 ? 1 + year : year}-${handleAddZero(
+          month + 2 === 13 ? 1 : month + 2
+        )}-${handleAddZero(i)}`
       );
     }
     setNextDays(updatedNextDays);

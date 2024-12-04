@@ -60,7 +60,7 @@ export const BrandsTable = ({
         <Confirm
           title={`Видалення бренд${getEnding(selected)}`}
           subtitle={`Ви впевнені що хочете назавжди \n видалити бренд${
-            selected?.length === 0 ? null : getEnding(selected)
+            selected?.length === 0 ? "" : getEnding(selected)
           }?`}
           submitText={`Видалити`}
           onClose={() => setModal(false)}

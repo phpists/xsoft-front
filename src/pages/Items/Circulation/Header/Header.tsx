@@ -5,9 +5,14 @@ import { Select } from "../../../../components/Select/Select";
 import { CalendarFilter } from "./CalendarFilter";
 import { AddButton } from "./AddButton";
 import { ActionButton } from "./ActionButton";
-import { BiCartAlt, BiStoreAlt } from "react-icons/bi";
+import { BiCartAlt, BiMinus, BiPlus, BiStoreAlt } from "react-icons/bi";
+import { Button } from "./Button";
 
-export const Header = () => {
+interface Props {
+  onChangeCategory: (val: number) => void;
+}
+
+export const Header = ({ onChangeCategory }: Props) => {
   return (
     <StyledHeader>
       <div className="flex items-center justify-between mb-1">
@@ -17,7 +22,7 @@ export const Header = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3.5">
           <CalendarFilter />
-          <Select
+          {/* <Select
             label="Тип операцій"
             options={[
               { title: "Списання", value: "Списання" },
@@ -25,12 +30,22 @@ export const Header = () => {
               { title: "Продаж", value: "Продаж" },
             ]}
             className="type-select"
-          />
+          /> */}
         </div>
         <div className="flex items-center gap-3.5">
-          <ActionButton onClick={() => null} Icon={<BiStoreAlt size={20} />} />{" "}
-          <ActionButton onClick={() => null} Icon={<BiCartAlt size={20} />} />
-          <AddButton />
+          {" "}
+          <AddButton onClick={() => onChangeCategory(5)} />
+          <Button
+            title="Прихід"
+            Icon={BiPlus}
+            color="blue"
+            onClick={() => onChangeCategory(7)}
+          />
+          <Button
+            title="Списаня"
+            Icon={BiMinus}
+            onClick={() => onChangeCategory(6)}
+          />
         </div>
       </div>
     </StyledHeader>

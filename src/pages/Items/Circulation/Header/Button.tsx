@@ -4,10 +4,14 @@ interface Props {
   title: string;
   Icon: any;
   color?: "blue";
+  onClick: () => void;
 }
 
-export const Button = ({ title, Icon, color }: Props) => (
-  <StyledButton className={`flex items-center gap-1 ${color}`}>
+export const Button = ({ title, Icon, color, onClick }: Props) => (
+  <StyledButton
+    className={`flex items-center gap-1 ${color}`}
+    onClick={onClick}
+  >
     <Icon />
     {title}
   </StyledButton>

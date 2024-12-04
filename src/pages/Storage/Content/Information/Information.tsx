@@ -1,17 +1,33 @@
 import styled from "styled-components";
-import { Header } from "./Header/Header";
 import { MainInfo } from "./MainInfo/MainInfo";
 import { Button } from "../../../../components/Button";
-import { Files } from "../../../../components/Files/Files";
-import { Divider } from "../Divider";
+import { IStorage } from "../Content";
 
-export const Information = () => (
+interface Props {
+  data: IStorage;
+  onChange: (field: string, val: string) => void;
+  errors: string[];
+  onSave: () => void;
+  loading: boolean;
+}
+
+export const Information = ({
+  data,
+  onChange,
+  errors,
+  onSave,
+  loading,
+}: Props) => (
   <StyledInformation>
-    <Header />
-    <MainInfo />
-    <Divider />
-    <Files />
-    <Button title="Зберегти зміни" className="!w-[155px] !ml-auto" />
+    {/* <Header /> */}
+    <MainInfo data={data} onChange={onChange} errors={errors} />
+    <Button
+      title="Зберегти зміни"
+      className="!w-[155px] !ml-auto"
+      onClick={onSave}
+      disabled={loading}
+      loading={loading}
+    />
   </StyledInformation>
 );
 

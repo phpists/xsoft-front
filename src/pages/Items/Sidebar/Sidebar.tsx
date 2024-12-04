@@ -30,29 +30,25 @@ export const Sidebar = ({ category, onChangeCategory }: Props) => {
       <div>
         <Title />
         <CategoryCard
-          title="Склади"
-          Icon={<BiDiamond size={20} />}
-          className="mb-3.5"
-          options={[
-            { title: "Всі ресурси", value: "1" },
-            { title: "Записи", value: "2" },
-          ]}
-          active={category === 3}
-          onClick={() => onChangeCategory(3)}
-        />
-        <CategoryCard
           title="Обіг товарів"
           Icon={<BiUser size={20} />}
-          className="mb-[34px]"
+          className="mb-3.5"
           active={[4, 5, 6, 7].includes(category)}
           onClick={() => onChangeCategory(4)}
-          options={[
-            { title: "Продаж товару", value: 5 },
-            { title: "Списання товару", value: 6 },
-            { title: "Прихід товару", value: 7 },
-          ]}
+        //   options={[
+        //     { title: "Продаж товару", value: 5 },
+        //     { title: "Прихід товару", value: 7 },
+        //     { title: "Списання товару", value: 6 },
+        //   ]}
           value={category}
           onChange={(val: string | number) => onChangeCategory(Number(val))}
+        />
+        <CategoryCard
+          title="Склади"
+          Icon={<BiDiamond size={20} />}
+          className="mb-[34px]"
+          active={category === 3}
+          onClick={() => onChangeCategory(3)}
         />
         <CategoryCard
           title="Каталог товарів"

@@ -1,15 +1,15 @@
 import styled from "styled-components";
 import { Product } from "./Product";
-import { Media } from "../../../../components/Media/Media";
-import { Location } from "../../../../components/Location";
+import { Empty } from "./Empty";
 
-export const Info = () => {
+interface Props {
+  title: string;
+}
+
+export const Info = ({ title }: Props) => {
   return (
     <StyledInfo>
-      {/* <Empty /> */}
-      <Product />
-      <Location location="Львів, Дрогобич" className="mt-2.5 mb-6" />
-      <Media />
+      {title?.length === 0 ? <Empty /> : <Product title={title} />}
     </StyledInfo>
   );
 };

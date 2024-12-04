@@ -6,11 +6,17 @@ interface Props {
   selected: number[];
   onSelect: (id: number) => void;
   onSelectAll: () => void;
+  onChangeCategory: (val: number) => void;
 }
 
-export const Circulation = ({ selected, onSelect, onSelectAll }: Props) => (
+export const Circulation = ({
+  selected,
+  onSelect,
+  onSelectAll,
+  onChangeCategory,
+}: Props) => (
   <StyledCirculation>
-    <Header />
+    <Header onChangeCategory={onChangeCategory} />
     <CirculationTable
       selected={selected}
       onSelect={onSelect}

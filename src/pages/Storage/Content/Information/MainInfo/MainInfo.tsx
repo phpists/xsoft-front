@@ -2,22 +2,32 @@ import styled from "styled-components";
 import { SectionTitle } from "../../SectionTitle";
 import { Input } from "../../../../../components/Input/Input";
 import { Textarea } from "../../../../../components/Textarea";
-import { Select } from "../../../../../components/Select/Select";
+import { IStorage } from "../../Content";
 
-export const MainInfo = () => (
+interface Props {
+  data: IStorage;
+  onChange: (field: string, val: string) => void;
+  errors: string[];
+}
+
+export const MainInfo = ({ data, onChange, errors }: Props) => (
   <StyledMainInfo>
     <SectionTitle title="Основна інформація" />
-    <Input label="Назва" required className="max-w-[479px] mb-3.5" />
-    <Select
-      label="Тип складу"
-      options={[
-        { title: "Тип 1", value: "1" },
-        { title: "Тип 2", value: "2" },
-        { title: "Тип 3", value: "3" },
-      ]}
+    <Input
+      label="Назва"
+      required
       className="max-w-[479px] mb-3.5"
+      value={data.title}
+      onChange={(val) => onChange("title", val.toString())}
+      error={!!errors.includes("title")}
     />
-    <Textarea label="Опис" className="max-w-[479px]" />
+    <Textarea
+      label="Опис"
+      className="max-w-[479px]"
+      value={data.description}
+      onChange={(val) => onChange("description", val.toString())}
+      error={!!errors.includes("description")}
+    />
   </StyledMainInfo>
 );
 

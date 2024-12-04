@@ -14,8 +14,8 @@ export const Avatar = ({
   size = 24,
   className,
   download,
-  firstName = "О",
-  lastName = "М",
+  firstName = "",
+  lastName = "",
   color = "#2eb062",
 }: Props) => (
   <StyledAvatar

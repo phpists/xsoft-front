@@ -17,7 +17,6 @@ export const Header = ({ off }: Props) => {
           className="!mb-0"
         />
       </div>
-      <Actions />
     </StyledHeader>
   );
 };

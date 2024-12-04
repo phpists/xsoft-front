@@ -51,12 +51,6 @@ export const Selling = ({ off }: Props) => {
     <StyledSelling>
       <Header off={off} />
       <div className="selling-content">
-        {" "}
-        <div className="py-3.5 px-4 border-b-[1px] border-[#DBDBDB] bg-white">
-          <div className="w-[196px]">
-            <Tabs tabs={TABS} active={0} onChange={() => null} />
-          </div>
-        </div>
         <Information
           data={data}
           onChange={handleChangeField}

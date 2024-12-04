@@ -41,16 +41,13 @@ export const Items = () => {
         ) : category === 2 ? (
           <Suppliers />
         ) : category === 3 ? (
-          <Storages
-            selected={selected}
-            onSelect={handleSelect}
-            onSelectAll={handleSelectAll}
-          />
+          <Storages />
         ) : category === 4 ? (
           <Circulation
             selected={selected}
             onSelect={handleSelect}
             onSelectAll={handleSelectAll}
+            onChangeCategory={handleChangeCategory}
           />
         ) : category === 5 ? (
           <Selling />

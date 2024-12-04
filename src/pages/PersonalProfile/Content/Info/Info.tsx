@@ -51,7 +51,14 @@ export const Info = ({ data, files, onChangeFiles }: Props) => {
         <Media files={files} onDelete={handleDeleteMedia} />
       ) : null}
       {data?.phone ? (
-        <Phones phone={{ phone: data?.phone, type_id: [] }} />
+        <Phones
+          phone={{
+            phone: `${data?.phone?.includes("+380") ? "" : "+380"}${
+              data?.phone
+            }`,
+            type_id: [],
+          }}
+        />
       ) : null}
     </StyledInfo>
   );

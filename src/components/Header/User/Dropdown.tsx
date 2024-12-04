@@ -32,7 +32,7 @@ const StyledDropdown = styled.div`
   padding: 8px;
   border-radius: 8px;
   border: 0.5px solid #dbdbdb;
-  z-index: 2;
+  z-index: 10;
   div {
     font-size: 14px;
     font-weight: 400;

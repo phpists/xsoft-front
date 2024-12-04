@@ -3,6 +3,7 @@ import { Input } from "../../../../../components/Input/Input";
 import { BiRefresh } from "react-icons/bi";
 import { IProduct, IProductInfo } from "../../../../../types/products";
 import { SectionTitle } from "../SectionTitle";
+import { Textarea } from "../../../../../components/Textarea";
 
 interface Props {
   data: IProduct;
@@ -14,7 +15,7 @@ interface Props {
 export const MainInfo = ({ data, onChange, productInfo, errors }: Props) => (
   <StyledMainInfo>
     <SectionTitle title="Основна інформація" />
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between mb-2.5">
       <Input
         label="Назва"
         required
@@ -33,22 +34,15 @@ export const MainInfo = ({ data, onChange, productInfo, errors }: Props) => (
           onChange={(val) => onChange("article", val)}
           error={!!errors?.includes("article")}
         />
-        <Input
-          label="Одиниця виміру"
-          required
-          className="w-[160px]"
-          value={data?.product_measure_id}
-          options={
-            productInfo?.measurements?.map(({ id, title }) => ({
-              title,
-              value: id,
-            })) ?? []
-          }
-          onChange={(val) => onChange("product_measure_id", val)}
-          error={!!errors?.includes("product_measure_id")}
-        />
       </div>
     </div>
+    <Textarea
+      label="Опис"
+      className="textarea"
+      value={data.description}
+      onChange={(val) => onChange("description", val)}
+      error={!!errors?.includes("description")}
+    />
   </StyledMainInfo>
 );
 

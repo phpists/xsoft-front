@@ -2,48 +2,65 @@ import styled from "styled-components";
 import { Checkbox } from "../../../../components/Checkbox";
 import { Actions } from "../../../../components/Actions/Actions";
 import { Avatar } from "../../../../components/Avatar/Avatar";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   selected: boolean;
   onSelect: () => void;
   className?: string;
+  id: number;
+  title: string;
+  description: string;
+  onDelete: () => void;
 }
 
-export const Row = ({ selected, onSelect, className }: Props) => (
-  <>
-    <Checkbox checked={selected} onClick={onSelect} className={className} />
-    <StyledRow className={className}>
-      <div className="flex items-center gap-2">
-        <Avatar />
-        <span>Фіксуючий лак для волосся</span>
-      </div>
-    </StyledRow>
-    <StyledRow className={className}>Стайлінг</StyledRow>
-    <StyledRow className={className}>Склад 1</StyledRow>
-    <StyledRow className={className}>100</StyledRow>
-    <StyledRow className={className}>шт</StyledRow>
-    <StyledRow className={className}>10</StyledRow>
-    <StyledRow className={className}>100</StyledRow>
-    <StyledRow className={className}>99</StyledRow>
-    <StyledRow className={className}>10</StyledRow>
-    <StyledRow className={className}>5</StyledRow>
-    <StyledRow className={`${className} p-0`}>
-      <Actions
-        options={[
-          { title: "Додати в чорний список", onClick: () => null },
-          { title: "Заборонити онлайн запис", onClick: () => null },
-          { title: "Дозволити борг", onClick: () => null },
-        ]}
-      />
-    </StyledRow>
-  </>
-);
+export const Row = ({
+  selected,
+  onSelect,
+  className,
+  id,
+  title,
+  description,
+  onDelete,
+}: Props) => {
+  const navigate = useNavigate();
+
+  return (
+    <>
+      <Checkbox checked={selected} onClick={onSelect} className={className} />
+      <StyledRow
+        className={className}
+        onClick={() => navigate(`/storage/${id}`)}
+      >
+        <div className="flex items-center gap-2">
+          <Avatar firstName={title} />
+          <span>{title}</span>
+        </div>
+      </StyledRow>
+      <StyledRow
+        className={className}
+        onClick={() => navigate(`/storage/${id}`)}
+      >
+        <span>{description ?? "-"}</span>
+      </StyledRow>
+      <StyledRow className={`${className} p-0`}>
+        <Actions
+          options={[
+            { title: "Редагувати", onClick: () => navigate(`/storage/${id}`) },
+            { title: "Видалити", onClick: onDelete },
+          ]}
+        />
+      </StyledRow>
+    </>
+  );
+};
 
 const StyledRow = styled.div`
   padding: 8px;
   display: flex;
   align-items: center;
   height: 40px;
+  cursor: pointer;
   span {
     max-width: 208px;
     overflow: hidden;

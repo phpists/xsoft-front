@@ -35,39 +35,19 @@ export const Information = ({
   onRefreshProductInfo,
 }: Props) => (
   <StyledInformation>
-    <Header data={data} onChange={onChange} onSave={onSave} loading={loading} />
     <MainInfo
       data={data}
       onChange={onChange}
       productInfo={productInfo}
       errors={errors}
     />
-    <Divider />
-    <Category
-      data={data}
-      onChange={onChange}
-      productInfo={productInfo}
-      errors={errors}
-      onRefreshProductInfo={onRefreshProductInfo}
-    />
-    <Divider />
     <Selling
       data={data}
       onChange={onChange}
       productInfo={productInfo}
       errors={errors}
-    />
-    <Divider />
-    {/* <Materials data={data} onChange={onChange} productInfo={productInfo} />
-    <Divider /> */}
-    <Availability
-      data={data}
-      onChange={onChange}
-      productInfo={productInfo}
-      errors={errors}
-    />
-    <Divider />
-    <Files value={files} onAdd={onChangeFiles} />
+    />{" "}
+    <Header data={data} onChange={onChange} onSave={onSave} loading={loading} />
   </StyledInformation>
 );
 

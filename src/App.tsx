@@ -9,7 +9,6 @@ import { Product } from "./pages/Product/Product";
 import { Brand } from "./pages/Brand/Brand";
 import { Storage } from "./pages/Storage/Storage";
 import { Home } from "./pages/Home/Home";
-import { Products } from "./pages/Products/Products";
 import { Company } from "./pages/Company/Company";
 import { Personal } from "./pages/Personal/Personal";
 import { useAppSelect } from "./hooks/redux";
@@ -96,6 +95,7 @@ function App() {
           <Route path="/brand" element={<Brand />} />
           <Route path="/brand/:id" element={<Brand />} />
           <Route path="/storage" element={<Storage />} />
+          <Route path="/storage/:id" element={<Storage />} />
           <Route path="/" element={<Home />} />
           <Route path="/company" element={<Company />} />
           <Route path="/company/:id" element={<Company />} />

@@ -8,7 +8,8 @@ export const AddButton = () => (
   </StyledAddButton>
 );
 
-const StyledAddButton = styled.div`
+const StyledAddButton = styled.button`
+  width: 100%;
   height: 44px;
   background: #efefef;
   border-radius: 7px;

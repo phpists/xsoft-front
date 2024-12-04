@@ -20,31 +20,6 @@ export const Category = ({
   onRefreshProductInfo,
 }: Props) => (
   <StyledCategory>
-    <SectionTitle title="Бренда та категорія" />
-    <div className="flex items-center gap-3.5 w-full mb-3.5">
-      <CategorySelect
-        label="Бренд"
-        noAddButton
-        options={productInfo?.brands?.map(({ id, title }) => ({
-          title,
-          value: id,
-        }))}
-        value={data.brand_id}
-        onChange={(val) => onChange("brand_id", val)}
-        error={!!errors?.includes("brand_id")}
-      />
-      <CategorySelect
-        label="Категорія"
-        options={productInfo?.categories?.map(({ id, title }) => ({
-          title,
-          value: id,
-        }))}
-        value={data.category_id}
-        onChange={(val) => onChange("category_id", val)}
-        error={!!errors?.includes("category_id")}
-        onSuccessfulAdCategory={onRefreshProductInfo}
-      />
-    </div>
     <Textarea
       label="Опис"
       className="textarea"
