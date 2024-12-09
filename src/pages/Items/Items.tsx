@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Header } from "../../components/Header/Header";
 import { Sidebar } from "./Sidebar/Sidebar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Content } from "./Content/Content";
 import { Brands } from "./Brands/Brands";
 import { Storages } from "./Storages/Storages";
@@ -9,25 +9,28 @@ import { Suppliers } from "./Suppliers/Suppliers";
 import { Circulation } from "./Circulation/Circulation";
 import { Selling } from "./Selling/Selling";
 import { Arrival } from "./Arrival/Arrival";
+import { useLocation } from "react-router-dom";
 
 export const Items = () => {
-  const [selected, setSelected] = useState<number[]>([]);
+  const location = useLocation();
   const [category, setCategory] = useState(
     Number(localStorage.getItem("items_category")) ?? 0
   );
 
-  const handleSelect = (id: number) =>
-    setSelected(
-      selected.includes(id)
-        ? selected?.filter((s) => s !== id)
-        : [...selected, id]
-    );
-
-  const handleSelectAll = () => setSelected(Array.from(Array(20).keys()));
   const handleChangeCategory = (val: number) => {
     setCategory(val);
     localStorage.setItem("items_category", val.toString());
   };
+
+  useEffect(() => {
+    if (location.search?.includes("?sell=")) {
+      setCategory(5);
+    } else if (location.search?.includes("?remove=")) {
+      setCategory(6);
+    } else if (location.search?.includes("?movements=")) {
+      setCategory(7);
+    }
+  }, [location]);
 
   return (
     <StyledItems className="flex">
@@ -43,18 +46,13 @@ export const Items = () => {
         ) : category === 3 ? (
           <Storages />
         ) : category === 4 ? (
-          <Circulation
-            selected={selected}
-            onSelect={handleSelect}
-            onSelectAll={handleSelectAll}
-            onChangeCategory={handleChangeCategory}
-          />
+          <Circulation onChangeCategory={handleChangeCategory} />
         ) : category === 5 ? (
-          <Selling />
+          <Selling onBack={() => handleChangeCategory(4)} />
         ) : category === 6 ? (
-          <Selling off />
+          <Selling off onBack={() => handleChangeCategory(4)} />
         ) : category === 7 ? (
-          <Arrival />
+          <Arrival onBack={() => handleChangeCategory(4)} />
         ) : null}
       </div>
     </StyledItems>

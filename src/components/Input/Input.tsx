@@ -162,10 +162,11 @@ export const Input = ({
           sign ||
           options ||
           noCheck ||
+          calendar ||
           time ? null : value && value?.toString()?.length > 0 ? (
           <BiCheck size={16} className="ml-auto mr-2.5" fill="#077D55" />
         ) : null}
-        {options && inputFocused ? (
+        {options && inputFocused && !disabled ? (
           <Dropdown options={options} onChange={onChange} />
         ) : null}
       </StyledInput>

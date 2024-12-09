@@ -55,3 +55,20 @@ export const getSearchValues = () => {
     return {};
   }
 };
+
+export const getNowDate = () => {
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = d.getMonth();
+  const date = d.getDate();
+
+  return `${year}-${addZero(month + 1)}-${addZero(date)}`;
+};
+
+export const getNowHours = () => {
+  const d = new Date();
+  const hours = d.getHours();
+  const minutes = d.getMinutes();
+
+  return `${addZero(hours)}:${addZero(minutes)}`;
+};

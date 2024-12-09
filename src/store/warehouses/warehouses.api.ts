@@ -58,4 +58,5 @@ export const {
   useLazyDeleteWarehousesQuery,
   useLazyGetWarehouseQuery,
   useLazyGetWarehousesQuery,
+  useGetWarehousesQuery
 } = warehouses;

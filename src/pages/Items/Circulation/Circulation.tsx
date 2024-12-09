@@ -1,29 +1,82 @@
 import styled from "styled-components";
 import { Header } from "./Header/Header";
 import { CirculationTable } from "./SuppliersTable/CirculationTable";
+import { useEffect, useState } from "react";
+import { useLazyGetMovementsQuery } from "../../../store/movements/movements.api";
+import { IMovementsResponseDataItem } from "../../../types/movements";
 
 interface Props {
-  selected: number[];
-  onSelect: (id: number) => void;
-  onSelectAll: () => void;
   onChangeCategory: (val: number) => void;
 }
 
-export const Circulation = ({
-  selected,
-  onSelect,
-  onSelectAll,
-  onChangeCategory,
-}: Props) => (
-  <StyledCirculation>
-    <Header onChangeCategory={onChangeCategory} />
-    <CirculationTable
-      selected={selected}
-      onSelect={onSelect}
-      onSelectAll={onSelectAll}
-    />
-  </StyledCirculation>
-);
+export const Circulation = ({ onChangeCategory }: Props) => {
+  const [data, setData] = useState<IMovementsResponseDataItem[]>([]);
+  const [getMovements] = useLazyGetMovementsQuery();
+  const [selected, setSelected] = useState<number[]>([]);
+  const [sortBy, setSortBy] = useState<string | undefined>(undefined);
+  const [sortDesc, setSortDesc] = useState(false);
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<number | undefined>(
+    undefined
+  );
+
+  const handleSelectCategory = (val?: number) => setSelectedCategory(val);
+
+  const handleSelect = (id: number) =>
+    setSelected(
+      selected.includes(id)
+        ? selected?.filter((s) => s !== id)
+        : [...selected, id]
+    );
+
+  const handleSelectAll = () =>
+    setSelected(data.length === selected.length ? [] : data?.map((c) => c.id));
+
+  const handleChangeSortBy = (val: string) => {
+    setSortBy(val);
+    setSortDesc(val === sortBy ? !sortDesc : false);
+  };
+  const handleSearch = (val: string) => setSearch(val);
+
+  const handleGetData = () => {
+    setLoading(true);
+    getMovements({
+      sortBy,
+      q: search,
+      sortDesc,
+    }).then((resp) => {
+      setData(resp?.data?.data ?? []);
+      setLoading(false);
+    });
+  };
+
+  useEffect(() => {
+    handleGetData();
+  }, [sortBy, search, sortDesc, selectedCategory]);
+
+  const handleDelete = (ids: number[], clearSelected?: boolean) => {
+    setData(data?.filter((c) => !ids.includes(c.id)));
+    clearSelected && setSelected([]);
+  };
+  return (
+    <StyledCirculation>
+      <Header
+        onChangeCategory={onChangeCategory}
+        search={search}
+        onSearch={handleSearch}
+      />
+      <CirculationTable
+        selected={selected}
+        onSelect={handleSelect}
+        onSelectAll={handleSelectAll}
+        data={data}
+        onSortBy={handleChangeSortBy}
+        loading={loading}
+      />
+    </StyledCirculation>
+  );
+};
 
 const StyledCirculation = styled.div`
   padding: 10px 14px 14px;

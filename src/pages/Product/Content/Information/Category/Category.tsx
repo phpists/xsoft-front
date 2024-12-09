@@ -27,7 +27,7 @@ export const Category = ({
         noAddButton
         options={productInfo?.brands?.map(({ id, title }) => ({
           title,
-          value: id,
+          value: id?.toString(),
         }))}
         value={data.brand_id}
         onChange={(val) => onChange("brand_id", val)}
@@ -37,7 +37,7 @@ export const Category = ({
         label="Категорія"
         options={productInfo?.categories?.map(({ id, title }) => ({
           title,
-          value: id,
+          value: id?.toString(),
         }))}
         value={data.category_id}
         onChange={(val) => onChange("category_id", val)}

@@ -5,13 +5,14 @@ import { BackButton } from "./BackButton";
 
 interface Props {
   off?: boolean;
+  onBack: () => void;
 }
 
-export const Header = ({ off }: Props) => {
+export const Header = ({ off, onBack }: Props) => {
   return (
     <StyledHeader className="flex items-center justify-between ">
       <div className="flex items-center">
-        <BackButton />
+        <BackButton onBack={onBack} />
         <Title
           title={off ? "Списання товару" : "Продаж товару"}
           className="!mb-0"

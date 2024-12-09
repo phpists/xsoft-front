@@ -1,27 +1,26 @@
 import styled from "styled-components";
 import { Title } from "../../Title";
 import { Actions } from "./Actions/Actions";
-import { Select } from "../../../../components/Select/Select";
-import { CalendarFilter } from "./CalendarFilter";
 import { AddButton } from "./AddButton";
-import { ActionButton } from "./ActionButton";
-import { BiCartAlt, BiMinus, BiPlus, BiStoreAlt } from "react-icons/bi";
+import { BiCartAlt, BiMinus, BiPlus } from "react-icons/bi";
 import { Button } from "./Button";
 
 interface Props {
   onChangeCategory: (val: number) => void;
+  search: string;
+  onSearch: (val: string) => void;
 }
 
-export const Header = ({ onChangeCategory }: Props) => {
+export const Header = ({ onChangeCategory, search, onSearch }: Props) => {
   return (
     <StyledHeader>
       <div className="flex items-center justify-between mb-1">
         <Title title="Обіг товарів" />
-        <Actions />
+        <Actions search={search} onSearch={onSearch} />
       </div>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3.5">
-          <CalendarFilter />
+          {/* <CalendarFilter /> */}
           {/* <Select
             label="Тип операцій"
             options={[

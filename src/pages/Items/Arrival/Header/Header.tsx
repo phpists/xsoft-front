@@ -1,20 +1,22 @@
 import styled from "styled-components";
 import { Title } from "../../Title";
-import { Actions } from "./Actions/Actions";
 import { BackButton } from "./BackButton";
 
-export const Header = () => {
+interface Props {
+  onBack: () => void;
+}
+
+export const Header = ({ onBack }: Props) => {
   return (
     <StyledHeader className="flex items-center justify-between ">
       <div className="flex items-center">
-        <BackButton />
+        <BackButton onBack={onBack} />
         <Title title={"Прихід товару"} className="!mb-0" />
       </div>
-      <Actions />
     </StyledHeader>
   );
 };
 
 const StyledHeader = styled.div`
-  margin: 8px 0 5px;
+  margin: 8px 0 10px;
 `;

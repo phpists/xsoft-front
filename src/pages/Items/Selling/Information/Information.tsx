@@ -1,53 +1,41 @@
 import styled from "styled-components";
 import { Header } from "./Header/Header";
 import { MainInfo } from "./MainInfo/MainInfo";
-import { Category } from "./Category/Category";
 import { Selling } from "./Selling/Selling";
-import { Availability } from "./Availability";
-import { Files, MediaFile } from "../../../../components/Files/Files";
-import { IProduct, IProductInfo } from "../../../../types/products";
-import { Divider } from "./Divider";
+import { ISellingProduct } from "../Selling";
+import { IMovementsSearchResponseItem } from "../../../../types/movements";
 
 interface Props {
-  data: IProduct;
+  data: ISellingProduct;
   onChange: (
     field: string,
     value: string | boolean | number | string[] | number[]
   ) => void;
-  productInfo?: IProductInfo;
   onSave: () => void;
   errors: string[];
   loading: boolean;
-  files: MediaFile[];
-  onChangeFiles: (val: MediaFile[]) => void;
-  onRefreshProductInfo: () => void;
+  onSelectProduct: (product: IMovementsSearchResponseItem) => void;
+  off?: boolean;
 }
 
 export const Information = ({
   data,
   onChange,
-  productInfo,
   onSave,
   errors,
   loading,
-  onChangeFiles,
-  files,
-  onRefreshProductInfo,
+  onSelectProduct,
+  off,
 }: Props) => (
   <StyledInformation>
     <MainInfo
       data={data}
       onChange={onChange}
-      productInfo={productInfo}
       errors={errors}
+      onSelectProduct={onSelectProduct}
     />
-    <Selling
-      data={data}
-      onChange={onChange}
-      productInfo={productInfo}
-      errors={errors}
-    />{" "}
-    <Header data={data} onChange={onChange} onSave={onSave} loading={loading} />
+    <Selling data={data} onChange={onChange} errors={errors} />{" "}
+    <Header onSave={onSave} loading={loading} off={off} />
   </StyledInformation>
 );
 

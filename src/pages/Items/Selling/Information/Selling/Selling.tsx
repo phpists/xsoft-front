@@ -1,15 +1,17 @@
 import { Input } from "../../../../../components/Input/Input";
-import { SectionTitle } from "../SectionTitle";
-import { IProduct, IProductInfo } from "../../../../../types/products";
+import { useGetMovementsInfoQuery } from "../../../../../store/movements/movements.api";
+import { IProductInfo } from "../../../../../types/products";
+import { ISellingProduct } from "../../Selling";
 
 interface Props {
-  data: IProduct;
+  data: ISellingProduct;
   onChange: (field: string, value: string | boolean | number) => void;
-  productInfo?: IProductInfo;
   errors: string[];
 }
 
-export const Selling = ({ data, onChange, productInfo, errors }: Props) => {
+export const Selling = ({ data, onChange, errors }: Props) => {
+  const { data: info } = useGetMovementsInfoQuery({});
+
   return (
     <div>
       <div className="flex items-center max-w-[510px] gap-2.5">
@@ -19,17 +21,22 @@ export const Selling = ({ data, onChange, productInfo, errors }: Props) => {
             number
             labelActive
             className="w-[92px]"
-            value={10}
+            value={data.qty}
+            onChange={(val) => onChange("qty", val)}
+            error={!!errors?.includes("qty")}
           />{" "}
           <Input
-            label="Одинця"
-            value="шт"
-            options={[
-              { title: "шт", value: "шт" },
-              { title: "кг", value: "кг" },
-            ]}
+            label="Одиниця"
+            options={
+              info?.measurements.map(({ title, id }) => ({
+                title,
+                value: id,
+              })) ?? []
+            }
             labelActive
             className="w-[85px]"
+            value={data.measurement_id}
+            disabled
           />{" "}
           <Input
             label="Ціна закупки"
@@ -37,7 +44,9 @@ export const Selling = ({ data, onChange, productInfo, errors }: Props) => {
             labelActive
             className="w-[154px]"
             sign="UAH"
-            value={450}
+            value={data.cost_price}
+            onChange={(val) => onChange("cost_price", val)}
+            error={!!errors?.includes("cost_price")}
           />{" "}
           <Input
             label="Ціна роздрібна"
@@ -45,7 +54,9 @@ export const Selling = ({ data, onChange, productInfo, errors }: Props) => {
             labelActive
             className="w-[154px]"
             sign="UAH"
-            value={500}
+            value={data.retail_price}
+            onChange={(val) => onChange("retail_price", val)}
+            error={!!errors?.includes("retail_price")}
           />
         </div>
       </div>

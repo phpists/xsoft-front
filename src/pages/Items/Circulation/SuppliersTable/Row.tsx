@@ -4,39 +4,69 @@ import { Actions } from "../../../../components/Actions/Actions";
 import { Avatar } from "../../../../components/Avatar/Avatar";
 import { ProfileRow } from "../../../../components/ProfileRow/ProfileRow";
 import { PhoneRow } from "../../../../components/PhoneRow";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   selected: boolean;
   onSelect: () => void;
   className?: string;
+  title: string;
+  date: string;
+  type: string;
+  warehouse: string;
+  count: number;
+  costPrice: number;
+  retailPrice: number;
+  id: number;
 }
 
-export const Row = ({ selected, onSelect, className }: Props) => (
-  <>
-    <Checkbox checked={selected} onClick={onSelect} className={className} />
-    <StyledRow className={className}>
-      <div className="flex items-center gap-2">
-        <Avatar /> <span>Фіксуючий лак для волосся</span>
-      </div>
-    </StyledRow>
-    <StyledRow className={className}>02.04 2024</StyledRow>
-    <StyledRow className={className}>Списання</StyledRow>
-    <StyledRow className={className}>Склад 2</StyledRow>
-    <StyledRow className={className}>200 ₴</StyledRow>
-    <StyledRow className={className}>200 ₴</StyledRow>
-    <StyledRow className={className}>20</StyledRow>
+export const Row = ({
+  selected,
+  onSelect,
+  className,
+  title,
+  date,
+  type,
+  warehouse,
+  count,
+  costPrice,
+  retailPrice,
+  id,
+}: Props) => {
+  const navigate = useNavigate();
 
-    <StyledRow className={`${className} p-0`}>
-      <Actions
-        options={[
-          { title: "Додати в чорний список", onClick: () => null },
-          { title: "Заборонити онлайн запис", onClick: () => null },
-          { title: "Дозволити борг", onClick: () => null },
-        ]}
-      />
-    </StyledRow>
-  </>
-);
+  return (
+    <>
+      <Checkbox checked={selected} onClick={onSelect} className={className} />
+      <StyledRow className={className}>
+        <div className="flex items-center gap-2">
+          <Avatar firstName={title?.[0]} lastName={title?.[1]} />{" "}
+          <span>{title}</span>
+        </div>
+      </StyledRow>
+      <StyledRow className={className}>{date}</StyledRow>
+      <StyledRow className={className}>{type}</StyledRow>
+      <StyledRow className={className}>{warehouse}</StyledRow>
+      <StyledRow className={className}>{costPrice * count} ₴</StyledRow>
+      <StyledRow className={className}>{retailPrice * count} ₴</StyledRow>
+
+      <StyledRow className={`${className} p-0`}>
+        {type === "Прихід" ? (
+          <Actions
+            options={[
+              {
+                title: "Редагувати",
+                onClick: () => navigate(`/items?movements=true&id=${id}`),
+              },
+              //   { title: "Заборонити онлайн запис", onClick: () => null },
+              //   { title: "Дозволити борг", onClick: () => null },
+            ]}
+          />
+        ) : null}
+      </StyledRow>
+    </>
+  );
+};
 
 const StyledRow = styled.div`
   padding: 8px;

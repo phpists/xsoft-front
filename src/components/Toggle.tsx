@@ -3,15 +3,15 @@ import styled from "styled-components";
 
 interface Props {
   label?: string;
+  value?: boolean;
+  onChange?: () => void;
 }
 
-export const Toggle = ({ label }: Props) => {
-  const [active, setActive] = useState(false);
-
+export const Toggle = ({ label, value, onChange }: Props) => {
   return (
     <StyledToggle
-      className={`flex items-center gap-3.5 ${active && "active"}`}
-      onClick={() => setActive(!active)}
+      className={`flex items-center gap-3.5 ${value && "active"}`}
+      onClick={() => onChange && onChange()}
     >
       {label ? <div className="mr-auto">{label}</div> : null}
       <button className="flex items-center">

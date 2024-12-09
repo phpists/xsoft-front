@@ -64,6 +64,14 @@ export const Row = ({
         <Actions
           options={[
             { title: "Редагувати", onClick: () => navigate(`/product/${id}`) },
+            {
+              title: "Продати",
+              onClick: () => navigate(`/items?sell=true&id=${id}`),
+            },
+            {
+              title: "Списати",
+              onClick: () => navigate(`/items?remove==true&id=${id}`),
+            },
             { title: "Видалити", onClick: onDelete },
           ]}
         />

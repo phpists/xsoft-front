@@ -149,7 +149,8 @@ export const Select = ({
             <div>
               {showLabel ? <div className="label mb2">{label}</div> : null}
               <div className="flex">
-                {options.find((opt) => opt.value === value)?.title ?? value}
+                {options.find((opt) => opt.value === value?.toString())
+                  ?.title ?? value}
               </div>
             </div>
             {options.find((opt) => opt.value === value)?.subtitle ? (
