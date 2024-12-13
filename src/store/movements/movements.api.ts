@@ -103,6 +103,14 @@ export const movements = createApi({
       //     return resp;
       //   },
     }),
+    deleteMovements: build.query({
+      query: (idx) => ({
+        url: "/product-movement/delete-products-movement",
+        method: "DELETE",
+        body: { idx },
+        headers: headers(),
+      }),
+    }),
   }),
 });
 
@@ -114,5 +122,6 @@ export const {
   useLazyAddMovementSaleQuery,
   useLazySearchProductMovementQuery,
   useLazyGetProductQuery,
-  useLazyGetMovementQuery
+  useLazyGetMovementQuery,
+  useLazyDeleteMovementsQuery,
 } = movements;

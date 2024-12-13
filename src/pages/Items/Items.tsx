@@ -9,9 +9,11 @@ import { Suppliers } from "./Suppliers/Suppliers";
 import { Circulation } from "./Circulation/Circulation";
 import { Selling } from "./Selling/Selling";
 import { Arrival } from "./Arrival/Arrival";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const Items = () => {
+  const navigate = useNavigate();
+
   const location = useLocation();
   const [category, setCategory] = useState(
     Number(localStorage.getItem("items_category")) ?? 0
@@ -20,6 +22,9 @@ export const Items = () => {
   const handleChangeCategory = (val: number) => {
     setCategory(val);
     localStorage.setItem("items_category", val.toString());
+    if (val === 4) {
+      navigate("/items");
+    }
   };
 
   useEffect(() => {

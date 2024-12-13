@@ -56,13 +56,6 @@ export const Total = ({ data, onChange, errors }: Props) => {
       </div>
       <div className="max-w-max mb-3.5">
         <Toggle
-          label="Дозволити борг"
-          value={data.debt}
-          onChange={() => onChange("debt", !data.debt)}
-        />
-      </div>{" "}
-      <div className="max-w-max mb-3.5">
-        <Toggle
           label="Сплати частково"
           value={data.installment_payment}
           onChange={() =>
@@ -70,16 +63,25 @@ export const Total = ({ data, onChange, errors }: Props) => {
           }
         />
       </div>
-      <Input
-        label="Дата"
-        labelActive
-        calendar
-        Icon={BiCalendar}
-        className="w-[194px]"
-        value={data.box_office_date}
-        onChange={(val) => onChange("box_office_date", val)}
-        error={!!errors.includes("box_office_date")}
-      />
+      <div className="max-w-max mb-3.5">
+        <Toggle
+          label="Записати в борг"
+          value={data.debt}
+          onChange={() => onChange("debt", !data.debt)}
+        />
+      </div>{" "}
+      {data.debt ? (
+        <Input
+          label="Дата"
+          labelActive
+          calendar
+          Icon={BiCalendar}
+          className="w-[194px]"
+          value={data.box_office_date}
+          onChange={(val) => onChange("box_office_date", val)}
+          error={!!errors.includes("box_office_date")}
+        />
+      ) : null}
     </StyledTotal>
   );
 };

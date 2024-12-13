@@ -73,6 +73,8 @@ export const Circulation = ({ onChangeCategory }: Props) => {
         data={data}
         onSortBy={handleChangeSortBy}
         loading={loading}
+        search={search}
+        onDelete={handleDelete}
       />
     </StyledCirculation>
   );

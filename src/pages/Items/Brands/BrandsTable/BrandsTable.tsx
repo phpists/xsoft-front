@@ -3,7 +3,7 @@ import { Table } from "../../../../components/Table/Table";
 import { Row } from "./Row";
 import { IBrandResponse } from "../../../../types/brands";
 import { useState } from "react";
-import { showMessage } from "../../../../helpers";
+import { formatResponseDate, showMessage } from "../../../../helpers";
 import { Confirm } from "../../../../components/Confirm";
 import { useLazyDeleteBrandsQuery } from "../../../../store/brands/brands.api";
 
@@ -86,7 +86,7 @@ export const BrandsTable = ({
               className={i % 2 === 1 ? "grey" : ""}
               title={title}
               description={description}
-              createdAt={created_at}
+              createdAt={formatResponseDate(created_at)}
               id={id}
               onDelete={() => handleOpenDeleteModal(id)}
               color={color}

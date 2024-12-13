@@ -24,6 +24,7 @@ import { PersonalProfile } from "./pages/PersonalProfile/PersonalProfile";
 import { Object } from "./pages/Object/Object";
 import { Setting } from "./pages/Setting/Setting";
 import { CalendarPage } from "./pages/Calendar/CalendarPage";
+import { Finance } from "./pages/Finance/Finance";
 
 function App() {
   const location = useLocation();
@@ -109,6 +110,7 @@ function App() {
           <Route path="/department" element={<Department />} />
           <Route path="/settings" element={<Setting />} />
           <Route path="/calendar" element={<CalendarPage />} />
+          <Route path="/finance" element={<Finance />} />
           <Route
             path="/*"
             element={

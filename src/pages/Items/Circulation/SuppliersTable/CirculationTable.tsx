@@ -3,7 +3,13 @@ import { Table } from "../../../../components/Table/Table";
 import { Row } from "./Row";
 import { IMovementsResponseDataItem } from "../../../../types/movements";
 import { useGetWarehousesQuery } from "../../../../store/warehouses/warehouses.api";
-import { useGetMovementsInfoQuery } from "../../../../store/movements/movements.api";
+import {
+  useGetMovementsInfoQuery,
+  useLazyDeleteMovementsQuery,
+} from "../../../../store/movements/movements.api";
+import { useState } from "react";
+import { formatResponseDate, showMessage } from "../../../../helpers";
+import { Confirm } from "../../../../components/Confirm";
 
 interface Props {
   selected: number[];
@@ -12,6 +18,8 @@ interface Props {
   data: IMovementsResponseDataItem[];
   onSortBy: (val: string) => void;
   loading: boolean;
+  search: string;
+  onDelete: (ids: number[], clearSelected?: boolean) => void;
 }
 
 export const CirculationTable = ({
@@ -21,8 +29,15 @@ export const CirculationTable = ({
   data,
   onSortBy,
   loading,
+  search,
+  onDelete,
 }: Props) => {
   const { data: info } = useGetMovementsInfoQuery({});
+  const [deleteMovements] = useLazyDeleteMovementsQuery();
+  const [modal, setModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<number | undefined>(
+    undefined
+  );
   const COLUMNS = [
     {
       title: "Назва",
@@ -50,61 +65,119 @@ export const CirculationTable = ({
     },
     {
       title: "Собівартість",
-      sortable: false,
+      sortable: true,
       className: "header-text",
-      onClick: () => onSortBy("cost_price"),
+      onClick: () => onSortBy("total_price"),
     },
     {
       title: "Ціна",
-      sortable: false,
+      sortable: true,
       className: "header-text",
-      onClick: () => onSortBy("retail_price"),
+      onClick: () => onSortBy("total_price"),
     },
   ];
 
+  const handleDelete = (ids: number[], isSelected?: boolean) => {
+    setModal(false);
+    deleteMovements(ids).then((resp) => {
+      if (resp.isError) {
+        showMessage("error", `Помилка видалення`);
+      } else {
+        showMessage("success", `Успішно видалено`);
+        onDelete(ids, isSelected);
+      }
+    });
+  };
+
+  const handleOpenDeleteModal = (id?: number) => {
+    setModal(true);
+    setSelectedProduct(id);
+  };
+
+  const handleGetAllIds = () => {
+    let ids: number[] = [];
+
+    data.forEach(({ items }) =>
+      items.forEach(({ id, product: { title } }) => {
+        if (
+          search?.length === 0 ||
+          title.toLowerCase().includes(search.toLowerCase())
+        ) {
+          ids.push(id);
+        }
+      })
+    );
+
+    return ids;
+  };
+
   return (
     <StyledCirculationTable>
+      {modal && (
+        <Confirm
+          title={`Видалення`}
+          subtitle={`Ви впевнені що хочете назавжди \n видалити?`}
+          submitText={`Видалити`}
+          onClose={() => setModal(false)}
+          onSubmit={() =>
+            handleDelete(selectedProduct ? [selectedProduct] : selected, true)
+          }
+        />
+      )}
       <Table
         columns={COLUMNS}
         selected={selected?.length}
         onSelectAll={onSelectAll}
         allCount={data.length}
         loading={loading}
+        onDeleteSelected={handleOpenDeleteModal}
       >
-        {data?.map(({ items, warehouse_id }) => (
-          <>
-            {items?.map(
-              (
-                {
-                  id,
-                  product: { title, created_at, cost_price, retail_price },
-                  qty,
-                  type_title,
-                  product_movement_id,
-                },
-                i
-              ) => (
-                <Row
-                  key={id}
-                  selected={selected.includes(id)}
-                  onSelect={() => onSelect(id)}
-                  className={i % 2 === 1 ? "grey" : ""}
-                  title={title}
-                  date={created_at}
-                  type={type_title}
-                  warehouse={
-                    info?.warehouses?.find((w) => w.id === warehouse_id)
-                      ?.title ?? "-"
-                  }
-                  count={qty}
-                  costPrice={cost_price}
-                  retailPrice={retail_price}
-                  id={product_movement_id}
-                />
+        {data
+          ?.filter(
+            ({ items }) =>
+              !!items.filter(({ product: { title } }) =>
+                title.toLowerCase().includes(search.toLowerCase())
               )
-            )}
-          </>
-        ))}
+          )
+          ?.map(({ items, warehouse_id, id: groupId }) => (
+            <>
+              {items
+                ?.filter(({ product: { title } }) =>
+                  title.toLowerCase().includes(search.toLowerCase())
+                )
+                ?.map(
+                  (
+                    {
+                      id,
+                      product: { title, created_at, cost_price, retail_price },
+                      qty,
+                      type_title,
+                      product_movement_id,
+                    },
+                    i
+                  ) => (
+                    <Row
+                      key={id}
+                      selected={selected.includes(groupId)}
+                      onSelect={() => onSelect(groupId)}
+                      className={i % 2 === 1 ? "grey" : ""}
+                      title={title}
+                      date={formatResponseDate(created_at)}
+                      type={type_title}
+                      warehouse={
+                        info?.warehouses?.find((w) => w.id === warehouse_id)
+                          ?.title ?? "-"
+                      }
+                      count={qty}
+                      costPrice={cost_price}
+                      retailPrice={retail_price}
+                      id={product_movement_id}
+                      onDelete={() => handleOpenDeleteModal(groupId)}
+                    />
+                  )
+                )}
+            </>
+          ))}
       </Table>
     </StyledCirculationTable>
   );
@@ -113,7 +186,7 @@ export const CirculationTable = ({
 const StyledCirculationTable = styled.div`
   .header-text {
     span {
-      max-width: 50px;
+      max-width: 150px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;

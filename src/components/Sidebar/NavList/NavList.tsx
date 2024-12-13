@@ -59,7 +59,6 @@ export const NavList = () => {
       Icon: BiWallet,
       IconActive: BiSolidWallet,
       link: "/finance",
-      className: "notActive",
     },
     {
       title: "Клієнти",

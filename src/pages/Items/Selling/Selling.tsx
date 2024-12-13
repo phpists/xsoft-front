@@ -85,7 +85,7 @@ export const Selling = ({ off, onBack }: Props) => {
             if (!!resp?.error?.data?.errors?.qty) {
               showMessage("error", resp?.error?.data?.errors?.qty);
             } else {
-              showMessage("error", "Помилка");
+              showMessage("error", resp?.error?.data?.message ?? "Помилка");
             }
           } else {
             showMessage("success", "Успішно збережено");
@@ -129,34 +129,35 @@ export const Selling = ({ off, onBack }: Props) => {
         const product = resp?.data?.response?.product;
         if (product) {
           const {
-            article,
-            title,
-            description,
-            balance,
-            product_measure_id,
-            id,
-            cost_price,
-            retail_price,
-            movements,
+            product: {
+              article,
+              title,
+              description,
+              product_measure_id,
+              cost_price,
+              retail_price,
+            },
+            product_movement_id,
+            qty,
           } = product;
 
-          if (movements?.[0]?.product_movement_id) {
+          if (product_movement_id) {
             setData({
               article,
               title,
               description,
-              qty: balance,
+              qty,
               measurement_id: product_measure_id,
               product_id: id,
               cost_price,
               retail_price,
-              product_movement_id: movements?.[0]?.product_movement_id,
+              product_movement_id,
             });
           } else {
-            showMessage("error", "Продукт не знайдено");
+            showMessage("error", "Всі товари продані!");
           }
         } else {
-          showMessage("error", "Продукт не знайдено");
+          showMessage("error", "Всі товари продані!");
         }
       });
     }

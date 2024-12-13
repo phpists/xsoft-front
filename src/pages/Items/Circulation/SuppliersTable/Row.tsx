@@ -18,6 +18,7 @@ interface Props {
   costPrice: number;
   retailPrice: number;
   id: number;
+  onDelete: () => void;
 }
 
 export const Row = ({
@@ -32,6 +33,7 @@ export const Row = ({
   costPrice,
   retailPrice,
   id,
+  onDelete,
 }: Props) => {
   const navigate = useNavigate();
 
@@ -40,7 +42,13 @@ export const Row = ({
       <Checkbox checked={selected} onClick={onSelect} className={className} />
       <StyledRow className={className}>
         <div className="flex items-center gap-2">
-          <Avatar firstName={title?.[0]} lastName={title?.[1]} />{" "}
+          <Avatar
+            firstName={title?.[0]}
+            lastName={title?.[1]}
+            color={
+              type === "Списання" ? "rgb(237, 94, 30)" : "rgb(46, 176, 98)"
+            }
+          />{" "}
           <span>{title}</span>
         </div>
       </StyledRow>
@@ -49,20 +57,28 @@ export const Row = ({
       <StyledRow className={className}>{warehouse}</StyledRow>
       <StyledRow className={className}>{costPrice * count} ₴</StyledRow>
       <StyledRow className={className}>{retailPrice * count} ₴</StyledRow>
-
       <StyledRow className={`${className} p-0`}>
-        {type === "Прихід" ? (
-          <Actions
-            options={[
-              {
-                title: "Редагувати",
-                onClick: () => navigate(`/items?movements=true&id=${id}`),
-              },
-              //   { title: "Заборонити онлайн запис", onClick: () => null },
-              //   { title: "Дозволити борг", onClick: () => null },
-            ]}
-          />
-        ) : null}
+        <Actions
+          options={
+            type === "Прихід"
+              ? [
+                  {
+                    title: "Видалити",
+                    onClick: onDelete,
+                  },
+                ]
+              : [
+                  {
+                    title: "Редагувати",
+                    onClick: () => navigate(`/items?movements=true&id=${id}`),
+                  },
+                  {
+                    title: "Видалити",
+                    onClick: onDelete,
+                  },
+                ]
+          }
+        />
       </StyledRow>
     </>
   );

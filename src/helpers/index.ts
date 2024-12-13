@@ -72,3 +72,10 @@ export const getNowHours = () => {
 
   return `${addZero(hours)}:${addZero(minutes)}`;
 };
+
+export const formatResponseDate = (d: string) => {
+  const [date, hours] = d?.split(" ");
+  const [year, month, day] = date?.split("-");
+
+  return `${day}.${month}.${year} ${hours ?? ""}`;
+};

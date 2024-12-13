@@ -76,6 +76,8 @@ const INIT_VALUE = {
   items: [INIT_ITEM],
 };
 
+console.log(getNowHours());
+
 export const Arrival = ({ onBack }: Props) => {
   const { search } = useLocation();
   const { user } = useAppSelect((state) => state.auth);
