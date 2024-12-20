@@ -44,7 +44,7 @@ export const Sidebar = ({ category, onChangeCategory }: Props) => {
           onClick={() => onChangeCategory(0)}
         />
         <CategoryCard
-          title="Статті"
+          title="Статті платежів"
           Icon={<BiFolder size={20} />}
           className="mb-2"
           active={category === 1}

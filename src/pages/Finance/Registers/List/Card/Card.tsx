@@ -5,10 +5,15 @@ interface Props {
   title: string;
   total: string;
   actions?: boolean;
+  selected?: boolean;
+  onSelect?: () => void;
 }
 
-export const Card = ({ title, total, actions }: Props) => (
-  <StyledCard className="flex flex-col justify-between">
+export const Card = ({ title, total, actions, selected, onSelect }: Props) => (
+  <StyledCard
+    className={`flex flex-col justify-between ${selected && "selected"}`}
+    onClick={onSelect}
+  >
     <div className="title">{title}</div>
     <div className="flex items-center justify-between">
       <div>{total}</div>
@@ -39,6 +44,7 @@ const StyledCard = styled.div`
   background: #fff;
   min-width: 260px;
   width: 100%;
+  border: 2px solid transparent;
   .title {
     text-align: right;
     font-size: 22px;
@@ -49,5 +55,8 @@ const StyledCard = styled.div`
     .dropdown {
       width: 150px;
     }
+  }
+  &.selected {
+    border: 2px solid #111111;
   }
 `;

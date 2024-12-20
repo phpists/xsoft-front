@@ -139,7 +139,7 @@ export const CirculationTable = ({
                 title.toLowerCase().includes(search.toLowerCase())
               )
           )
-          ?.map(({ items, warehouse_id, id: groupId }) => (
+          ?.map(({ items, warehouse_id, id: groupId, created_at }) => (
             <>
               {items
                 ?.filter(({ product: { title } }) =>
@@ -149,7 +149,7 @@ export const CirculationTable = ({
                   (
                     {
                       id,
-                      product: { title, created_at, cost_price, retail_price },
+                      product: { title, cost_price, retail_price },
                       qty,
                       type_title,
                       product_movement_id,
@@ -162,7 +162,7 @@ export const CirculationTable = ({
                       onSelect={() => onSelect(groupId)}
                       className={i % 2 === 1 ? "grey" : ""}
                       title={title}
-                      date={formatResponseDate(created_at)}
+                      date={created_at}
                       type={type_title}
                       warehouse={
                         info?.warehouses?.find((w) => w.id === warehouse_id)

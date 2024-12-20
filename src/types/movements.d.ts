@@ -141,7 +141,7 @@ export type IMovementsResponseDataItem = {
 export type IMovementsSearchResponse = {
   code: number;
   response: {
-    product_movement_item: IMovementsSearchResponseItem;
+    product_movement_items: IMovementsSearchResponseItem[];
   };
 };
 

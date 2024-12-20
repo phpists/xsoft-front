@@ -3,6 +3,7 @@ import { Header } from "../../components/Header/Header";
 import { Sidebar } from "./Sidebar/Sidebar";
 import { useState } from "react";
 import { Registers } from "./Registers/Registers";
+import { Items } from "./Items/Items";
 
 export const Finance = () => {
   const [selected, setSelected] = useState<number[]>([]);
@@ -23,7 +24,8 @@ export const Finance = () => {
     <StyledFinance className="flex">
       <Sidebar category={category} onChangeCategory={handleChangeCategory} />
       <div className="content">
-        <Header /> {category === 0 ? <Registers /> : null}
+        <Header />{" "}
+        {category === 0 ? <Registers /> : category === 1 ? <Items /> : null}
       </div>
     </StyledFinance>
   );

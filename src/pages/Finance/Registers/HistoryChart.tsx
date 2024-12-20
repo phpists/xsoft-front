@@ -35,17 +35,17 @@ export const HistoryChart = () => {
               {
                 from: -100,
                 to: -46,
-                color: "#111111",
+                color: "rgb(237, 94, 30)",
               },
               {
                 from: -45,
                 to: 0,
-                color: "#111111",
+                color: "rgb(237, 94, 30)",
               },
               {
                 from: 0,
                 to: 100,
-                color: "#111111",
+                color: "rgb(46, 176, 98)",
               },
             ],
           },

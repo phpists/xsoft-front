@@ -1,15 +1,30 @@
 import styled from "styled-components";
 import { Card } from "./Card/Card";
 import { AddCard } from "./AddCard";
+import { useState } from "react";
 
 export const List = () => {
+  const [selected, setSelected] = useState(0);
+
   return (
     <StyledList>
       <Card title="Всі каси" total="2 400 ₴" />
       <div className="cards">
         <div className="cards-wrapper">
-          <Card title="Основна каса" total="1 200 ₴" actions />
-          <Card title="Готівка" total="1 200 ₴" actions />{" "}
+          <Card
+            title="Основна каса"
+            total="1 200 ₴"
+            actions
+            selected={selected === 0}
+            onSelect={() => setSelected(0)}
+          />
+          <Card
+            title="Готівка"
+            total="1 200 ₴"
+            actions
+            selected={selected === 1}
+            onSelect={() => setSelected(1)}
+          />{" "}
         </div>
         <AddCard />
       </div>
@@ -32,7 +47,7 @@ const StyledList = styled.div`
     display: flex;
     align-items: center;
     gap: 10px;
-    overflow: auto;
-    overflow-y: hidden;
+    /* overflow: auto; */
+    /* overflow-y: hidden; */
   }
 `;

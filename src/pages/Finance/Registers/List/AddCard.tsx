@@ -1,14 +1,18 @@
 import { BiPlusCircle } from "react-icons/bi";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 export const AddCard = () => (
-  <StyledAddCard className="flex flex-col gap-2 items-center justify-center">
+  <StyledAddCard
+    className="flex flex-col gap-2 items-center justify-center"
+    to="/register"
+  >
     <BiPlusCircle size={20} />
     <div>Нова каса</div>
   </StyledAddCard>
 );
 
-const StyledAddCard = styled.div`
+const StyledAddCard = styled(NavLink)`
   border: 1px solid #dbdbdb;
   border-radius: 16px;
   height: 100%;

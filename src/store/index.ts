@@ -19,6 +19,8 @@ import { warehouses } from "./warehouses/warehouses.api";
 import { warehousesReducer } from "./warehouses/warehouses.slice";
 import { movements } from "./movements/movements.api";
 import { movementsReducer } from "./movements/movements.slice";
+import { financeReducer } from "./finance/finance.slice";
+import { finance } from "./finance/finance.api";
 
 export const store = configureStore({
   reducer: {
@@ -41,6 +43,8 @@ export const store = configureStore({
     [warehouses.reducerPath]: warehouses.reducer,
     movements: movementsReducer,
     [movements.reducerPath]: movements.reducer,
+    finance: financeReducer,
+    [finance.reducerPath]: finance.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -52,6 +56,7 @@ export const store = configureStore({
       .concat(brands.middleware)
       .concat(suppliers.middleware)
       .concat(movements.middleware)
+      .concat(finance.middleware)
       .concat(warehouses.middleware),
 });
 
