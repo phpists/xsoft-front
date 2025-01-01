@@ -12,35 +12,52 @@ import {
   useLazyEditBrandQuery,
   useLazyGetBrandQuery,
 } from "../../../store/brands/brands.api";
+import {
+  useLazyAddCashQuery,
+  useLazyEditCashQuery,
+  useLazyGetCashQuery,
+} from "../../../store/finance/finance.api";
 
 const TABS = [{ title: "Інформація", Icon: BiSolidCartAlt }];
 
-export interface IBrand {
-  id?: number;
+export interface ICash {
   title: string;
+  appointment: string;
   description: string;
-  color: string;
+  is_cash_category: number;
+  cash_categories: number[];
 }
 
-const INIT_BRAND = {
+const INIT_CASH = {
   title: "",
+  appointment: "",
   description: "",
-  color: "#2EB062",
+  is_cash_category: 0,
+  cash_categories: [],
 };
 
 export const Content = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [getBrand] = useLazyGetBrandQuery();
+  const [getCash] = useLazyGetCashQuery();
   const [activeTab, setActiveTab] = useState(0);
-  const [data, setData] = useState<IBrand>(INIT_BRAND);
+  const [data, setData] = useState<ICash>(INIT_CASH);
   const [errors, setErrors] = useState<string[]>([]);
-  const [addBrand] = useLazyAddBrandQuery();
-  const [editBrand] = useLazyEditBrandQuery();
+  const [addCash] = useLazyAddCashQuery();
+  const [editCash] = useLazyEditCashQuery();
   const [loading, setLoading] = useState(false);
 
-  const handleChangeField = (field: string, val: string) => {
-    setData({ ...data, [field]: val });
+  const handleChangeField = (
+    field: string,
+    val: string | number | number[]
+  ) => {
+    let updatedValue = { ...data, [field]: val };
+
+    if (field === "is_cash_category") {
+      updatedValue = { ...updatedValue, cash_categories: [] };
+    }
+
+    setData(updatedValue);
     setErrors(errors.filter((e) => e !== field));
   };
 
@@ -48,7 +65,8 @@ export const Content = () => {
     const fieldsErr: string[] = [];
 
     data.title?.length === 0 && fieldsErr.push("title");
-    // data.description?.length === 0 && fieldsErr.push("description");
+    data.appointment?.length === 0 && fieldsErr.push("appointment");
+    data.description?.length === 0 && fieldsErr.push("description");
 
     setErrors(fieldsErr);
 
@@ -60,25 +78,25 @@ export const Content = () => {
   };
 
   const handleCreate = () => {
-    addBrand(data).then((resp) => {
+    addCash(data).then((resp) => {
       setLoading(false);
       if (resp.isError) {
-        showMessage("error", "Помилка створення бренду");
+        showMessage("error", "Помилка створення");
       } else {
-        showMessage("success", "Бренд успішно створено");
-        navigate("/items");
+        showMessage("success", "Успішно створено");
+        navigate("/finance");
       }
     });
   };
 
   const handleEdit = () => {
-    editBrand(data).then((resp) => {
+    editCash(data).then((resp) => {
       setLoading(false);
       if (resp.isError) {
-        showMessage("error", "Помилка збереженя бренду");
+        showMessage("error", "Помилка збереженя");
       } else {
-        showMessage("success", "Бренд успішно збережено");
-        navigate("/items");
+        showMessage("success", "Успішно збережено");
+        navigate("/finance");
       }
     });
   };
@@ -93,9 +111,18 @@ export const Content = () => {
 
   useEffect(() => {
     if (id) {
-      getBrand(id).then((resp) =>
-        setData(resp?.data?.response?.brand ?? INIT_BRAND)
-      );
+      getCash(id).then((resp) => {
+        const cash = resp?.data?.response?.cashes;
+        if (cash) {
+          setData({
+            ...cash,
+            cash_categories:
+              cash?.cash_categories?.map((c: any) => c.cash_category_id) ?? [],
+          });
+        } else {
+          setData(INIT_CASH);
+        }
+      });
     }
   }, [id]);
 

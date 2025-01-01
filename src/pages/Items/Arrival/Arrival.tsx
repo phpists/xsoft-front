@@ -53,6 +53,10 @@ export interface IProductMovement {
   installment_payment: boolean;
   box_office_date: string;
   items: IProductMovementItem[];
+  cashes: {
+    cashes_id: number | undefined;
+    amount: number;
+  };
 }
 
 export const INIT_ITEM = {
@@ -74,9 +78,11 @@ const INIT_VALUE = {
   installment_payment: false,
   box_office_date: "",
   items: [INIT_ITEM],
+  cashes: {
+    cashes_id: undefined,
+    amount: 0,
+  },
 };
-
-console.log(getNowHours());
 
 export const Arrival = ({ onBack }: Props) => {
   const { search } = useLocation();

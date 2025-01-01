@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { Header } from "./Header/Header";
 import { MainInfo } from "./MainInfo/MainInfo";
-import { IBrand } from "../Content";
+import { ICash } from "../Content";
 
 interface Props {
-  data: IBrand;
-  onChange: (field: string, val: string) => void;
+  data: ICash;
+  onChange: (field: string, val: string | number | number[]) => void;
   onSave: () => void;
   loading: boolean;
   errors: string[];

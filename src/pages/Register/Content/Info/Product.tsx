@@ -3,17 +3,15 @@ import { Avatar } from "../../../../components/Avatar/Avatar";
 
 interface Props {
   title: string;
-  color: string;
 }
 
-export const Product = ({ title, color }: Props) => (
+export const Product = ({ title }: Props) => (
   <StyledProduct className="flex items-center gap-2">
     <Avatar
       size={46}
       className="avatar"
       firstName={title?.split(" ")?.[0]}
       lastName={title?.split(" ")?.[1]}
-      color={color}
     />
     <div>
       <div className="title mb-1">{title}</div>

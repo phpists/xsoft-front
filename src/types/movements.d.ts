@@ -102,6 +102,7 @@ export type IMovementsResponseDataItem = {
   box_office_date: any;
   total_price: number;
   created_at: string;
+  total_cost_price: number;
   items: Array<{
     id: number;
     product_movement_id: number;

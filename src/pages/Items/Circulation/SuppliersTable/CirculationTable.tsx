@@ -64,6 +64,12 @@ export const CirculationTable = ({
       onClick: () => onSortBy("warehouse_id"),
     },
     {
+      title: "Кількість",
+      sortable: false,
+      className: "header-text",
+      onClick: () => onSortBy("type_title"),
+    },
+    {
       title: "Собівартість",
       sortable: true,
       className: "header-text",
@@ -139,45 +145,54 @@ export const CirculationTable = ({
                 title.toLowerCase().includes(search.toLowerCase())
               )
           )
-          ?.map(({ items, warehouse_id, id: groupId, created_at }) => (
-            <>
-              {items
-                ?.filter(({ product: { title } }) =>
-                  title.toLowerCase().includes(search.toLowerCase())
-                )
-                ?.map(
-                  (
-                    {
-                      id,
-                      product: { title, cost_price, retail_price },
-                      qty,
-                      type_title,
-                      product_movement_id,
-                    },
-                    i
-                  ) => (
-                    <Row
-                      key={id}
-                      selected={selected.includes(groupId)}
-                      onSelect={() => onSelect(groupId)}
-                      className={i % 2 === 1 ? "grey" : ""}
-                      title={title}
-                      date={created_at}
-                      type={type_title}
-                      warehouse={
-                        info?.warehouses?.find((w) => w.id === warehouse_id)
-                          ?.title ?? "-"
-                      }
-                      count={qty}
-                      costPrice={cost_price}
-                      retailPrice={retail_price}
-                      id={product_movement_id}
-                      onDelete={() => handleOpenDeleteModal(groupId)}
-                    />
+          ?.map(
+            ({
+              items,
+              warehouse_id,
+              id: groupId,
+              created_at,
+              total_cost_price,
+              total_price,
+            }) => (
+              <>
+                {items
+                  ?.filter(({ product: { title } }) =>
+                    title.toLowerCase().includes(search.toLowerCase())
                   )
-                )}
-            </>
-          ))}
+                  ?.map(
+                    (
+                      {
+                        id,
+                        product: { title, cost_price, retail_price },
+                        qty,
+                        type_title,
+                        product_movement_id,
+                      },
+                      i
+                    ) => (
+                      <Row
+                        key={id}
+                        selected={selected.includes(groupId)}
+                        onSelect={() => onSelect(groupId)}
+                        className={i % 2 === 1 ? "grey" : ""}
+                        title={title}
+                        date={created_at}
+                        type={type_title}
+                        warehouse={
+                          info?.warehouses?.find((w) => w.id === warehouse_id)
+                            ?.title ?? "-"
+                        }
+                        count={qty}
+                        costPrice={total_cost_price}
+                        retailPrice={total_price}
+                        id={product_movement_id}
+                        onDelete={() => handleOpenDeleteModal(groupId)}
+                      />
+                    )
+                  )}
+              </>
+            )
+          )}
       </Table>
     </StyledCirculationTable>
   );

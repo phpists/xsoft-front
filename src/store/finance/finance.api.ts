@@ -1,6 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { baseUrl, headers } from "../../api";
-import { CashCategoriesResponse } from "../../types/finance";
+import {
+  CachesTransactionsResponse,
+  CashCategoriesResponse,
+  CashesResponse,
+} from "../../types/finance";
 
 export const finance = createApi({
   reducerPath: "finance/api",
@@ -42,6 +46,57 @@ export const finance = createApi({
         return resp;
       },
     }),
+    addCash: build.query({
+      query: (data) => ({
+        url: "/cashes/add-cash",
+        method: "POST",
+        body: data,
+        headers: headers(),
+      }),
+    }),
+    editCash: build.query({
+      query: (data) => ({
+        url: "/cashes/edit-cash",
+        method: "POST",
+        body: data,
+        headers: headers(),
+      }),
+    }),
+    deleteCash: build.query({
+      query: (id) => ({
+        url: "/cashes/delete-cash",
+        method: "DELETE",
+        headers: headers(),
+        params: { id },
+      }),
+    }),
+    getCashes: build.query({
+      query: () => ({
+        url: "/cashes/get-cashes",
+        method: "GET",
+        headers: headers(),
+      }),
+      transformResponse: (resp: CashesResponse): CashesResponse => resp,
+    }),
+    getCash: build.query({
+      query: (id) => ({
+        url: "/cashes/get-cash",
+        method: "GET",
+        headers: headers(),
+        params: { id },
+      }),
+    }),
+    getCashTransactions: build.query({
+      query: (id) => ({
+        url: "/cashes/get-cash-transactions",
+        method: "GET",
+        headers: headers(),
+        params: { id },
+      }),
+      transformResponse: (
+        resp: CachesTransactionsResponse
+      ): CachesTransactionsResponse => resp,
+    }),
   }),
 });
 
@@ -50,4 +105,10 @@ export const {
   useLazyEditCashCategoryQuery,
   useLazyDeleteCashCategoryQuery,
   useGetCashCategoriesQuery,
+  useLazyAddCashQuery,
+  useLazyEditCashQuery,
+  useLazyDeleteCashQuery,
+  useGetCashesQuery,
+  useLazyGetCashQuery,
+  useLazyGetCashTransactionsQuery,
 } = finance;

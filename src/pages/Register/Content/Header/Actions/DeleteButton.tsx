@@ -3,22 +3,22 @@ import { BiTrash } from "react-icons/bi";
 import { Confirm } from "../../../../../components/Confirm";
 import { useNavigate, useParams } from "react-router-dom";
 import { showMessage } from "../../../../../helpers";
-import { useLazyDeleteBrandsQuery } from "../../../../../store/brands/brands.api";
+import { useLazyDeleteCashQuery } from "../../../../../store/finance/finance.api";
 
 export const DeleteButton = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [modal, setModal] = useState(false);
-  const [deleteBrands] = useLazyDeleteBrandsQuery();
+  const [deleteCash] = useLazyDeleteCashQuery();
 
   const handleDelete = () => {
     setModal(false);
-    deleteBrands([id]).then((resp) => {
+    deleteCash(id).then((resp) => {
       if (resp.isError) {
-        showMessage("error", "Помилка видалення бренду");
+        showMessage("error", "Помилка видалення");
       } else {
-        showMessage("success", "Бренд успішно видалено");
-        navigate("/items");
+        showMessage("success", "Успішно видалено");
+        navigate("/finance");
       }
     });
   };
@@ -27,9 +27,9 @@ export const DeleteButton = () => {
     <>
       {modal && (
         <Confirm
-          title="Видалення бренду"
-          subtitle={`Ви впевнені що хочете назавжди \n видалити бренд?`}
-          submitText="Видалити бренд"
+          title="Видалення касси"
+          subtitle={`Ви впевнені що хочете назавжди \n видалити кассу?`}
+          submitText="Видалити кассу"
           onClose={() => setModal(false)}
           onSubmit={handleDelete}
         />

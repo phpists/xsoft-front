@@ -1,33 +1,51 @@
 import styled from "styled-components";
 import { Actions } from "../../../../../components/Actions/Actions";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   title: string;
   total: string;
   actions?: boolean;
   selected?: boolean;
+  id?: number;
   onSelect?: () => void;
+  onDelete?: () => void;
 }
 
-export const Card = ({ title, total, actions, selected, onSelect }: Props) => (
-  <StyledCard
-    className={`flex flex-col justify-between ${selected && "selected"}`}
-    onClick={onSelect}
-  >
-    <div className="title">{title}</div>
-    <div className="flex items-center justify-between">
-      <div>{total}</div>
-      {actions ? (
-        <Actions
-          options={[
-            { title: "Редагувати", onClick: () => null },
-            { title: "Видалити", onClick: () => null },
-          ]}
-        />
-      ) : null}
-    </div>
-  </StyledCard>
-);
+export const Card = ({
+  title,
+  total,
+  actions,
+  selected,
+  onSelect,
+  id,
+  onDelete,
+}: Props) => {
+  const navigate = useNavigate();
+
+  return (
+    <StyledCard
+      className={`flex flex-col justify-between ${selected && "selected"}`}
+      onClick={onSelect}
+    >
+      <div className="title">{title}</div>
+      <div className="flex items-center justify-between">
+        <div>{total}</div>
+        {actions ? (
+          <Actions
+            options={[
+              {
+                title: "Редагувати",
+                onClick: () => navigate(`/register/${id}`),
+              },
+              { title: "Видалити", onClick: onDelete ? onDelete : () => null },
+            ]}
+          />
+        ) : null}
+      </div>
+    </StyledCard>
+  );
+};
 
 const StyledCard = styled.div`
   border: 1px solid #dbdbdb;
@@ -54,6 +72,8 @@ const StyledCard = styled.div`
     width: max-content;
     .dropdown {
       width: 150px;
+      bottom: 100%;
+      top: unset;
     }
   }
   &.selected {

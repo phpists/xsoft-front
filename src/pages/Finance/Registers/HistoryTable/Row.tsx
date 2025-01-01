@@ -2,16 +2,30 @@ import styled from "styled-components";
 
 interface Props {
   className?: string;
+  type: string;
+  casheTitle: string;
+  amount: number;
+  casheAmount: number;
+  userName: string;
+  createdAt: string;
 }
 
-export const Row = ({ className }: Props) => (
+export const Row = ({
+  className,
+  type,
+  casheTitle,
+  amount,
+  casheAmount,
+  userName,
+  createdAt,
+}: Props) => (
   <>
-    <StyledRow className={className}>28.11.2023 12:00</StyledRow>
-    <StyledRow className={className}>Вікторія </StyledRow>
-    <StyledRow className={className}>Списання</StyledRow>
-    <StyledRow className={className}>Каса</StyledRow>
-    <StyledRow className={className}>-100₴</StyledRow>
-    <StyledRow className={className}>-100₴</StyledRow>
+    <StyledRow className={className}>{createdAt}</StyledRow>
+    <StyledRow className={className}>{userName} </StyledRow>
+    <StyledRow className={className}>{type}</StyledRow>
+    <StyledRow className={className}>{casheTitle}</StyledRow>
+    <StyledRow className={className}>{amount}₴</StyledRow>
+    <StyledRow className={className}>{casheAmount}₴</StyledRow>
   </>
 );
 

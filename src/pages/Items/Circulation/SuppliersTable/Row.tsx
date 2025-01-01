@@ -45,9 +45,7 @@ export const Row = ({
           <Avatar
             firstName={title?.[0]}
             lastName={title?.[1]}
-            color={
-              type === "Списання" ? "rgb(237, 94, 30)" : "rgb(46, 176, 98)"
-            }
+            color={type !== "Прихід" ? "rgb(237, 94, 30)" : "rgb(46, 176, 98)"}
           />{" "}
           <span>{title}</span>
         </div>
@@ -55,8 +53,9 @@ export const Row = ({
       <StyledRow className={className}>{date}</StyledRow>
       <StyledRow className={className}>{type}</StyledRow>
       <StyledRow className={className}>{warehouse}</StyledRow>
-      <StyledRow className={className}>{costPrice * count} ₴</StyledRow>
-      <StyledRow className={className}>{retailPrice * count} ₴</StyledRow>
+      <StyledRow className={className}>{count}</StyledRow>
+      <StyledRow className={className}>{costPrice} ₴</StyledRow>
+      <StyledRow className={className}>{retailPrice} ₴</StyledRow>
       <StyledRow className={`${className} p-0`}>
         <Actions
           options={
@@ -68,10 +67,10 @@ export const Row = ({
                   },
                 ]
               : [
-                  {
-                    title: "Редагувати",
-                    onClick: () => navigate(`/items?movements=true&id=${id}`),
-                  },
+                  //   {
+                  //     title: "Редагувати",
+                  //     onClick: () => navigate(`/items?movements=true&id=${id}`),
+                  //   },
                   {
                     title: "Видалити",
                     onClick: onDelete,

@@ -6,17 +6,20 @@ import { Input } from "../../../../components/Input/Input";
 import { Toggle } from "../../../../components/Toggle";
 import { IProductMovement, IProductMovementItem } from "../Arrival";
 import { useEffect } from "react";
+import { useGetCashesQuery } from "../../../../store/finance/finance.api";
 
 interface Props {
   data: IProductMovement;
   onChange: (
     field: string,
-    value: string | boolean | number | IProductMovementItem[]
+    value: string | boolean | number | IProductMovementItem[] | any
   ) => void;
   errors: string[];
 }
 
 export const Total = ({ data, onChange, errors }: Props) => {
+  const { data: cashesData } = useGetCashesQuery({});
+
   const handleCalculateTotal = () => {
     const total = data.items
       .map(
@@ -40,7 +43,16 @@ export const Total = ({ data, onChange, errors }: Props) => {
       <div className="flex items-center justify-between mb-3.5">
         <Select
           label="Каса"
-          options={[]}
+          options={
+            cashesData?.response?.cashes?.map(({ id, title }) => ({
+              title,
+              value: id?.toString(),
+            })) ?? []
+          }
+          value={data.cashes.cashes_id}
+          onChange={(cashes_id) =>
+            onChange("cashes", { ...data.cashes, cashes_id })
+          }
           Icon={<BiUser />}
           className="max-w-[479px]"
         />
@@ -49,9 +61,8 @@ export const Total = ({ data, onChange, errors }: Props) => {
           sign="UAH"
           number
           labelActive
-          value={data.total_price}
-          onChange={(val) => onChange("total_price", val)}
-          error={!!errors.includes("total_price")}
+          value={data.cashes.amount}
+          onChange={(amount) => onChange("cashes", { ...data.cashes, amount })}
         />
       </div>
       <div className="max-w-max mb-3.5">

@@ -58,6 +58,10 @@ export interface IProductMovement {
   installment_payment: boolean;
   box_office_date: string;
   items: IProductMovementItem[];
+  cashes: {
+    cashes_id: number | undefined;
+    amount: number;
+  };
 }
 
 export const INIT_ITEM = {
@@ -80,6 +84,10 @@ export const Selling = ({ off, onBack }: Props) => {
     installment_payment: false,
     box_office_date: "",
     items: [INIT_ITEM],
+    cashes: {
+      cashes_id: undefined,
+      amount: 0,
+    },
   };
   const { search } = useLocation();
   const { user } = useAppSelect((state) => state.auth);
@@ -200,9 +208,7 @@ export const Selling = ({ off, onBack }: Props) => {
             onChange={handleChangeField}
             errors={errors}
           />
-          {off ? null : (
-            <Total data={data} onChange={handleChangeField} errors={errors} />
-          )}
+          <Total data={data} onChange={handleChangeField} errors={errors} />
           <Button
             title="Зберегти"
             onClick={handleSave}

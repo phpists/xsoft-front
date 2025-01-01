@@ -113,6 +113,7 @@ function App() {
           <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/finance" element={<Finance />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/register/:id" element={<Register />} />
           <Route
             path="/*"
             element={
