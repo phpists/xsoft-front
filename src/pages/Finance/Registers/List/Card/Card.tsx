@@ -5,32 +5,56 @@ import { useNavigate } from "react-router-dom";
 interface Props {
   title: string;
   total: string;
+  debt?: string;
   actions?: boolean;
   selected?: boolean;
   id?: number;
   onSelect?: () => void;
   onDelete?: () => void;
+  showDebt?: boolean;
+  onToggleShowDebt?: () => void;
 }
 
 export const Card = ({
   title,
   total,
+  debt,
   actions,
   selected,
   onSelect,
   id,
   onDelete,
+  showDebt,
+  onToggleShowDebt,
 }: Props) => {
   const navigate = useNavigate();
 
   return (
     <StyledCard
-      className={`flex flex-col justify-between ${selected && "selected"}`}
+      className={`flex flex-col justify-between ${selected && "selected"} ${
+        showDebt && "debt"
+      }`}
       onClick={onSelect}
     >
       <div className="title">{title}</div>
       <div className="flex items-center justify-between">
-        <div>{total}</div>
+        <div>
+          <div>Баланс {total}</div>
+          {debt ? (
+            <div
+              className="red"
+              onClick={(e) => {
+                if (selected && onToggleShowDebt) {
+                  e.stopPropagation();
+                  onToggleShowDebt();
+                }
+              }}
+            >
+              {" "}
+              Борг {debt}
+            </div>
+          ) : null}
+        </div>
         {actions ? (
           <Actions
             options={[
@@ -78,5 +102,11 @@ const StyledCard = styled.div`
   }
   &.selected {
     border: 2px solid #111111;
+    &.debt {
+      border: 2px solid red;
+    }
+  }
+  .red {
+    color: red;
   }
 `;

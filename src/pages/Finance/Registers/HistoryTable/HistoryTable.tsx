@@ -18,31 +18,36 @@ export const HistoryTable = ({ transactions }: Props) => {
           { title: "Каса", sortable: false },
           { title: "Сума", sortable: false },
           { title: "Баланс каси", sortable: false },
+          { title: "", sortable: false },
         ]}
         allCount={transactions.length}
+        className="history-table"
       >
         {transactions?.map(
           (
             {
               id,
-              type_id,
+              type_title,
               cashes: { title },
               amount,
               amount_cashes,
               user: { first_name, last_name },
               created_at,
+              product_movement_id,
             },
             i
           ) => (
             <Row
               key={id}
               className={i % 2 === 0 ? "grey" : ""}
-              type={type_id}
+              type={type_title}
               casheTitle={title}
               amount={amount}
               casheAmount={amount_cashes}
               userName={`${first_name ?? ""} ${last_name ?? ""}`}
               createdAt={created_at}
+              id={id}
+              movementId={product_movement_id}
             />
           )
         )}
@@ -51,4 +56,8 @@ export const HistoryTable = ({ transactions }: Props) => {
   );
 };
 
-const StyledHistoryTable = styled.div``;
+const StyledHistoryTable = styled.div`
+  .history-table {
+    grid-template-columns: repeat(6, 1fr) 40px;
+  }
+`;

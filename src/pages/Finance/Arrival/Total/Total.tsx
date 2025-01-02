@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { SectionTitle } from "../SectionTitle";
 import { Select } from "../../../../components/Select/Select";
-import { BiCalendar, BiTrash, BiUser } from "react-icons/bi";
+import { BiCalendar, BiPlus, BiTrash, BiUser } from "react-icons/bi";
 import { Input } from "../../../../components/Input/Input";
 import { Toggle } from "../../../../components/Toggle";
-import { IProductMovement, IProductMovementItem } from "../Selling";
+import { IProductMovement, IProductMovementItem } from "../Debt";
 import { useEffect } from "react";
 import { useGetCashesQuery } from "../../../../store/finance/finance.api";
 import { AddButton } from "../../../../components/AddButton";
@@ -65,6 +65,7 @@ export const Total = ({ data, onChange, errors }: Props) => {
           onChange={(cashes_id) => handleChangeCash(0, "cashes_id", cashes_id)}
           Icon={<BiUser />}
           className="max-w-[479px]"
+          disabled
         />
         <Input
           label="Ціна закупки"
@@ -73,15 +74,14 @@ export const Total = ({ data, onChange, errors }: Props) => {
           labelActive
           value={data.cashes?.[0]?.amount}
           onChange={(amount) => handleChangeCash(0, "amount", amount)}
+          disabled
         />
       </div>
       <div className="max-w-max">
         <Toggle
           label="Сплати частково"
           value={data.installment_payment}
-          onChange={() =>
-            onChange("installment_payment", !data.installment_payment)
-          }
+          onChange={() => null}
         />
       </div>
       {data.installment_payment ? (
@@ -102,6 +102,7 @@ export const Total = ({ data, onChange, errors }: Props) => {
                 }
                 Icon={<BiUser />}
                 className="max-w-[479px]"
+                disabled
               />
               <div className="flex items-center gap-2">
                 <Input
@@ -113,40 +114,18 @@ export const Total = ({ data, onChange, errors }: Props) => {
                   onChange={(amount) =>
                     handleChangeCash(1 + i, "amount", amount)
                   }
+                  disabled
                 />
-                <button
-                  className="p-2"
-                  onClick={() =>
-                    onChange(
-                      "cashes",
-                      data.cashes?.filter((c, j) => j !== 1 + i)
-                    )
-                  }
-                >
-                  <BiTrash size={20} />
-                </button>
               </div>
             </div>
           ))}
-          <AddButton
-            title="Добавити касу"
-            onClick={() =>
-              onChange("cashes", [
-                ...data.cashes,
-                {
-                  cashes_id: undefined,
-                  amount: 0,
-                },
-              ])
-            }
-          />
         </div>
       ) : null}
       <div className="max-w-max mb-3.5 mt-3.5">
         <Toggle
           label="Записати в борг"
           value={data.debt}
-          onChange={() => onChange("debt", !data.debt)}
+          onChange={() => null}
         />
       </div>{" "}
       {data.debt ? (
@@ -173,9 +152,7 @@ export const Total = ({ data, onChange, errors }: Props) => {
               number
               labelActive
               value={data.debt_data?.amount}
-              onChange={(amount) =>
-                onChange("debt_data", { ...data.debt_data, amount })
-              }
+              onChange={(amount) => null}
             />
           </div>{" "}
           <Input

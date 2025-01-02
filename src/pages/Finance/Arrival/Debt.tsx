@@ -24,6 +24,11 @@ import {
 } from "../../../helpers";
 import { Button } from "../../../components/Button";
 import { useLocation } from "react-router-dom";
+import {
+  useLazyCancelPayDebtQuery,
+  useLazyGetDebtQuery,
+  useLazyPayDebtQuery,
+} from "../../../store/finance/finance.api";
 
 const TABS = [
   { title: "Оплачено", Icon: BiSolidCartAlt },
@@ -94,17 +99,19 @@ const INIT_VALUE = {
   },
 };
 
-export const Arrival = ({ onBack }: Props) => {
+export const Debt = ({ onBack }: Props) => {
   const { search } = useLocation();
   const { user } = useAppSelect((state) => state.auth);
   const [status, setStatus] = useState(0);
   const [data, setData] = useState<IProductMovement>(INIT_VALUE);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<string | undefined>(undefined);
   const [errors, setErrors] = useState<string[]>([]);
   const { data: info } = useGetMovementsInfoQuery({});
   const [addMovement] = useLazyAddMovementQuery();
   const [editMovement] = useLazyEditMovementQuery();
   const [getMovement] = useLazyGetMovementQuery();
+  const [cancelPayDebt] = useLazyCancelPayDebtQuery();
+  const [payDebt] = useLazyPayDebtQuery();
 
   const handleChangeField = (
     field: string,
@@ -148,10 +155,10 @@ export const Arrival = ({ onBack }: Props) => {
   const handleSave = () => {
     if (handleCheckFields()) {
       const { id } = getSearchValues();
-      setLoading(true);
+      setLoading("save");
       id
         ? editMovement(data).then((resp) => {
-            setLoading(false);
+            setLoading(undefined);
             if (resp.isError) {
               showMessage("error", "Помилка");
             } else {
@@ -160,7 +167,7 @@ export const Arrival = ({ onBack }: Props) => {
             }
           })
         : addMovement(data).then((resp) => {
-            setLoading(false);
+            setLoading(undefined);
             if (resp.isError) {
               showMessage("error", "Помилка");
             } else {
@@ -178,46 +185,91 @@ export const Arrival = ({ onBack }: Props) => {
   }, [user]);
 
   useEffect(() => {
-    if (search.includes("?movement")) {
-      const { id } = getSearchValues();
-      id &&
-        getMovement(id).then((resp) =>
-          setData({
-            ...resp?.data.response.product_movement,
-            items: resp?.data.response.product_movement.items?.map(
-              ({
-                product_id,
-                qty,
-                measurement_id,
-                cost_price,
-                retail_price,
-                product: { title },
-              }: any) => ({
-                product_id,
-                qty,
-                measurement_id,
-                cost_price,
-                retail_price,
-                title,
-              })
-            ),
-          })
-        );
-    }
+    const { movementId, id } = getSearchValues();
+    movementId &&
+      getMovement(movementId).then((resp) =>
+        setData({
+          ...resp?.data.response.product_movement,
+          items: resp?.data.response?.product_movement?.items?.map(
+            ({
+              product_id,
+              qty,
+              measurement_id,
+              cost_price,
+              retail_price,
+              product: { title },
+            }: any) => ({
+              product_id,
+              qty,
+              measurement_id,
+              cost_price,
+              retail_price,
+              title,
+            })
+          ) ?? [INIT_ITEM],
+          debt_data: {
+            id,
+            cashes_id:
+              resp?.data.response?.product_movement?.transactions?.find(
+                (t: any) => t.type_title === "Борг"
+              )?.cashes_id,
+            amount:
+              resp?.data.response?.product_movement?.transactions?.find(
+                (t: any) => t.type_title === "Борг"
+              )?.amount ?? 0,
+          },
+          date_create:
+            resp?.data.response?.product_movement?.date_create?.split(" ")?.[0],
+          time_create: resp?.data.response?.product_movement?.created_at
+            ?.split(" ")?.[1]
+            ?.substring(0, 5),
+          cashes: resp?.data.response?.product_movement?.transactions
+            ?.filter((t: any) => t.type_title !== "Борг")
+            ?.map(({ cashes_id, amount }: any) => ({ cashes_id, amount })),
+        })
+      );
   }, [search]);
 
+  const handlePayDebt = () => {
+    setLoading("payDebt");
+    const { id } = getSearchValues();
+    payDebt(id).then((resp) => {
+      setLoading(undefined);
+      if (resp.isError) {
+        showMessage("error", "Помилка");
+      } else {
+        showMessage("success", "Успішно збережено");
+        onBack();
+      }
+    });
+  };
+
+  const handleCancelPayDebt = () => {
+    setLoading("cancelPayDebt");
+    const { id } = getSearchValues();
+    cancelPayDebt(id).then((resp) => {
+      setLoading(undefined);
+      if (resp.isError) {
+        showMessage("error", "Помилка");
+      } else {
+        showMessage("success", "Успішно збережено");
+        onBack();
+      }
+    });
+  };
+
   return (
-    <StyledArrival>
+    <StyledDebt>
       <Header onBack={onBack} />
       <div className="selling-content">
-        <div className="py-3.5 px-4 border-b-[1px] border-[#DBDBDB] bg-white status-wrapper">
-          <div>
+        <div className="py-2 bg-white status-wrapper">
+          {/* <div>
             <Tabs
               tabs={TABS}
               active={status}
               onChange={(val) => setStatus(val)}
             />
-          </div>
+          </div> */}
         </div>
         <div className="arrival-main-content">
           <MainInfo
@@ -234,20 +286,36 @@ export const Arrival = ({ onBack }: Props) => {
             errors={errors}
           />
           <Total data={data} onChange={handleChangeField} errors={errors} />
-          <Button
-            title="Зберегти"
-            onClick={handleSave}
-            disabled={loading}
-            loading={loading}
-            className="max-w-[150px] ml-auto"
-          />
+          <div className="flex items-center justify-end gap-2">
+            <Button
+              title="Оплатити"
+              onClick={handlePayDebt}
+              disabled={!!loading}
+              loading={loading === "payDebt"}
+              className="max-w-[150px]"
+            />
+            <Button
+              title="Відмінити оплату"
+              onClick={handleCancelPayDebt}
+              disabled={!!loading}
+              loading={loading === "cancelPayDebt"}
+              className="max-w-[150px]"
+            />
+            <Button
+              title="Зберегти"
+              onClick={handleSave}
+              disabled={!!loading}
+              loading={loading === "save"}
+              className="max-w-[150px]"
+            />
+          </div>
         </div>
       </div>
-    </StyledArrival>
+    </StyledDebt>
   );
 };
 
-const StyledArrival = styled.div`
+const StyledDebt = styled.div`
   padding: 0 14px;
   height: calc(100vh - 63px);
   overflow: auto;
@@ -260,7 +328,7 @@ const StyledArrival = styled.div`
   }
   .arrival-main-content {
     background: #fff;
-    padding: 24px;
+    padding: 0 24px 24px;
     display: flex;
     flex-direction: column;
     gap: 34px;

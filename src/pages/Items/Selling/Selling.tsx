@@ -61,6 +61,10 @@ export interface IProductMovement {
   cashes: {
     cashes_id: number | undefined;
     amount: number;
+  }[];
+  debt_data: {
+    cashes_id: number | undefined;
+    amount: number;
   };
 }
 
@@ -84,7 +88,13 @@ export const Selling = ({ off, onBack }: Props) => {
     installment_payment: false,
     box_office_date: "",
     items: [INIT_ITEM],
-    cashes: {
+    cashes: [
+      {
+        cashes_id: undefined,
+        amount: 0,
+      },
+    ],
+    debt_data: {
       cashes_id: undefined,
       amount: 0,
     },

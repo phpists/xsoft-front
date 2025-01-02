@@ -12,9 +12,16 @@ import { Confirm } from "../../../../components/Confirm";
 interface Props {
   selected: number | undefined;
   onSelect: (val: number) => void;
+  showDebt: boolean;
+  onToggleShowDebt: (val: boolean) => void;
 }
 
-export const List = ({ selected, onSelect }: Props) => {
+export const List = ({
+  selected,
+  onSelect,
+  showDebt,
+  onToggleShowDebt,
+}: Props) => {
   const { data, refetch } = useGetCashesQuery(
     {},
     {
@@ -57,26 +64,33 @@ export const List = ({ selected, onSelect }: Props) => {
       <StyledList>
         <Card
           title="Всі каси"
-          total={`${data?.response.cashes
-            ?.map(({ total }) => total)
-            ?.reduce((a, b) => a + b)} ₴`}
+          total={`${
+            data?.response?.cashes && data?.response?.cashes?.length > 0
+              ? data?.response?.cashes
+                  ?.map(({ total }) => total)
+                  ?.reduce((a, b) => a + b)
+              : 0
+          } ₴`}
         />
         <div className="cards">
           <div className="cards-wrapper">
-            {data?.response.cashes?.map(({ id, title, total }) => (
+            {data?.response.cashes?.map(({ id, title, total, debt }) => (
               <Card
                 key={id}
                 id={id}
                 title={title}
                 total={`${total} ₴`}
+                debt={`${debt} ₴`}
                 actions
                 selected={selected === id}
                 onSelect={() => onSelect(id)}
                 onDelete={() => setModal(id)}
+                showDebt={showDebt}
+                onToggleShowDebt={() => onToggleShowDebt(!showDebt)}
               />
             ))}
           </div>
-          <AddCard />
+          {/* <AddCard /> */}
         </div>
       </StyledList>
     </>
@@ -91,7 +105,7 @@ const StyledList = styled.div`
   margin-bottom: 22px;
   .cards {
     display: grid;
-    grid-template-columns: 1fr 260px;
+    grid-template-columns: 1fr;
     gap: 10px;
   }
   .cards-wrapper {

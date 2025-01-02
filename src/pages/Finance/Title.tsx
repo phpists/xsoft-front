@@ -2,9 +2,12 @@ import styled from "styled-components";
 
 interface Props {
   title: string;
+  className?: string;
 }
 
-export const Title = ({ title }: Props) => <StyledTitle>{title}</StyledTitle>;
+export const Title = ({ title, className }: Props) => (
+  <StyledTitle className={className}>{title}</StyledTitle>
+);
 
 const StyledTitle = styled.div`
   font-size: 18px;

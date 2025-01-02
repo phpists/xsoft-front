@@ -36,6 +36,7 @@ interface Props {
   rightIcon?: boolean;
   component?: any;
   onSeach?: (val: string) => void;
+  disabled?: boolean;
 }
 
 export const Select = ({
@@ -60,12 +61,15 @@ export const Select = ({
   rightIcon,
   component,
   onSeach,
+  disabled,
 }: Props) => {
   const [open, setOpen] = useState(false);
   const [searchV, setSearchV] = useState("");
 
   const handleFocusInput = (e: any) => {
-    if (search) {
+    if (disabled) {
+      e.currentTarget.blur();
+    } else if (search) {
       const input = e.target.querySelector("input");
       input?.focus();
       setOpen(true);
@@ -168,7 +172,9 @@ export const Select = ({
       </div>
       <div className="flex items-center gap-3.5">
         {component}
-        {hideArrow ? null : <BiSolidChevronDown className="arrow" />}
+        {hideArrow || disabled ? null : (
+          <BiSolidChevronDown className="arrow" />
+        )}
       </div>
       <Dropdown
         options={options?.filter((opt) =>

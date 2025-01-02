@@ -1,22 +1,31 @@
 import styled from "styled-components";
 
-export const HistoryCards = () => (
+interface Props {
+  statistics: {
+    balance_start: number;
+    balance_end: number;
+    total_profit: number;
+    total_loss: number;
+  };
+}
+
+export const HistoryCards = ({ statistics }: Props) => (
   <StyledHistoryCards>
     <div>
       <span className="title">Баланс на початок періоду</span>
-      <span className="value">2 200 ₴</span>
+      <span className="value">{statistics.balance_start} ₴</span>
     </div>
     <div>
       <span className="title">Баланс на кінець періоду</span>
-      <span className="value">6 200 ₴</span>
+      <span className="value">{statistics.balance_end} ₴</span>
     </div>
     <div>
       <span className="title">Дохід за місяць</span>
-      <span className="value">88 700 ₴</span>
+      <span className="value">{statistics.total_profit} ₴</span>
     </div>
     <div>
       <span className="title">Витрати за місяць</span>
-      <span className="value">-102 860 ₴</span>
+      <span className="value">{statistics.total_loss} ₴</span>
     </div>
   </StyledHistoryCards>
 );

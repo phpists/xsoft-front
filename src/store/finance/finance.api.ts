@@ -87,15 +87,39 @@ export const finance = createApi({
       }),
     }),
     getCashTransactions: build.query({
-      query: (id) => ({
+      query: ({ id, debt_status, ...filters }) => ({
         url: "/cashes/get-cash-transactions",
         method: "GET",
         headers: headers(),
-        params: { id },
+        params: { id, debt_status, ...filters },
       }),
       transformResponse: (
         resp: CachesTransactionsResponse
       ): CachesTransactionsResponse => resp,
+    }),
+    getDebt: build.query({
+      query: (id) => ({
+        url: "/cashes/get-debt",
+        method: "GET",
+        headers: headers(),
+        params: { id },
+      }),
+    }),
+    payDebt: build.query({
+      query: (id) => ({
+        url: "/cashes/debt-paid",
+        method: "POST",
+        headers: headers(),
+        params: { id },
+      }),
+    }),
+    cancelPayDebt: build.query({
+      query: (id) => ({
+        url: "/cashes/cancel-debt-paid",
+        method: "POST",
+        headers: headers(),
+        params: { id },
+      }),
     }),
   }),
 });
@@ -111,4 +135,7 @@ export const {
   useGetCashesQuery,
   useLazyGetCashQuery,
   useLazyGetCashTransactionsQuery,
+  useLazyGetDebtQuery,
+  useLazyCancelPayDebtQuery,
+  useLazyPayDebtQuery,
 } = finance;

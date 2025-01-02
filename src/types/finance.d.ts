@@ -24,6 +24,7 @@ export type CashesResponse = {
       created_at: string;
       updated_at: string;
       total: number;
+      debt: number;
     }>;
   };
 };
@@ -32,6 +33,12 @@ export type CachesTransactionsResponse = {
   code: number;
   response: {
     transactions: CachesTransactionResponse[];
+    statistic: {
+      balance_start: 0;
+      balance_end: 50;
+      total_profit: 0;
+      total_loss: 0;
+    };
   };
 };
 
@@ -43,6 +50,8 @@ export type CachesTransactionResponse = {
   amount: number;
   amount_cashes: number;
   created_at: string;
+  product_movement_id: number;
+  type_title: string;
   user: {
     id: number;
     parent_id: any;

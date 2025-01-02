@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import { SectionTitle } from "../SectionTitle";
 import { Select } from "../../../../components/Select/Select";
-import { BiCalendar, BiUser } from "react-icons/bi";
+import { BiCalendar, BiPlus, BiTrash, BiUser } from "react-icons/bi";
 import { Input } from "../../../../components/Input/Input";
 import { Toggle } from "../../../../components/Toggle";
 import { IProductMovement, IProductMovementItem } from "../Arrival";
 import { useEffect } from "react";
 import { useGetCashesQuery } from "../../../../store/finance/finance.api";
+import { AddButton } from "../../../../components/AddButton";
 
 interface Props {
   data: IProductMovement;
@@ -34,6 +35,17 @@ export const Total = ({ data, onChange, errors }: Props) => {
     handleCalculateTotal();
   }, [data.items]);
 
+  const handleChangeCash = (
+    index: number,
+    field: string,
+    value: number | string
+  ) => {
+    onChange(
+      "cashes",
+      data.cashes.map((c, i) => (i === index ? { ...c, [field]: value } : c))
+    );
+  };
+
   return (
     <StyledTotal>
       <div className="flex items-center justify-between mb-3.5">
@@ -49,10 +61,8 @@ export const Total = ({ data, onChange, errors }: Props) => {
               value: id?.toString(),
             })) ?? []
           }
-          value={data.cashes.cashes_id}
-          onChange={(cashes_id) =>
-            onChange("cashes", { ...data.cashes, cashes_id })
-          }
+          value={data.cashes?.[0]?.cashes_id}
+          onChange={(cashes_id) => handleChangeCash(0, "cashes_id", cashes_id)}
           Icon={<BiUser />}
           className="max-w-[479px]"
         />
@@ -61,11 +71,11 @@ export const Total = ({ data, onChange, errors }: Props) => {
           sign="UAH"
           number
           labelActive
-          value={data.cashes.amount}
-          onChange={(amount) => onChange("cashes", { ...data.cashes, amount })}
+          value={data.cashes?.[0]?.amount}
+          onChange={(amount) => handleChangeCash(0, "amount", amount)}
         />
       </div>
-      <div className="max-w-max mb-3.5">
+      <div className="max-w-max">
         <Toggle
           label="Сплати частково"
           value={data.installment_payment}
@@ -74,7 +84,65 @@ export const Total = ({ data, onChange, errors }: Props) => {
           }
         />
       </div>
-      <div className="max-w-max mb-3.5">
+      {data.installment_payment ? (
+        <div>
+          {data.cashes?.slice(1)?.map(({ cashes_id, amount }, i) => (
+            <div className="flex items-center justify-between mt-3.5 mb-1">
+              <Select
+                label={`Каса ${2 + i}`}
+                options={
+                  cashesData?.response?.cashes?.map(({ id, title }) => ({
+                    title,
+                    value: id?.toString(),
+                  })) ?? []
+                }
+                value={cashes_id}
+                onChange={(cashes_id) =>
+                  handleChangeCash(1 + i, "cashes_id", cashes_id)
+                }
+                Icon={<BiUser />}
+                className="max-w-[479px]"
+              />
+              <div className="flex items-center gap-2">
+                <Input
+                  label="Ціна закупки"
+                  sign="UAH"
+                  number
+                  labelActive
+                  value={amount}
+                  onChange={(amount) =>
+                    handleChangeCash(1 + i, "amount", amount)
+                  }
+                />
+                <button
+                  className="p-2"
+                  onClick={() =>
+                    onChange(
+                      "cashes",
+                      data.cashes?.filter((c, j) => j !== 1 + i)
+                    )
+                  }
+                >
+                  <BiTrash size={20} />
+                </button>
+              </div>
+            </div>
+          ))}
+          <AddButton
+            title="Добавити касу"
+            onClick={() =>
+              onChange("cashes", [
+                ...data.cashes,
+                {
+                  cashes_id: undefined,
+                  amount: 0,
+                },
+              ])
+            }
+          />
+        </div>
+      ) : null}
+      <div className="max-w-max mb-3.5 mt-3.5">
         <Toggle
           label="Записати в борг"
           value={data.debt}
@@ -82,16 +150,45 @@ export const Total = ({ data, onChange, errors }: Props) => {
         />
       </div>{" "}
       {data.debt ? (
-        <Input
-          label="Дата"
-          labelActive
-          calendar
-          Icon={BiCalendar}
-          className="w-[194px]"
-          value={data.box_office_date}
-          onChange={(val) => onChange("box_office_date", val)}
-          error={!!errors.includes("box_office_date")}
-        />
+        <div>
+          <div className="flex items-center justify-between mb-3.5">
+            <Select
+              label="Каса"
+              options={
+                cashesData?.response?.cashes?.map(({ id, title }) => ({
+                  title,
+                  value: id?.toString(),
+                })) ?? []
+              }
+              value={data.debt_data?.cashes_id}
+              onChange={(cashes_id) =>
+                onChange("debt_data", { ...data.debt_data, cashes_id })
+              }
+              Icon={<BiUser />}
+              className="max-w-[479px]"
+            />
+            <Input
+              label="Ціна закупки"
+              sign="UAH"
+              number
+              labelActive
+              value={data.debt_data?.amount}
+              onChange={(amount) =>
+                onChange("debt_data", { ...data.debt_data, amount })
+              }
+            />
+          </div>{" "}
+          <Input
+            label="Дата"
+            labelActive
+            calendar
+            Icon={BiCalendar}
+            className="w-[194px]"
+            value={data.box_office_date}
+            onChange={(val) => onChange("box_office_date", val)}
+            error={!!errors.includes("box_office_date")}
+          />
+        </div>
       ) : null}
     </StyledTotal>
   );
